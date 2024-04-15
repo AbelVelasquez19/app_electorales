@@ -25,6 +25,20 @@
     @include('layouts.template.header')
     @yield('page-style')
   </head>
+  <style>
+    fieldset {
+      border: 1px solid rgb(194, 194, 194) !important;
+      padding: 5px 10px !important;
+      border-radius: 5px;
+      height: 100%;
+    }
+    legend {
+        width: auto !important;
+        font-size: 0.9rem !important;
+        padding: 0 1px !important;
+        float: none !important;
+    }
+   </style>
 
   <body>
     <!-- Layout wrapper -->
@@ -98,26 +112,31 @@
                 </li>
               </ul>
             </li>
-            <li class="menu-item open">
+            <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
-                <div data-i18n="Bandeja">Configuración</div>
+                <div data-i18n="Configuración">Configuración</div>
                 <div class="badge bg-label-primary rounded-pill ms-auto">3</div>
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="index.html" class="menu-link">
-                    <div data-i18n="Registro">Personas</div>
+                  <a href="{{route('persona')}}" class="menu-link">
+                    <div data-i18n="Personas">Personas</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a href="index.html" class="menu-link">
-                    <div data-i18n="Registro">Usuarios</div>
+                    <div data-i18n="Usuarios">Usuarios</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a href="index.html" class="menu-link">
-                    <div data-i18n="Registro">Candidatos</div>
+                    <div data-i18n="Candidatos">Candidatos</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="index.html" class="menu-link">
+                    <div data-i18n="Colegios">Colegios</div>
                   </a>
                 </li>
               </ul>
