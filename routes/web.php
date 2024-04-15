@@ -3,6 +3,8 @@
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\LoginController;
 use App\Http\Controllers\Web\PersonaController;
+use App\Http\Controllers\Web\UbigeoController;
+use App\Http\Controllers\Web\UserioController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,9 +29,38 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/', 'index')->name('dashboard');
         });
     });
+
     Route::prefix('persona')->group(function () {
         Route::controller(PersonaController::class)->group(function () {
             Route::get('/', 'index')->name('persona');
+            Route::post('/add', 'agregarPersona');
+            Route::get('/list', 'getListUsers');
+            Route::post('/show', 'postShowUser');
+            Route::post('/update', 'postUpdateUser');
+            Route::post('/delete', 'postDeleteUser');
+            Route::post('/active', 'postActiveUser');
+        });
+    });
+
+    Route::prefix('user')->group(function () {
+        Route::controller(UserioController::class)->group(function () {
+            Route::get('/', 'index')->name('user');
+            Route::post('/add', 'agregarPersona');
+            Route::get('/list', 'getListUsers');
+            Route::post('/show', 'postShowUser');
+            Route::post('/update', 'postUpdateUser');
+            Route::post('/delete', 'postDeleteUser');
+            Route::post('/active', 'postActiveUser');
+        });
+    });
+
+    Route::prefix('ubigeus')->group(function () {
+        Route::controller(UbigeoController::class)->group(function () {
+            Route::get('/department', 'department');
+            Route::get('/province', 'province');
+            Route::post('/district', 'district');
+            Route::post('/corregimient', 'coregimient');
+            Route::get('/codigo-pais', 'codigoPais');
         });
     });
 });

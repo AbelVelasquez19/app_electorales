@@ -1,6 +1,6 @@
 <template>
     <div class="modal fade" id="personaModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-simple modal-enable-otp">
+        <div class="modal-dialog modal-xl modal-simple modal-enable-otp">
             <div class="modal-content p-3">
                 <div class="modal-header">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -14,8 +14,8 @@
                             <div class="col-md-4">
                                 <div class="me-1">
                                     <div class="dataTables_filter">
-                                        <label>Dni: </label>
-                                        <input type="text" placeholder="Dni" class="form-control" :class="errors!=null  && errors.numero_documento ? 'is-invalid' : '' " v-model="user.numero_documento">
+                                        <label>Numero Cedula: </label>
+                                        <input type="text" placeholder="Numero Cedula" class="form-control" :class="errors!=null  && errors.numero_documento ? 'is-invalid' : '' " v-model="user.numero_documento">
                                         <span v-if="errors!=null  && errors.numero_documento" class="text-danger">{{ errors.numero_documento[0] }}</span>
                                     </div>
                                 </div>
@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         <div class="row mb-1">
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="me-1">
                                     <div class="dataTables_filter">
                                         <label>sexo: </label>
@@ -60,6 +60,19 @@
                                             <option value="2">Femenino</option>
                                         </select>
                                         <span v-if="errors!=null  && errors.sexo" class="text-danger">{{ errors.sexo[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="me-1">
+                                    <div class="dataTables_filter">
+                                        <label>Codigo pais: </label>
+                                        <select class="form-select" v-model="user.codigo_pais_id" :class="errors!=null  && errors.codigo_pais_id ? 'is-invalid' : '' ">
+                                            <option value="" selected disabled>--Seleccionar--</option>
+                                            <option value="1" v-for="item in codigoPais" :key="item.id" :value="item.codigo">{{ item.nombre}}(+{{ item.codigo }})</option>
+                                        </select>
+                                        
+                                        <span v-if="errors!=null  && errors.codigo_pais_id" class="text-danger">{{ errors.codigo_pais_id[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -93,28 +106,28 @@
                         </div>
                         <div class="row mb-1">
                             <div class="col-md-4">
-                                <label>Departamento: </label>
-                                <select class="form-select" v-model="user.profile_id" :class="errors!=null  && errors.profile_id ? 'is-invalid' : '' ">
-                                    <option value="" selected disabled>--seleccionar--</option>
-                                    <option v-for="profile in profiles" :key="profile.id" :value="profile.id">{{ profile.name }}</option>
-                                </select>
-                                <span v-if="errors!=null  && errors.profile_id" class="text-danger">{{ errors.profile_id[0] }}</span>
-                            </div>
-                            <div class="col-md-4">
                                 <label>Provincia: </label>
-                                <select class="form-select" v-model="user.profile_id" :class="errors!=null  && errors.profile_id ? 'is-invalid' : '' ">
+                                <select class="form-select" v-model="user.provincia_id" :class="errors!=null  && errors.provincia_id ? 'is-invalid' : '' " @change="getDistrictItem">
                                     <option value="" selected disabled>--seleccionar--</option>
-                                    <option v-for="profile in profiles" :key="profile.id" :value="profile.id">{{ profile.name }}</option>
+                                    <option v-for="province in provinces" :key="province.id" :value="province.id">{{ province.nombre }}</option>
                                 </select>
-                                <span v-if="errors!=null  && errors.profile_id" class="text-danger">{{ errors.profile_id[0] }}</span>
+                                <span v-if="errors!=null  && errors.provincia_id" class="text-danger">{{ errors.provincia_id[0] }}</span>
                             </div>
                             <div class="col-md-4">
                                 <label>Distrito: </label>
-                                <select class="form-select" v-model="user.profile_id" :class="errors!=null  && errors.profile_id ? 'is-invalid' : '' ">
+                                <select class="form-select" v-model="user.distrito_id" :class="errors!=null  && errors.distrito_id ? 'is-invalid' : '' " @change="getCorregimientoItem">
                                     <option value="" selected disabled>--seleccionar--</option>
-                                    <option v-for="profile in profiles" :key="profile.id" :value="profile.id">{{ profile.name }}</option>
+                                    <option v-for="distrito in districts" :key="distrito.id" :value="distrito.id">{{ distrito.nombre }}</option>
                                 </select>
-                                <span v-if="errors!=null  && errors.profile_id" class="text-danger">{{ errors.profile_id[0] }}</span>
+                                <span v-if="errors!=null  && errors.distrito_id" class="text-danger">{{ errors.distrito_id[0] }}</span>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Corregimientos: </label>
+                                <select class="form-select" v-model="user.corregimiento_id" :class="errors!=null  && errors.corregimiento_id ? 'is-invalid' : '' ">
+                                    <option value="" selected disabled>--seleccionar--</option>
+                                    <option v-for="corregt in corrigement" :key="corregt.id" :value="corregt.id">{{ corregt.nombre }}</option>
+                                </select>
+                                <span v-if="errors!=null  && errors.corregimiento_id" class="text-danger">{{ errors.corregimiento_id[0] }}</span>
                             </div>
                         </div>
                      </fieldset>
@@ -129,11 +142,10 @@
     </div>
 </template>
 <script>
-import UserService from '../../../services/services';
-import vSelect from 'vue-select';
+import Services from '../../../services/services';
 export default {
     components:{
-        'v-select': vSelect
+       
     },
     data() {
         return {
@@ -144,43 +156,56 @@ export default {
                 apellido_paterno:'prueba',
                 apellido_materno:'prueba',
                 sexo:1,
+                codigo_pais_id:'',
                 celular:'',
                 email:'',
                 direccion:'',
+                provincia_id : '',
+                distrito_id : '',
+                corregimiento_id:'',
             },
             errors: null,
             loading:false,
             option:true,
             profiles:{},
-            options: [
-                { label: 'Opción 1', value: 'opcion1' },
-                { label: 'Opción 2', value: 'opcion2' },
-                { label: 'Opción 3', value: 'opcion3' }
-            ]
+            provinces:{},
+            districts:{},
+            corrigement:{},
+            codigoPais:{}
         }
     },
     mounted(){
-        this.getListProfile();
+  
     },
     methods: {
         async openpersonaModal(id){
+            console.log(id)
             $("#personaModal").modal("show");
+            this.getProvinces();
+            this.getListCodigoPais();
             if(id!=0){
                 this.option=false
                 try {
-                    const result = await UserService.getShowInfo('user/show',id);
-                   /*  this.user={  
+                    const result = await Services.getShowInfo('persona/show',id);
+                    console.log(result)
+                    let codigoPais = result.codigo_pais.split('+');
+                    this.user={  
                         id:id,
-                        document_number:result.document_number,
-                        name:result.person_name,
-                        person_id:result.person_id,
-                        last_name:result.last_name,
-                        mother_last_name:result.mother_last_name,
-                        user_name:result.user_name,
-                        password:'',
-                        password_confirmation:'',
-                        profile_id:result.profile_id
-                    } */
+                        numero_documento:result.numero_documento,
+                        nombre:result.nombre,
+                        apellido_paterno:result.apellido_paterno,
+                        apellido_materno:result.apellido_materno,
+                        sexo:result.sexo,
+                        codigo_pais_id:codigoPais[1],
+                        celular:result.celular,
+                        email:result.email,
+                        direccion:result.direccion,
+                        provincia_id : result.provincia_id,
+                        distrito_id : result.distrito_id,
+                        corregimiento_id:result.corregimiento_id,
+                    }
+                    this.getDistrict(result.provincia_id)
+                    this.getCorregiment(result.distrito_id)
                 } catch (error) {
                     return error;
                 }
@@ -194,10 +219,49 @@ export default {
             this.clearInput();
             this.errors=null;
         },
-        async getListProfile(){
+
+        async getDepartments() {
             try {
-                const profile = await UserService.getAll('user/profile');
-                this.profiles = profile;
+                const result = await Services.getAll('ubigeus/department');
+                this.departments = result
+            } catch (error) {
+                return error;
+            }
+        },
+        getDistrictItem(){
+            this.getDistrict(this.user.provincia_id);
+        },
+        getCorregimientoItem(){
+            this.getCorregiment(this.user.distrito_id);
+        },
+        async getProvinces() {
+            try {
+                const result = await Services.getAll('ubigeus/province');
+                this.provinces = result
+            } catch (error) {
+                return error;
+            }
+        },
+        async getDistrict(province_id) {
+            try {
+                const result = await Services.getShowInfo('ubigeus/district', province_id);
+                this.districts = result
+            } catch (error) {
+                return error;
+            }
+        },
+        async getCorregiment(distric_id) {
+            try {
+                const result = await Services.getShowInfo('ubigeus/corregimient',distric_id);
+                this.corrigement = result
+            } catch (error) {
+                return error;
+            }
+        },
+        async getListCodigoPais(){
+            try {
+                const codigoPais = await Services.getAll('ubigeus/codigo-pais');
+                this.codigoPais = codigoPais;
             } catch (error) {
                 return error;
             }
@@ -205,7 +269,7 @@ export default {
         async addNewUser(){
             this.errors= null;
             try {
-                const result = await UserService.addNewInfo('user/add',this.user);
+                const result = await Services.addNewInfo('persona/add',this.user);
                 if(result.status){
                     if(result.result[0].status){
                         this.clearInput();
@@ -225,7 +289,7 @@ export default {
         async updateUser(){
             this.errors= null;
             try {
-                const result = await UserService.addNewInfo('user/update',this.user);
+                const result = await Services.addNewInfo('persona/update',this.user);
                 if(result.status){
                     if(result.result[0].status){
                         this.clearInput();
@@ -243,18 +307,21 @@ export default {
             }
         },
         clearInput(){
-            /* this.user={  
+            this.user={  
                 id:0,
-                document_number:'',
-                person_id:0,
-                name:'',
-                last_name:'',
-                mother_last_name:'',
-                user_name:'',
-                password:'',
-                password_confirmation:'',
-                profile_id:''
-            } */
+                numero_documento:'',
+                nombre:'',
+                apellido_paterno:'',
+                apellido_materno:'',
+                sexo:1,
+                codigo_pais_id:'',
+                celular:'',
+                email:'',
+                direccion:'',
+                provincia_id : '',
+                distrito_id : '',
+                corregimiento_id:'',
+            }
         }
     },
 }

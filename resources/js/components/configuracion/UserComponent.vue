@@ -5,9 +5,9 @@
                 <div class="col-12">
                     <div class="breadcrumb-wrapper">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="user">persona</a>
+                            <li class="breadcrumb-item"><a href="user">usuario</a>
                             </li>
-                            <li class="breadcrumb-item active">lista de personas
+                            <li class="breadcrumb-item active">lista de usuarios
                             </li>
                         </ol>
                     </div>
@@ -157,7 +157,7 @@ export default {
         },
         async fetchUserList(page = 1) {
             try {
-                const result = await Services.getListInfo(this.searchQuery, `persona/list?page=${page}`, this.pageSize);
+                const result = await Services.getListInfo(this.searchQuery, `user/list?page=${page}`, this.pageSize);
                 this.users = result[0];
                 this.updateDisplayedPages();
             } catch (error) {
