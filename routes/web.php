@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\CandidatoController;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\LoginController;
 use App\Http\Controllers\Web\PartidoPoliticoController;
@@ -110,6 +111,24 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/active', 'postActivePartido');
         });
     });
+
+    Route::prefix('candidato')->group(function () {
+        Route::controller(CandidatoController::class)->group(function () {
+            Route::get('/', 'index')->name('candidato.index');
+            Route::post('/add', 'agregarPartido');
+            Route::get('/list', 'getListCandidatos');
+            Route::post('/show', 'postShowPartido');
+            Route::post('/update', 'postUpdatePartido');
+            Route::post('/delete', 'postDeletePartido');
+            Route::post('/active', 'postActivePartido');
+            Route::get('/tipoCandidato', 'tipoCandidato');
+            Route::get('/tipoCandidatoPersonas', 'tipoCandidatoPersonas');
+
+        });
+    });
+
+
+
 
 });
 
