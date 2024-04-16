@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\LoginController;
+use App\Http\Controllers\Web\PartidoPoliticoController;
 use App\Http\Controllers\Web\PersonaController;
 use App\Http\Controllers\Web\UbigeoController;
 use App\Http\Controllers\Web\UserioController;
@@ -65,5 +66,50 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/codigo-pais', 'codigoPais');
         });
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+    Route::prefix('partido-politico')->group(function () {
+        Route::controller(PartidoPoliticoController::class)->group(function () {
+            Route::get('/', 'index')->name('partido-politico.index');
+            Route::post('/add', 'agregarPartido');
+            Route::get('/list', 'getListPartidoPoliticos');
+            Route::post('/show', 'postShowPartido');
+            Route::post('/update', 'postUpdatePartido');
+            Route::post('/delete', 'postDeletePartido');
+            Route::post('/active', 'postActivePartido');
+        });
+    });
+
 });
 
