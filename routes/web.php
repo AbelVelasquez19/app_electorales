@@ -45,12 +45,14 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('user')->group(function () {
         Route::controller(UserioController::class)->group(function () {
             Route::get('/', 'index')->name('user');
-            Route::post('/add', 'agregarPersona');
+            Route::post('/add', 'agregarUser');
             Route::get('/list', 'getListUsers');
             Route::post('/show', 'postShowUser');
             Route::post('/update', 'postUpdateUser');
             Route::post('/delete', 'postDeleteUser');
             Route::post('/active', 'postActiveUser');
+            Route::get('/profile', 'getListProfile');
+            Route::post('/person', 'getPersona');
         });
     });
 

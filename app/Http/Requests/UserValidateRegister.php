@@ -13,7 +13,7 @@ class UserValidateRegister extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,14 @@ class UserValidateRegister extends FormRequest
     public function rules()
     {
         return [
-            //
+            'document_number' => 'required|min:8|max:8', //|unique:users,dni
+            'person_id'=>'required',
+            'name' => 'required|min:3',
+            'user_name' => 'required|min:3',
+            'password' => 'min:8|required_with:password_confirmation|same:password_confirmation',
+            'password_confirmation' => 'min:8|required',
+            'profile_id' => 'required',
+            'celular' => 'required',
         ];
     }
 }

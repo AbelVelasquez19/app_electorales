@@ -8,85 +8,77 @@
                     <h5 class="modal-title" v-else>Actualizar persona</h5>
                 </div>
                 <div class="modal-body">
-                    <div class="row mb-1">
-                        <div class="col-md-4">
-                            <div class="me-1">
-                                <div class="dataTables_filter">
-                                    <label>Dni: </label>
-                                    <input type="text" placeholder="Dni" class="form-control" :class="errors!=null  && errors.document_number ? 'is-invalid' : '' " v-model="user.document_number">
-                                    <span v-if="errors!=null  && errors.document_number" class="text-danger">{{ errors.document_number[0] }}</span>
+                    <fieldset>
+                        <legend>Ingresar informacion del usuario</legend>
+                        <div class="row mb-1">
+                            <div class="col-md-4">
+                                <div class="me-1">
+                                    <div class="dataTables_filter">
+                                        <label>Dni: </label>
+                                        <input type="text" placeholder="Dni" class="form-control" :class="errors!=null  && errors.document_number ? 'is-invalid' : '' " v-model="user.document_number"  @input="debouncedSearch">
+                                        <span v-if="errors!=null  && errors.document_number" class="text-danger">{{ errors.document_number[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="me-1">
+                                    <div class="dataTables_filter">
+                                        <label>Nombres: </label>
+                                        <input disabled type="text" placeholder="Nombres" class="form-control" :class="errors!=null  && errors.name ? 'is-invalid' : '' " v-model="user.name">
+                                        <span v-if="errors!=null  && errors.name" class="text-danger">{{ errors.name[0] }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-8">
-                            <div class="me-1">
-                                <div class="dataTables_filter">
-                                    <label>Nombres: </label>
-                                    <input type="text" placeholder="Nombres" class="form-control" :class="errors!=null  && errors.name ? 'is-invalid' : '' " v-model="user.name">
-                                    <span v-if="errors!=null  && errors.name" class="text-danger">{{ errors.name[0] }}</span>
+                        <div class="row mb-1">
+                            <div class="col-md-4">
+                                <div class="me-1">
+                                    <div class="dataTables_filter">
+                                        <label>Usuario: </label>
+                                        <input type="text" placeholder="Usuario" class="form-control" :class="errors!=null  && errors.user_name ? 'is-invalid' : '' " v-model="user.user_name">
+                                        <span v-if="errors!=null  && errors.user_name" class="text-danger">{{ errors.user_name[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="me-1">
+                                    <div class="dataTables_filter">
+                                        <label>Contraseña: </label>
+                                        <input type="password" placeholder="Contraseña" class="form-control" :class="errors!=null  && errors.password ? 'is-invalid' : '' " v-model="user.password">
+                                        <span v-if="errors!=null  && errors.password" class="text-danger">{{ errors.password[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="me-1">
+                                    <div class="dataTables_filter">
+                                        <label>Repetir contraseña: </label>
+                                        <input type="password" placeholder="Repetir contraseña" class="form-control" :class="errors!=null  && errors.password_confirmation ? 'is-invalid' : '' " v-model="user.password_confirmation">
+                                        <span v-if="errors!=null  && errors.password_confirmation" class="text-danger">{{ errors.password_confirmation[0] }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-md-6">
-                            <div class="me-1">
-                                <div class="dataTables_filter">
-                                    <label>Apellido paterno: </label>
-                                    <input type="text" placeholder="Nombres" class="form-control" :class="errors!=null  && errors.last_name ? 'is-invalid' : '' " v-model="user.last_name">
-                                    <span v-if="errors!=null  && errors.last_name" class="text-danger">{{ errors.last_name[0] }}</span>
+                        <div class="row mb-1">
+                            <div class="col-md-6">
+                                <label>Perfil: </label>
+                                <select class="form-select" v-model="user.profile_id" :class="errors!=null  && errors.profile_id ? 'is-invalid' : '' ">
+                                    <option value="" selected disabled>--seleccionar--</option>
+                                    <option v-for="profile in profiles" :key="profile.id" :value="profile.id">{{ profile.nombre }}</option>
+                                </select>
+                                <span v-if="errors!=null  && errors.profile_id" class="text-danger">{{ errors.profile_id[0] }}</span>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="me-1">
+                                    <div class="dataTables_filter">
+                                        <label>Celular </label>
+                                        <input disabled type="text" placeholder="Numero de celular" class="form-control" :class="errors!=null  && errors.celular ? 'is-invalid' : '' " v-model="user.celular">
+                                        <span v-if="errors!=null  && errors.celular" class="text-danger">{{ errors.celular[0] }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="me-1">
-                                <div class="dataTables_filter">
-                                    <label>Apellido materno: </label>
-                                    <input type="text" placeholder="Apellidos" class="form-control" :class="errors!=null  && errors.mother_last_name ? 'is-invalid' : '' " v-model="user.mother_last_name">
-                                    <span v-if="errors!=null  && errors.mother_last_name" class="text-danger">{{ errors.mother_last_name[0] }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-md-4">
-                            <div class="me-1">
-                                <div class="dataTables_filter">
-                                    <label>Usuario: </label>
-                                    <input type="text" placeholder="Usuario" class="form-control" :class="errors!=null  && errors.user_name ? 'is-invalid' : '' " v-model="user.user_name">
-                                    <span v-if="errors!=null  && errors.user_name" class="text-danger">{{ errors.user_name[0] }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="me-1">
-                                <div class="dataTables_filter">
-                                    <label>Contraseña: </label>
-                                    <input type="password" placeholder="Contraseña" class="form-control" :class="errors!=null  && errors.password ? 'is-invalid' : '' " v-model="user.password">
-                                    <span v-if="errors!=null  && errors.password" class="text-danger">{{ errors.password[0] }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="me-1">
-                                <div class="dataTables_filter">
-                                    <label>Repetir contraseña: </label>
-                                    <input type="password" placeholder="Repetir contraseña" class="form-control" :class="errors!=null  && errors.password_confirmation ? 'is-invalid' : '' " v-model="user.password_confirmation">
-                                    <span v-if="errors!=null  && errors.password_confirmation" class="text-danger">{{ errors.password_confirmation[0] }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-md-6">
-                            <label>Perfil: </label>
-                            <select class="form-select" v-model="user.profile_id" :class="errors!=null  && errors.profile_id ? 'is-invalid' : '' ">
-                                <option value="" selected disabled>--seleccionar--</option>
-                                <option v-for="profile in profiles" :key="profile.id" :value="profile.id">{{ profile.name }}</option>
-                            </select>
-                            <span v-if="errors!=null  && errors.profile_id" class="text-danger">{{ errors.profile_id[0] }}</span>
-                        </div>
-                    </div>
+                    </fieldset>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" @click.prevent="addNewUser()" v-if="option"> Guardar </button>
@@ -98,7 +90,8 @@
     </div>
 </template>
 <script>
-import UserService from '../../../services/services';
+import Services from '../../../services/services';
+import { debounce } from 'lodash';
 export default {
     data() {
         return {
@@ -107,46 +100,66 @@ export default {
                 document_number:'77777777',
                 person_id:0,
                 name:'prueba',
-                last_name:'prueba',
-                mother_last_name:'prueba',
                 user_name:'admin',
                 password:'12345678',
                 password_confirmation:'12345678',
-                profile_id:''
+                profile_id:'',
+                celular:''
             },
             errors: null,
             loading:false,
             option:true,
-            profiles:{}
+            profiles:{},
+            debouncedSearch: null,
         }
     },
     mounted(){
+        this.debouncedSearch = debounce(this.getPersona, 500);
         this.getListProfile();
     },
     methods: {
         async openUserModal(id){
+            console.log(id)
             $("#userModal").modal("show");
             if(id!=0){
                 this.option=false
                 try {
-                    const result = await UserService.getShowInfo('user/show',id);
+                    const result = await Services.getShowInfo('user/show',id);
                     this.user={  
                         id:id,
-                        document_number:result.document_number,
-                        name:result.person_name,
-                        person_id:result.person_id,
-                        last_name:result.last_name,
-                        mother_last_name:result.mother_last_name,
-                        user_name:result.user_name,
+                        document_number:result.numero_documento,
+                        name:result.nombre+' '+result.apellido_paterno+' '+result.apellido_materno,
+                        person_id:result.personas_id,
+                        user_name:result.email,
                         password:'',
                         password_confirmation:'',
-                        profile_id:result.profile_id
+                        profile_id:result.perfiles_id,
+                        celular:result.codigo_pais+result.celular
                     }
                 } catch (error) {
                     return error;
                 }
             }else{
                 this.option=true;
+            }
+        },
+        async getPersona() {
+            try {
+                const result = await Services.getShowInfo('user/person',this.user.document_number);
+                if(result.status){
+                    this.user={  
+                        document_number:result.data.numero_documento,
+                        person_id:result.data.id,
+                        name:result.data.nombre+' '+result.data.apellido_paterno+' '+result.data.apellido_materno,
+                        user_name:result.data.email,
+                        password:'12345678',
+                        password_confirmation:'12345678',
+                        celular:result.data.codigo_pais+result.data.celular,
+                        profile_id:'',
+                    }
+                }
+            } catch (error) {
+                console.log(error)
             }
         },
         closeUserModal(){
@@ -157,7 +170,7 @@ export default {
         },
         async getListProfile(){
             try {
-                const profile = await UserService.getAll('user/profile');
+                const profile = await Services.getAll('user/profile');
                 this.profiles = profile;
             } catch (error) {
                 return error;
@@ -166,7 +179,7 @@ export default {
         async addNewUser(){
             this.errors= null;
             try {
-                const result = await UserService.addNewInfo('user/add',this.user);
+                const result = await Services.addNewInfo('user/add',this.user);
                 if(result.status){
                     if(result.result[0].status){
                         this.clearInput();
@@ -186,7 +199,7 @@ export default {
         async updateUser(){
             this.errors= null;
             try {
-                const result = await UserService.addNewInfo('user/update',this.user);
+                const result = await Services.addNewInfo('user/update',this.user);
                 if(result.status){
                     if(result.result[0].status){
                         this.clearInput();

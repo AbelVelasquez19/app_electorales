@@ -52,8 +52,10 @@
                                 <tr>
                                     <th class="text-center font-monospace" style="width: 5%;">Items</th>
                                     <th class="text-center font-monospace" style="width: 8%;">Nro. Cédula</th>
-                                    <th class="font-monospace">Nombre</th>
-                                    <th class="font-monospace">Apellidos</th>
+                                    <th class="font-monospace">Nombre y apellidos</th>
+                                    <th class="font-monospace">Email</th>
+                                    <th class="font-monospace">Numero Celular</th>
+                                    <th class="font-monospace">Perfil</th>
                                     <th class="text-center font-monospace" style="width: 10%;">Estado</th>
                                     <th class="text-center font-monospace" style="width: 6%;">Opciones</th>
                                 </tr>
@@ -64,16 +66,18 @@
                                         {{ index +1 }}
                                     </td>
                                     <td class="text-center font-monospace">{{ item.numero_documento }}</td>
-                                    <td class="font-monospace">{{ item.nombre }}</td>
-                                    <td class="font-monospace">{{ item.apellido_paterno }} {{ item.apellido_materno }}</td>
+                                    <td class="font-monospace">{{ item.nombre }} {{ item.apellido_paterno }} {{ item.apellido_materno }}</td>
+                                    <td class="font-monospace">{{item.email  }}</td>
+                                    <td class="font-monospace">{{item.numero_celular  }}</td>
+                                    <td class="font-monospace">{{item.perfiles_nombre  }}</td>
                                     <td class="text-center font-monospace">
-                                        <span v-if="item.estado == 1" class="badge bg-label-success me-1">Activo</span>
+                                        <span v-if="item.isActive == 1" class="badge bg-label-success me-1">Activo</span>
                                         <span v-else class="badge bg-label-danger me-1">Inactivo</span>
                                     </td>
                                     <td class="text-center">
                                         <button class="btn btn-primary btn-sm" @click.prevent="openModalEdit(item.id)"><i class="fa-solid fa-pen-to-square"></i></button>
-                                        <button  v-if="item.estado == 1" class="btn btn-danger btn-sm" @click.prevent="deleteItem(item.id)"><i class="fa-solid fa-trash-can"></i></button>
-                                        <button  v-if="item.estado != 1" class="btn btn-success btn-sm" @click.prevent="activeItem(item.id)"><i class="fa-solid fa-circle-check"></i></button>
+                                        <button  v-if="item.isActive == 1" class="btn btn-danger btn-sm" @click.prevent="deleteItem(item.id)"><i class="fa-solid fa-trash-can"></i></button>
+                                        <button  v-if="item.isActive != 1" class="btn btn-success btn-sm" @click.prevent="activeItem(item.id)"><i class="fa-solid fa-circle-check"></i></button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -116,7 +120,7 @@
 
 <script>
 import Services from '../../services/services';
-import UserModal from '../modals/persona/PersonaModalComponent.vue';
+import UserModal from '../modals/usuario/UsuarioModalComponent.vue';
 import { debounce } from 'lodash';
 export default {
     props: {
@@ -152,7 +156,7 @@ export default {
     methods: {  
         openModal() {
             if (this.$refs.RefUserModal) {
-                this.$refs.RefUserModal.openpersonaModal(0);
+                this.$refs.RefUserModal.openUserModal(0);
             }
         },
         async fetchUserList(page = 1) {
@@ -186,7 +190,7 @@ export default {
         openModalEdit(id) {
             console.log(id)
             if (this.$refs.RefUserModal) {
-                this.$refs.RefUserModal.openpersonaModal(id);
+                this.$refs.RefUserModal.openUserModal(id);
             }
         },
         deleteItem(id) {

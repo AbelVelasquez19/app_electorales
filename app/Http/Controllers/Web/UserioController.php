@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserValidateRegister;
 use App\Http\Requests\UserValidateUpdate;
+use App\Models\Perfil;
+use App\Models\Person;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +26,7 @@ class UserioController extends Controller
 
         $users = User::join('personas','personas.id','=','users.persona_id')
         ->join('perfiles','perfiles.id','=','users.perfil_id')
-        ->select('users.id as user_id',
+        ->select('users.id',
                  'users.isActive',
                  'users.email',
                  'users.numero_celular',
@@ -32,7 +34,7 @@ class UserioController extends Controller
                  'personas.numero_documento',
                  'personas.nombre as persona_nombre',
                  'personas.apellido_paterno',
-                 'personas.apellido_paterno',
+                 'personas.apellido_materno',
                  'perfiles.id as perfiles_id',
                  'perfiles.nombre as perfiles_nombre',
         )
@@ -43,6 +45,16 @@ class UserioController extends Controller
             ->orderBy('users.id', 'desc')
             ->paginate($pageSize);
         return response()->json($users);
+    }
+
+    public function getPersona(Request $request){
+        $numero_documento = $request->input('params');
+        $persona = Person::select('id','numero_documento','email','codigo_pais','celular','nombre','apellido_paterno','apellido_materno')->where('numero_documento',$numero_documento)->first();
+        if($persona){
+            return response()->json(['status'=>true, 'data'=>$persona]);
+        }else{
+            return response()->json(['status'=>false, 'data'=>'']);
+        }
     }
 
     public function postShowUser(Request $request){
@@ -58,7 +70,7 @@ class UserioController extends Controller
                         'personas.numero_documento',
                         'personas.codigo_pais',
                         'personas.celular',
-                        'personas.email',
+                        'users.email',
                         'personas.estado',
                         'perfiles.id as perfiles_id',
                         'perfiles.nombre as perfiles_nombres'
@@ -70,18 +82,18 @@ class UserioController extends Controller
     public function agregarUser(UserValidateRegister $request){
         try {
             DB::beginTransaction();
-            $personRes = User::where('email','=',$request->email)->first();
+            $personRes = User::where('email','=',$request->user_name)->first();
             if($personRes){
                 $person_id = $personRes->id;
-                $person =  User::where('email','=',$request->email)->first();
+                $person =  User::where('email','=',$request->user_name)->first();
             }else{
                 $person = new User();
             }
-                $person->perfil_id=$request->perfil_id;
-                $person->persona_id=$request->persona_id;
-                $person->email = e(strtoupper(trim($request->email)));
+                $person->perfil_id=$request->profile_id;
+                $person->persona_id=$request->person_id;
+                $person->email = e(strtoupper(trim($request->user_name)));
                 $person->password = Hash::make($request->password);
-                $person->numero_celular = e(strtoupper(trim($request->numero_celular)));
+                $person->numero_celular = e(strtoupper(trim($request->celular)));
                 if($person->save()){
                     $person_id = $person->id;
                     DB::commit();
@@ -104,7 +116,7 @@ class UserioController extends Controller
         try {
             DB::beginTransaction();
 
-            $existingPerson = User::where('email', '=', $request->email)
+            $existingPerson = User::where('email', '=', $request->user_name)
             ->where('users.id', '!=', $request->id)
             ->first();
             
@@ -115,11 +127,11 @@ class UserioController extends Controller
                 ]);
             }else{
                 $person = User::where('id','=',$request->id)->first();
-                $person->perfil_id=$request->perfil_id;
-                $person->persona_id=$request->persona_id;
-                $person->email = e(strtoupper(trim($request->email)));
+                $person->perfil_id=$request->profile_id;
+                $person->persona_id=$request->person_id;
+                $person->email = e(strtoupper(trim($request->user_name)));
                 $person->password = Hash::make($request->password);
-                $person->numero_celular = e(strtoupper(trim($request->numero_celular)));
+                $person->numero_celular = e(strtoupper(trim($request->celular)));
                 if($person->save()){
                     $person_id = $person->id;
                     DB::commit();
@@ -163,6 +175,15 @@ class UserioController extends Controller
                     'status'=>true,
                 ]);
             }
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function getListProfile(){
+        try {
+            $profile = Perfil::where('status','=',1)->get();
+            return response()->json($profile);
         } catch (\Throwable $th) {
             throw $th;
         }
