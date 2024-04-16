@@ -5,9 +5,9 @@
                 <div class="col-12">
                     <div class="breadcrumb-wrapper">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="user">usuario</a>
+                            <li class="breadcrumb-item"><a href="user">Actas</a>
                             </li>
-                            <li class="breadcrumb-item active">lista de usuarios
+                            <li class="breadcrumb-item active">listado de actas
                             </li>
                         </ol>
                     </div>
@@ -39,7 +39,7 @@
                                             class="form-control form-control-sm" placeholder="Buscar..." v-model="searchQuery">
                                     </label>
                                     <button class="dt-button add-new btn btn-primary" type="button"
-                                        @click.prevent="openModal()"><span>Nuevo Usuario</span></button>
+                                        @click.prevent="openModal()"><span>Nuevo Acta</span></button>
                                 </div>
                             </div>
                         </div>

@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Web\ActasController;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\LoginController;
+use App\Http\Controllers\Web\MapsController;
 use App\Http\Controllers\Web\PersonaController;
 use App\Http\Controllers\Web\UbigeoController;
 use App\Http\Controllers\Web\UserioController;
@@ -59,9 +61,28 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('ubigeus')->group(function () {
         Route::controller(UbigeoController::class)->group(function () {
             Route::get('/department', 'department');
-            Route::get('/province', 'province');
-            Route::post('/district', 'district');
-            Route::post('/corregimient', 'coregimient');
+            Route::get('/province', 'province')->name('province');
+            Route::post('/district', 'district')->name('district');;
+            Route::post('/corregimient', 'coregimient')->name('coregimient');;
+            Route::get('/codigo-pais', 'codigoPais');
+        });
+    });
+
+    Route::prefix('mapas')->group(function () {
+        Route::controller(MapsController::class)->group(function () {
+            Route::get('/', 'index')->name('maps');
+            Route::get('/centro-votacion', 'getListCentroVotacion');
+            Route::get('/nuevo-centro-votacion', 'getNewCentroVotacion');
+            Route::post('/guardar', 'guardarCentroCosto')->name('guardarCentroCosto');
+        });
+    });
+
+    Route::prefix('actas')->group(function () {
+        Route::controller(ActasController::class)->group(function () {
+            Route::get('/', 'index')->name('actas');
+            Route::get('/centro-votacion', 'getListCentroVotacion');
+            Route::get('/nuevo-centro-votacion', 'getNewCentroVotacion');
+            Route::post('/guardar', 'guardarCentroCosto')->name('guardarCentroCosto');
             Route::get('/codigo-pais', 'codigoPais');
         });
     });

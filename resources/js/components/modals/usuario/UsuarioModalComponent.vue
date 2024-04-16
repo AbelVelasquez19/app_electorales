@@ -222,12 +222,11 @@ export default {
                 document_number:'',
                 person_id:0,
                 name:'',
-                last_name:'',
-                mother_last_name:'',
                 user_name:'',
                 password:'',
                 password_confirmation:'',
-                profile_id:''
+                profile_id:'',
+                celular:''
             }
         }
     },

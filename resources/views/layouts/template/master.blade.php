@@ -92,26 +92,37 @@
 
           <ul class="menu-inner py-1">
             <li class="menu-item active">
-                <a href="app-email.html" class="menu-link">
+                <a href="{{route('dashboard')}}" class="menu-link">
                   <i class="menu-icon tf-icons ti ti-mail"></i>
                   <div data-i18n="Dashboards">Dashboards</div>
                 </a>
             </li>
             <!-- Dashboards -->
-            <li class="menu-item open">
+            <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
-                <div data-i18n="Bandeja">Bandeja</div>
+                <div data-i18n="Actas">Actas</div>
                 <div class="badge bg-label-primary rounded-pill ms-auto">3</div>
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
+                  <a href="{{route('actas')}}" class="menu-link">
+                    <div data-i18n="Actas validas">Actas válidas</div>
+                  </a>
+                </li>
+                <li class="menu-item">
                   <a href="index.html" class="menu-link">
-                    <div data-i18n="Registro">Registro</div>
+                    <div data-i18n="Actas observadas">Actas observadas</div>
                   </a>
                 </li>
               </ul>
             </li>
+            <li class="menu-item active">
+              <a href="{{route('maps')}}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-mail"></i>
+                <div data-i18n="Mapa">Mapa</div>
+              </a>
+          </li>
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
