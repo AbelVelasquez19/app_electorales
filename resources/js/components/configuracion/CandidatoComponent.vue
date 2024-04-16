@@ -5,9 +5,9 @@
                 <div class="col-12">
                     <div class="breadcrumb-wrapper">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="user">Actas</a>
+                            <li class="breadcrumb-item"><a href="user">CANDIDATO</a>
                             </li>
-                            <li class="breadcrumb-item active">listado de actas
+                            <li class="breadcrumb-item active">lista de CANDIDATOS
                             </li>
                         </ol>
                     </div>
@@ -29,17 +29,18 @@
                             </label>
                         </div>
                     </div>
-    
+
                     <div class="col-sm-12 col-lg-8 ps-xl-75 ps-0">
                         <div
                             class="dt-action-buttons d-flex align-items-center justify-content-center justify-content-lg-end flex-lg-nowrap flex-wrap">
                             <div class="me-1">
                                 <div class="dataTables_filter">
                                     <label>Buscar:<input type="search" @input="debouncedSearch"
-                                            class="form-control form-control-sm" placeholder="Buscar..." v-model="searchQuery">
+                                            class="form-control form-control-sm" placeholder="Buscar..."
+                                            v-model="searchQuery">
                                     </label>
                                     <button class="dt-button add-new btn btn-primary" type="button"
-                                        @click.prevent="openModal()"><span>Nuevo Acta</span></button>
+                                        @click.prevent="openModal()"><span>Nuevo CANDIDATO</span></button>
                                 </div>
                             </div>
                         </div>
@@ -51,60 +52,68 @@
                             <thead>
                                 <tr>
                                     <th class="text-center font-monospace" style="width: 5%;">Items</th>
-                                    <th class="text-center font-monospace" style="width: 8%;">Nro. Cédula</th>
-                                    <th class="font-monospace">Nombre y apellidos</th>
-                                    <th class="font-monospace">Email</th>
-                                    <th class="font-monospace">Numero Celular</th>
-                                    <th class="font-monospace">Perfil</th>
+                                    <th class="text-center font-monospace" style="width: 8%;">NOMBRES Y APELLIDOS</th>
+                                    <th class="font-monospace">Nombre</th>
+                                    <th class="font-monospace">Apellidos</th>
                                     <th class="text-center font-monospace" style="width: 10%;">Estado</th>
                                     <th class="text-center font-monospace" style="width: 6%;">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
-                                <tr v-for="(item,index) in users.data" :key="item.id">
+                                <tr v-for="(item, index) in candidatos.data" :key="item.id">
                                     <td class="text-center">
-                                        {{ index +1 }}
+                                        {{ index + 1 }}
                                     </td>
                                     <td class="text-center font-monospace">{{ item.numero_documento }}</td>
-                                    <td class="font-monospace">{{ item.nombre }} {{ item.apellido_paterno }} {{ item.apellido_materno }}</td>
-                                    <td class="font-monospace">{{item.email  }}</td>
-                                    <td class="font-monospace">{{item.numero_celular  }}</td>
-                                    <td class="font-monospace">{{item.perfiles_nombre  }}</td>
+                                    <td class="font-monospace">{{ item.nombre }}</td>
+                                    <td class="font-monospace"> {{ item.nombre }} {{ item.apellido_paterno }} {{ item.apellido_materno }}
+                                    </td>
                                     <td class="text-center font-monospace">
-                                        <span v-if="item.isActive == 1" class="badge bg-label-success me-1">Activo</span>
+                                        <span v-if="item.estado == 1" class="badge bg-label-success me-1">Activo</span>
                                         <span v-else class="badge bg-label-danger me-1">Inactivo</span>
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-primary btn-sm" @click.prevent="openModalEdit(item.id)"><i class="fa-solid fa-pen-to-square"></i></button>
-                                        <button  v-if="item.isActive == 1" class="btn btn-danger btn-sm" @click.prevent="deleteItem(item.id)"><i class="fa-solid fa-trash-can"></i></button>
-                                        <button  v-if="item.isActive != 1" class="btn btn-success btn-sm" @click.prevent="activeItem(item.id)"><i class="fa-solid fa-circle-check"></i></button>
+                                        <button class="btn btn-primary btn-sm"
+                                            @click.prevent="openModalEdit(item.id)"><i
+                                                class="fa-solid fa-pen-to-square"></i></button>
+                                        <button v-if="item.estado == 1" class="btn btn-danger btn-sm"
+                                            @click.prevent="deleteItem(item.id)"><i
+                                                class="fa-solid fa-trash-can"></i></button>
+                                        <button v-if="item.estado != 1" class="btn btn-success btn-sm"
+                                            @click.prevent="activeItem(item.id)"><i
+                                                class="fa-solid fa-circle-check"></i></button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="col-md-12 mt-1 d-flex justify-content-end align-items-center ">
-                        <nav aria-label="Page navigation example" v-if="users.last_page > 1">
+                        <nav aria-label="Page navigation example" v-if="candidatos.last_page > 1">
                             <ul class="pagination justify-content-center align-items-center">
-                                <li class="page-item" :class="{ 'disabled': users.current_page === 1 }">
+                                <li class="page-item" :class="{ 'disabled': candidatos.current_page === 1 }">
                                     <a class="page-link" @click.prevent="fetchUserList(1)"><i
                                             class="fa fa-fast-backward font-medium-3" aria-hidden="true"></i></a>
                                 </li>
-                                <li class="page-item " :class="{ 'disabled': users.current_page === 1 }">
-                                    <a class="page-link" @click.prevent="fetchUserList(users.current_page - 1)"><i
+                                <li class="page-item " :class="{ 'disabled': candidatos.current_page === 1 }">
+                                    <a class="page-link" @click.prevent="fetchUserList(candidatos.current_page - 1)"><i
                                             class="fa-solid fa-backward-step"></i></a>
                                 </li>
                                 <li class="page-item" v-for="pageNumber in displayedPages" :key="pageNumber"
-                                    :class="{ 'active': users.current_page === pageNumber }">
-                                    <a class="page-link" @click.prevent="fetchUserList(pageNumber)" href="#">{{ pageNumber
-                                    }}</a>
+                                    :class="{ 'active': candidatos.current_page === pageNumber }">
+                                    <a class="page-link" @click.prevent="fetchUserList(pageNumber)" href="#">{{
+                                    pageNumber
+                                }}</a>
                                 </li>
-                                <li class="page-item" :class="{ 'disabled': users.current_page === users.last_page }">
-                                    <a class="page-link" href="#" @click.prevent="fetchUserList(users.current_page + 1)"><i
+                                <li class="page-item"
+                                    :class="{ 'disabled': candidatos.current_page === candidatos.last_page }">
+                                    <a class="page-link" href="#"
+                                        @click.prevent="fetchUserList(candidatos.current_page + 1)"><i
                                             class="fa fa-step-forward font-medium-3" aria-hidden="true"></i></a>
                                 </li>
-                                <li class="page-item" :class="{ 'disabled': users.current_page === users.last_page }">
-                                    <a class="page-link" href="#" @click.prevent="fetchUserList(users.last_page)"><i
+                                <li class="page-item"
+                                    :class="{ 'disabled': candidatos.current_page === candidatos.last_page }">
+                                    <a class="page-link" href="#"
+                                        @click.prevent="fetchUserList(candidatos.last_page)"><i
                                             class="fa fa-fast-forward font-medium-3" aria-hidden="true"></i></a>
                                 </li>
                             </ul>
@@ -112,15 +121,15 @@
                     </div>
                 </div>
             </div>
+            <CandidatoModal ref="RefCandidatoModal" @data-add="updateTable" />
         </div>
-        <ActaModalComponent ref="RefActaModalComponent" @data-add="updateTable" />
     </div>
 </template>
 
 
 <script>
 import Services from '../../services/services';
-import ActaModalComponent from '../modals/actas/ActaModalComponent.vue';
+import CandidatoModal from '../modals/candidatos/CandidatoModalComponent.vue';
 import { debounce } from 'lodash';
 export default {
     props: {
@@ -128,17 +137,13 @@ export default {
             type: String,
             default: '',
         },
-        userId:{
-            type:Number,
-            default:0
-        },
     },
     components: {
-        ActaModalComponent
+        CandidatoModal
     },
     data() {
         return {
-            users: {},
+            candidatos: {},
             displayedPages: [],
             error: null,
             searchQuery: '',
@@ -149,24 +154,24 @@ export default {
     },
     computed: {
         totalPages() {
-            return Math.ceil(this.users.total / this.pageSize);
+            return Math.ceil(this.candidatos.total / this.pageSize);
         }
     },
     mounted() {
         this.debouncedSearch = debounce(this.fetchUserList, 500);
         this.fetchUserList();
-        
+
     },
-    methods: {  
+    methods: {
         openModal() {
-            if (this.$refs.RefActaModalComponent) {
-                this.$refs.RefActaModalComponent.openModalActa(this.userId);
+            if (this.$refs.RefCandidatoModal) {
+                this.$refs.RefCandidatoModal.openCandidatoModal(0);
             }
         },
         async fetchUserList(page = 1) {
             try {
-                const result = await Services.getListInfo(this.searchQuery, `user/list?page=${page}`, this.pageSize);
-                this.users = result[0];
+                const result = await Services.getListInfo(this.searchQuery, `candidato/list?page=${page}`, this.pageSize);
+                this.candidatos = result[0];
                 this.updateDisplayedPages();
             } catch (error) {
                 console.log(error)
@@ -176,8 +181,8 @@ export default {
             const totalDisplayedPages = 6;
             const halfDisplayedPages = Math.floor(totalDisplayedPages / 2);
 
-            let startPage = Math.max(1, this.users.current_page - halfDisplayedPages);
-            let endPage = Math.min(this.users.last_page, startPage + totalDisplayedPages - 1);
+            let startPage = Math.max(1, this.candidatos.current_page - halfDisplayedPages);
+            let endPage = Math.min(this.candidatos.last_page, startPage + totalDisplayedPages - 1);
 
             if (endPage - startPage + 1 < totalDisplayedPages) {
                 startPage = Math.max(1, endPage - totalDisplayedPages + 1);
@@ -193,8 +198,8 @@ export default {
         },
         openModalEdit(id) {
             console.log(id)
-            if (this.$refs.RefUserModal) {
-                this.$refs.RefUserModal.openUserModal(id);
+            if (this.$refs.RefCandidatoModal) {
+                this.$refs.RefCandidatoModal.openCandidatoModal(id);
             }
         },
         deleteItem(id) {
@@ -210,7 +215,7 @@ export default {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     try {
-                        const result = await Services.addNewInfo('user/delete', { id: id });
+                        const result = await Services.addNewInfo('persona/delete', { id: id });
                         if (result.status) {
                             if (result.result[0].status) {
                                 this.fetchUserList();
@@ -229,9 +234,9 @@ export default {
                 }
             });
         },
-        async activeItem(id){
+        async activeItem(id) {
             try {
-                const result = await Services.addNewInfo('user/active', { id: id });
+                const result = await Services.addNewInfo('persona/active', { id: id });
                 if (result.status) {
                     if (result.result[0].status) {
                         this.fetchUserList();

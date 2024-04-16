@@ -20,6 +20,10 @@ import UserComponent from './components/configuracion/UserComponent.vue';
 import MapsComponent from './components/maps/MapsComponent.vue';
 import nueCentVotComponent from './components/maps/nueCentVotComponent.vue';
 import ActasComponent from './components/actas/ActasComponent.vue';
+import PartidoComponent from './components/configuracion/PartidoComponent.vue';
+import CandidatoComponent from './components/configuracion/CandidatoComponent.vue';
+
+
 Vue.component('login-component', LoginComponent);
 Vue.component('dashboard-component', DashboardComponent);
 Vue.component('persona-component', PersonaComponent);
@@ -27,6 +31,9 @@ Vue.component('user-component', UserComponent);
 Vue.component('maps-component', MapsComponent);
 Vue.component('nue-cent-vot-component', nueCentVotComponent);
 Vue.component('actas-component', ActasComponent);
+Vue.component('partido-component', PartidoComponent);
+Vue.component('candidato-component', CandidatoComponent);
+
 const app = new Vue({
     el: '#app',
 });

@@ -2,10 +2,7 @@
 @section('page-style')
 @endsection
 @section('content')
-{{-- {{Auth::user()->persona_id}} --}}
-    <actas-component
-    :user-id="{{Auth::user()->id}}"
-    ></actas-component>
+    <candidato-component></candidato-component>
 @endsection
 @section('page-script')
 @endsection

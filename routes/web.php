@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Web\ActasController;
+use App\Http\Controllers\Web\CandidatoController;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\LoginController;
 use App\Http\Controllers\Web\MapsController;
+use App\Http\Controllers\Web\PartidoPoliticoController;
 use App\Http\Controllers\Web\PersonaController;
 use App\Http\Controllers\Web\UbigeoController;
 use App\Http\Controllers\Web\UserioController;
@@ -80,11 +82,75 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('actas')->group(function () {
         Route::controller(ActasController::class)->group(function () {
             Route::get('/', 'index')->name('actas');
-            Route::get('/centro-votacion', 'getListCentroVotacion');
-            Route::get('/nuevo-centro-votacion', 'getNewCentroVotacion');
+            Route::get('/partido-politico', 'getListPartidoPoliticos');
+            Route::post('/user-name', 'getUserName');
             Route::post('/guardar', 'guardarCentroCosto')->name('guardarCentroCosto');
             Route::get('/codigo-pais', 'codigoPais');
         });
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+    Route::prefix('partido-politico')->group(function () {
+        Route::controller(PartidoPoliticoController::class)->group(function () {
+            Route::get('/', 'index')->name('partido-politico.index');
+            Route::post('/add', 'agregarPartido');
+            Route::get('/list', 'getListPartidoPoliticos');
+            Route::post('/show', 'postShowPartido');
+            Route::post('/update', 'postUpdatePartido');
+            Route::post('/delete', 'postDeletePartido');
+            Route::post('/active', 'postActivePartido');
+        });
+    });
+    
+
+    Route::prefix('candidato')->group(function () {
+        Route::controller(CandidatoController::class)->group(function () {
+            Route::get('/', 'index')->name('candidato.index');
+            Route::post('/add', 'agregarPartido');
+            Route::get('/list', 'getListCandidatos');
+            Route::post('/show', 'postShowPartido');
+            Route::post('/update', 'postUpdatePartido');
+            Route::post('/delete', 'postDeletePartido');
+            Route::post('/active', 'postActivePartido');
+            Route::get('/tipoCandidato', 'tipoCandidato');
+            Route::get('/tipoCandidatoPersonas', 'tipoCandidatoPersonas');
+
+        });
+    });
+
+
+
+
 });
 
