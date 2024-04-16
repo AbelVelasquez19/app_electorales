@@ -111,6 +111,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/active', 'postActivePartido');
         });
     });
+    
 
     Route::prefix('candidato')->group(function () {
         Route::controller(CandidatoController::class)->group(function () {
