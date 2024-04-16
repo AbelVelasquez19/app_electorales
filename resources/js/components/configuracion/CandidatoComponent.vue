@@ -55,6 +55,8 @@
                                     <th class="text-center font-monospace" style="width: 8%;">NOMBRES Y APELLIDOS</th>
                                     <th class="font-monospace">Nombre</th>
                                     <th class="font-monospace">Apellidos</th>
+                                    <th class="font-monospace">Orden</th>
+
                                     <th class="text-center font-monospace" style="width: 10%;">Estado</th>
                                     <th class="text-center font-monospace" style="width: 6%;">Opciones</th>
                                 </tr>
@@ -62,25 +64,26 @@
                             <tbody class="table-border-bottom-0">
                                 <tr v-for="(item, index) in candidatos.data" :key="item.id">
                                     <td class="text-center">
-                                        {{ index + 1 }}
+                                        {{ index + 1 }} 
                                     </td>
                                     <td class="text-center font-monospace">{{ item.numero_documento }}</td>
                                     <td class="font-monospace">{{ item.nombre }}</td>
                                     <td class="font-monospace"> {{ item.nombre }} {{ item.apellido_paterno }} {{ item.apellido_materno }}
                                     </td>
+                                    <td class="font-monospace">{{ item.orden }}</td>
                                     <td class="text-center font-monospace">
                                         <span v-if="item.estado == 1" class="badge bg-label-success me-1">Activo</span>
                                         <span v-else class="badge bg-label-danger me-1">Inactivo</span>
                                     </td>
                                     <td class="text-center">
                                         <button class="btn btn-primary btn-sm"
-                                            @click.prevent="openModalEdit(item.id)"><i
+                                            @click.prevent="openModalEdit(item.candidato_id)"><i
                                                 class="fa-solid fa-pen-to-square"></i></button>
                                         <button v-if="item.estado == 1" class="btn btn-danger btn-sm"
-                                            @click.prevent="deleteItem(item.id)"><i
+                                            @click.prevent="deleteItem(item.candidato_id)"><i
                                                 class="fa-solid fa-trash-can"></i></button>
                                         <button v-if="item.estado != 1" class="btn btn-success btn-sm"
-                                            @click.prevent="activeItem(item.id)"><i
+                                            @click.prevent="activeItem(item.candidato_id)"><i
                                                 class="fa-solid fa-circle-check"></i></button>
                                     </td>
                                 </tr>
@@ -215,7 +218,7 @@ export default {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     try {
-                        const result = await Services.addNewInfo('persona/delete', { id: id });
+                        const result = await Services.addNewInfo('candidato/delete', { id: id });
                         if (result.status) {
                             if (result.result[0].status) {
                                 this.fetchUserList();
@@ -236,7 +239,7 @@ export default {
         },
         async activeItem(id) {
             try {
-                const result = await Services.addNewInfo('persona/active', { id: id });
+                const result = await Services.addNewInfo('candidato/active', { id: id });
                 if (result.status) {
                     if (result.result[0].status) {
                         this.fetchUserList();

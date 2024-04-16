@@ -10,4 +10,10 @@ class Cantidato extends Model
     use HasFactory;
     protected $table = "candidatos";
     protected $primaryKey = 'id';
+
+    protected $guarded = ['id'];
+
+
+
+
 }

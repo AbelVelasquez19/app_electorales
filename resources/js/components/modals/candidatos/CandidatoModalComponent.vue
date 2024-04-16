@@ -17,29 +17,40 @@
                         <div class="row mb-1">
                             <div class="col-md-6">
                                 <label>PERSONAS: </label>
-                                <select class="form-select" v-model="candidato.provincia_id"
-                                    :class="errors != null && errors.provincia_id ? 'is-invalid' : ''">
+                                <select class="form-select" v-model="candidato.persona_id"
+                                    :class="errors != null && errors.persona_id ? 'is-invalid' : ''">
                                     <option value="" selected disabled>--seleccionar--</option>
                                     <option v-for="persona in personas" :key="persona.id" :value="persona.id">{{
                         persona.nombre }} {{ persona.nombre }} {{ persona.apellido_paterno }}
                                         {{ persona.apellido_paterno }} </option>
                                 </select>
-                                <span v-if="errors != null && errors.provincia_id" class="text-danger">{{
-                        errors.provincia_id[0] }}</span>
+                                <span v-if="errors != null && errors.persona_id" class="text-danger">{{
+                        errors.persona_id[0] }}</span>
                             </div>
                             <div class="col-md-4">
                                 <label>Tipo Candidato: </label>
-                                <select class="form-select" v-model="candidato.provincia_id"
-                                    :class="errors != null && errors.provincia_id ? 'is-invalid' : ''">
+                                <select class="form-select" v-model="candidato.tipo_candidato_id"
+                                    :class="errors != null && errors.tipo_candidato_id ? 'is-invalid' : ''">
                                     <option value="" selected disabled>--seleccionar--</option>
                                     <option v-for="tipoCandidato in tipoCandidatos" :key="tipoCandidato.id"
                                         :value="tipoCandidato.id">{{
                         tipoCandidato.nombre }}</option>
                                 </select>
-                                <span v-if="errors != null && errors.provincia_id" class="text-danger">{{
-                        errors.provincia_id[0] }}</span>
+                                <span v-if="errors != null && errors.tipo_candidato_id" class="text-danger">{{
+                        errors.tipo_candidato_id[0] }}</span>
                             </div>
-
+                            <div class="col-md-2">
+                                <div class="me-1">
+                                    <div class="dataTables_filter">
+                                        <label>ORDEN: </label>
+                                        <input type="number" placeholder="orden" v-model="candidato.orden"
+                                            class="form-control"
+                                            :class="errors != null && errors.orden ? 'is-invalid' : ''">
+                                        <span v-if="errors != null && errors.orden" class="text-danger">{{
+                        errors.orden[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
 
@@ -124,7 +135,6 @@ export default {
                 orden: '',
                 persona_id: '',
                 tipo_candidato_id: '',
-
                 provincia_id: '',
                 distrito_id: '',
                 corregimiento_id: '',
@@ -157,24 +167,23 @@ export default {
             if (id != 0) {
                 this.option = false
                 try {
-                    const result = await Services.getShowInfo('persona/show', id);
+                    const result = await Services.getShowInfo('candidato/show', id);
                     console.log(result)
-                    let codigoPais = result.codigo_pais.split('+');
-                    this.user = {
-                        id: id,
-                        numero_documento: result.numero_documento,
-                        nombre: result.nombre,
-                        apellido_paterno: result.apellido_paterno,
-                        apellido_materno: result.apellido_materno,
-                        sexo: result.sexo,
-                        codigo_pais_id: codigoPais[1],
-                        celular: result.celular,
-                        email: result.email,
-                        direccion: result.direccion,
+
+                    this.candidato = {
+                        id: result.candidato_id,
+
+                        orden: result.orden,
+                        persona_id: result.persona_id,
+                        tipo_candidato_id: result.tipo_candidato_id,
                         provincia_id: result.provincia_id,
-                        distrito_id: result.distrito_id,
-                        corregimiento_id: result.corregimiento_id,
+                        distrito_id: result.distrito,
+                        corregimiento_id: result.provincia_id,
                     }
+
+
+
+                    
                     this.getDistrict(result.provincia_id)
                     this.getCorregiment(result.distrito_id)
                 } catch (error) {
@@ -217,10 +226,10 @@ export default {
             }
         },
         getDistrictItem() {
-            this.getDistrict(this.user.provincia_id);
+            this.getDistrict(this.candidato.provincia_id);
         },
         getCorregimientoItem() {
-            this.getCorregiment(this.user.distrito_id);
+            this.getCorregiment(this.candidato.distrito_id);
         },
         async getProvinces() {
             try {
@@ -257,7 +266,7 @@ export default {
         async addNewUser() {
             this.errors = null;
             try {
-                const result = await Services.addNewInfo('persona/add', this.user);
+                const result = await Services.addNewInfo('candidato/add', this.candidato);
                 if (result.status) {
                     if (result.result[0].status) {
                         this.clearInput();
@@ -277,7 +286,7 @@ export default {
         async updateUser() {
             this.errors = null;
             try {
-                const result = await Services.addNewInfo('persona/update', this.user);
+                const result = await Services.addNewInfo('candidato/update', this.candidato);
                 if (result.status) {
                     if (result.result[0].status) {
                         this.clearInput();
@@ -295,20 +304,15 @@ export default {
             }
         },
         clearInput() {
-            this.user = {
+            this.candidato = {
                 id: 0,
-                numero_documento: '',
-                nombre: '',
-                apellido_paterno: '',
-                apellido_materno: '',
-                sexo: 1,
-                codigo_pais_id: '',
-                celular: '',
-                email: '',
-                direccion: '',
+                orden: '',
+                persona_id: '',
+                tipo_candidato_id: '',
                 provincia_id: '',
                 distrito_id: '',
                 corregimiento_id: '',
+
             }
         }
     },

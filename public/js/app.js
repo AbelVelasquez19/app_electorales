@@ -2492,6 +2492,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 
 
@@ -2610,7 +2613,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
                 _context2.prev = 1;
                 _context2.next = 4;
-                return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('persona/delete', {
+                return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('candidato/delete', {
                   id: id
                 });
               case 4:
@@ -2653,7 +2656,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               _context3.prev = 0;
               _context3.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('persona/active', {
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('candidato/active', {
                 id: id
               });
             case 3:
@@ -3891,6 +3894,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3938,7 +3952,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     openCandidatoModal: function openCandidatoModal(id) {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var result, codigoPais;
+        var result;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
@@ -3949,50 +3963,43 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this.getTipoDocumentos();
               _this.getPersonas();
               if (!(id != 0)) {
-                _context.next = 24;
+                _context.next = 23;
                 break;
               }
               _this.option = false;
               _context.prev = 8;
               _context.next = 11;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('persona/show', id);
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('candidato/show', id);
             case 11:
               result = _context.sent;
               console.log(result);
-              codigoPais = result.codigo_pais.split('+');
-              _this.user = {
-                id: id,
-                numero_documento: result.numero_documento,
-                nombre: result.nombre,
-                apellido_paterno: result.apellido_paterno,
-                apellido_materno: result.apellido_materno,
-                sexo: result.sexo,
-                codigo_pais_id: codigoPais[1],
-                celular: result.celular,
-                email: result.email,
-                direccion: result.direccion,
+              _this.candidato = {
+                id: result.candidato_id,
+                orden: result.orden,
+                persona_id: result.persona_id,
+                tipo_candidato_id: result.tipo_candidato_id,
                 provincia_id: result.provincia_id,
-                distrito_id: result.distrito_id,
-                corregimiento_id: result.corregimiento_id
+                distrito_id: result.distrito,
+                corregimiento_id: result.provincia_id
               };
               _this.getDistrict(result.provincia_id);
               _this.getCorregiment(result.distrito_id);
-              _context.next = 22;
+              _context.next = 21;
               break;
-            case 19:
-              _context.prev = 19;
+            case 18:
+              _context.prev = 18;
               _context.t0 = _context["catch"](8);
               return _context.abrupt("return", _context.t0);
-            case 22:
-              _context.next = 25;
+            case 21:
+              _context.next = 24;
               break;
-            case 24:
+            case 23:
               _this.option = true;
-            case 25:
+            case 24:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[8, 19]]);
+        }, _callee, null, [[8, 18]]);
       }))();
     },
     closepersonaModal: function closepersonaModal() {
@@ -4080,10 +4087,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     getDistrictItem: function getDistrictItem() {
-      this.getDistrict(this.user.provincia_id);
+      this.getDistrict(this.candidato.provincia_id);
     },
     getCorregimientoItem: function getCorregimientoItem() {
-      this.getCorregiment(this.user.distrito_id);
+      this.getCorregiment(this.candidato.distrito_id);
     },
     getProvinces: function getProvinces() {
       var _this5 = this;
@@ -4199,7 +4206,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this9.errors = null;
               _context9.prev = 1;
               _context9.next = 4;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('persona/add', _this9.user);
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('candidato/add', _this9.candidato);
             case 4:
               result = _context9.sent;
               if (result.status) {
@@ -4237,7 +4244,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this10.errors = null;
               _context10.prev = 1;
               _context10.next = 4;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('persona/update', _this10.user);
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('candidato/update', _this10.candidato);
             case 4:
               result = _context10.sent;
               if (result.status) {
@@ -4266,17 +4273,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     clearInput: function clearInput() {
-      this.user = {
+      this.candidato = {
         id: 0,
-        numero_documento: '',
-        nombre: '',
-        apellido_paterno: '',
-        apellido_materno: '',
-        sexo: 1,
-        codigo_pais_id: '',
-        celular: '',
-        email: '',
-        direccion: '',
+        orden: '',
+        persona_id: '',
+        tipo_candidato_id: '',
         provincia_id: '',
         distrito_id: '',
         corregimiento_id: ''
@@ -24898,7 +24899,7 @@ var render = function () {
                           _vm._v(
                             "\n                                    " +
                               _vm._s(index + 1) +
-                              "\n                                "
+                              " \n                                "
                           ),
                         ]),
                         _vm._v(" "),
@@ -24922,6 +24923,10 @@ var render = function () {
                               _vm._s(item.apellido_materno) +
                               "\n                                "
                           ),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "font-monospace" }, [
+                          _vm._v(_vm._s(item.orden)),
                         ]),
                         _vm._v(" "),
                         _c(
@@ -24952,7 +24957,7 @@ var render = function () {
                               on: {
                                 click: function ($event) {
                                   $event.preventDefault()
-                                  return _vm.openModalEdit(item.id)
+                                  return _vm.openModalEdit(item.candidato_id)
                                 },
                               },
                             },
@@ -24971,7 +24976,7 @@ var render = function () {
                                   on: {
                                     click: function ($event) {
                                       $event.preventDefault()
-                                      return _vm.deleteItem(item.id)
+                                      return _vm.deleteItem(item.candidato_id)
                                     },
                                   },
                                 },
@@ -24991,7 +24996,7 @@ var render = function () {
                                   on: {
                                     click: function ($event) {
                                       $event.preventDefault()
-                                      return _vm.activeItem(item.id)
+                                      return _vm.activeItem(item.candidato_id)
                                     },
                                   },
                                 },
@@ -25262,6 +25267,8 @@ var staticRenderFns = [
         _c("th", { staticClass: "font-monospace" }, [_vm._v("Nombre")]),
         _vm._v(" "),
         _c("th", { staticClass: "font-monospace" }, [_vm._v("Apellidos")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-monospace" }, [_vm._v("Orden")]),
         _vm._v(" "),
         _c(
           "th",
@@ -27259,13 +27266,13 @@ var render = function () {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.candidato.provincia_id,
-                            expression: "candidato.provincia_id",
+                            value: _vm.candidato.persona_id,
+                            expression: "candidato.persona_id",
                           },
                         ],
                         staticClass: "form-select",
                         class:
-                          _vm.errors != null && _vm.errors.provincia_id
+                          _vm.errors != null && _vm.errors.persona_id
                             ? "is-invalid"
                             : "",
                         on: {
@@ -27280,7 +27287,7 @@ var render = function () {
                               })
                             _vm.$set(
                               _vm.candidato,
-                              "provincia_id",
+                              "persona_id",
                               $event.target.multiple
                                 ? $$selectedVal
                                 : $$selectedVal[0]
@@ -27320,9 +27327,9 @@ var render = function () {
                       2
                     ),
                     _vm._v(" "),
-                    _vm.errors != null && _vm.errors.provincia_id
+                    _vm.errors != null && _vm.errors.persona_id
                       ? _c("span", { staticClass: "text-danger" }, [
-                          _vm._v(_vm._s(_vm.errors.provincia_id[0])),
+                          _vm._v(_vm._s(_vm.errors.persona_id[0])),
                         ])
                       : _vm._e(),
                   ]),
@@ -27337,13 +27344,13 @@ var render = function () {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.candidato.provincia_id,
-                            expression: "candidato.provincia_id",
+                            value: _vm.candidato.tipo_candidato_id,
+                            expression: "candidato.tipo_candidato_id",
                           },
                         ],
                         staticClass: "form-select",
                         class:
-                          _vm.errors != null && _vm.errors.provincia_id
+                          _vm.errors != null && _vm.errors.tipo_candidato_id
                             ? "is-invalid"
                             : "",
                         on: {
@@ -27358,7 +27365,7 @@ var render = function () {
                               })
                             _vm.$set(
                               _vm.candidato,
-                              "provincia_id",
+                              "tipo_candidato_id",
                               $event.target.multiple
                                 ? $$selectedVal
                                 : $$selectedVal[0]
@@ -27387,11 +27394,55 @@ var render = function () {
                       2
                     ),
                     _vm._v(" "),
-                    _vm.errors != null && _vm.errors.provincia_id
+                    _vm.errors != null && _vm.errors.tipo_candidato_id
                       ? _c("span", { staticClass: "text-danger" }, [
-                          _vm._v(_vm._s(_vm.errors.provincia_id[0])),
+                          _vm._v(_vm._s(_vm.errors.tipo_candidato_id[0])),
                         ])
                       : _vm._e(),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2" }, [
+                    _c("div", { staticClass: "me-1" }, [
+                      _c("div", { staticClass: "dataTables_filter" }, [
+                        _c("label", [_vm._v("ORDEN: ")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.candidato.orden,
+                              expression: "candidato.orden",
+                            },
+                          ],
+                          staticClass: "form-control",
+                          class:
+                            _vm.errors != null && _vm.errors.orden
+                              ? "is-invalid"
+                              : "",
+                          attrs: { type: "number", placeholder: "orden" },
+                          domProps: { value: _vm.candidato.orden },
+                          on: {
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.candidato,
+                                "orden",
+                                $event.target.value
+                              )
+                            },
+                          },
+                        }),
+                        _vm._v(" "),
+                        _vm.errors != null && _vm.errors.orden
+                          ? _c("span", { staticClass: "text-danger" }, [
+                              _vm._v(_vm._s(_vm.errors.orden[0])),
+                            ])
+                          : _vm._e(),
+                      ]),
+                    ]),
                   ]),
                 ]),
                 _vm._v(" "),
