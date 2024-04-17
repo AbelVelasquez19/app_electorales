@@ -1,56 +1,73 @@
 <template>
-    <div class="modal fade" id="candidatoModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static"
+    <div class="modal fade" id="centroModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static"
         data-keyboard="false" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-simple modal-enable-otp">
             <div class="modal-content p-3">
                 <div class="modal-header">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <h5 class="modal-title" v-if="option">Agregar CANDIDATO</h5>
-                    <h5 class="modal-title" v-else>Actualizar CANDIDATO</h5>
+                    <h5 class="modal-title" v-if="option">Agregar CENTRO DE VOTACIÓN</h5>
+                    <h5 class="modal-title" v-else>Actualizar CENTRO DE VOTACIÓN</h5>
                 </div>
                 <div class="modal-body">
                     <fieldset>
-                        <legend>Ingresar informacion del CANDIDATO</legend>
+                        <legend>Ingresar informacion del CENTRO DE VOTACIÓN</legend>
 
 
 
                         <div class="row mb-1">
+
+
                             <div class="col-md-6">
-                                <label>PERSONAS: </label>
-                                <select class="form-select" v-model="candidato.persona_id"
-                                    :class="errors != null && errors.persona_id ? 'is-invalid' : ''">
-                                    <option value="" selected disabled>--seleccionar--</option>
-                                    <option v-for="persona in personas" :key="persona.id" :value="persona.id">{{
-                        persona.nombre }} {{ persona.nombre }} {{ persona.apellido_paterno }}
-                                        {{ persona.apellido_paterno }} </option>
-                                </select>
-                                <span v-if="errors != null && errors.persona_id" class="text-danger">{{
-                        errors.persona_id[0] }}</span>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Tipo Candidato: </label>
-                                <select class="form-select" v-model="candidato.tipo_candidato_id"
-                                    :class="errors != null && errors.tipo_candidato_id ? 'is-invalid' : ''">
-                                    <option value="" selected disabled>--seleccionar--</option>
-                                    <option v-for="tipoCandidato in tipoCandidatos" :key="tipoCandidato.id"
-                                        :value="tipoCandidato.id">{{
-                        tipoCandidato.nombre }}</option>
-                                </select>
-                                <span v-if="errors != null && errors.tipo_candidato_id" class="text-danger">{{
-                        errors.tipo_candidato_id[0] }}</span>
-                            </div>
-                            <div class="col-md-2">
                                 <div class="me-1">
                                     <div class="dataTables_filter">
-                                        <label>ORDEN: </label>
-                                        <input type="number" placeholder="orden" v-model="candidato.orden"
+                                        <label>NOMBRE: </label>
+                                        <input type="text" placeholder="nombre centro votación" v-model="centro.nombre"
                                             class="form-control"
-                                            :class="errors != null && errors.orden ? 'is-invalid' : ''">
-                                        <span v-if="errors != null && errors.orden" class="text-danger">{{
-                        errors.orden[0] }}</span>
+                                            :class="errors != null && errors.nombre ? 'is-invalid' : ''">
+                                        <span v-if="errors != null && errors.nombre" class="text-danger">{{
+                        errors.nombre[0] }}</span>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="me-1">
+                                    <div class="dataTables_filter">
+                                        <label>DIRECCIÓN: </label>
+                                        <input type="text" placeholder="direccion centro votación"
+                                            v-model="centro.direccion" class="form-control"
+                                            :class="errors != null && errors.direccion ? 'is-invalid' : ''">
+                                        <span v-if="errors != null && errors.direccion" class="text-danger">{{
+                        errors.direccion[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="me-1">
+                                    <div class="dataTables_filter">
+                                        <label>LATITUD: </label>
+                                        <input type="text" placeholder="latitud centro votación"
+                                            v-model="centro.latitud" class="form-control"
+                                            :class="errors != null && errors.latitud ? 'is-invalid' : ''">
+                                        <span v-if="errors != null && errors.latitud" class="text-danger">{{
+                        errors.latitud[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="me-1">
+                                    <div class="dataTables_filter">
+                                        <label>LONGITUD: </label>
+                                        <input type="text" placeholder="longitud centro votación"
+                                            v-model="centro.longitud" class="form-control"
+                                            :class="errors != null && errors.longitud ? 'is-invalid' : ''">
+                                        <span v-if="errors != null && errors.longitud" class="text-danger">{{
+                        errors.longitud[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
 
                         </div>
 
@@ -58,7 +75,7 @@
                         <div class="row mb-1">
                             <div class="col-md-4">
                                 <label>Provincia: </label>
-                                <select class="form-select" v-model="candidato.provincia_id"
+                                <select class="form-select" v-model="centro.provincia_id"
                                     :class="errors != null && errors.provincia_id ? 'is-invalid' : ''"
                                     @change="getDistrictItem">
                                     <option value="" selected disabled>--seleccionar--</option>
@@ -70,7 +87,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label>Distrito: </label>
-                                <select class="form-select" v-model="candidato.distrito_id"
+                                <select class="form-select" v-model="centro.distrito_id"
                                     :class="errors != null && errors.distrito_id ? 'is-invalid' : ''"
                                     @change="getCorregimientoItem">
                                     <option value="" selected disabled>--seleccionar--</option>
@@ -82,7 +99,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label>Corregimientos: </label>
-                                <select class="form-select" v-model="candidato.corregimiento_id"
+                                <select class="form-select" v-model="centro.corregimiento_id"
                                     :class="errors != null && errors.corregimiento_id ? 'is-invalid' : ''">
                                     <option value="" selected disabled>--seleccionar--</option>
                                     <option v-for="corregt in corrigement" :key="corregt.id" :value="corregt.id">{{
@@ -101,6 +118,9 @@
                     </button>
                     <button type="button" class="btn btn-secondary" @click.prevent="closepersonaModal()"> Cerrar
                     </button>
+
+
+                    
                 </div>
             </div>
         </div>
@@ -114,30 +134,18 @@ export default {
     },
     data() {
         return {
-            user: {
+
+            centro: {
                 id: 0,
-                numero_documento: '77777777',
-                nombre: 'prueba',
-                apellido_paterno: 'prueba',
-                apellido_materno: 'prueba',
-                sexo: 1,
-                codigo_pais_id: '',
-                celular: '',
-                email: '',
+
+                nombre: '',
                 direccion: '',
                 provincia_id: '',
                 distrito_id: '',
                 corregimiento_id: '',
-            },
-            candidato: {
-                id: 0,
+                latitud: '',
+                longitud: '',
 
-                orden: '',
-                persona_id: '',
-                tipo_candidato_id: '',
-                provincia_id: '',
-                distrito_id: '',
-                corregimiento_id: '',
             },
             errors: null,
             loading: false,
@@ -155,9 +163,9 @@ export default {
 
     },
     methods: {
-        async openCandidatoModal(id) {
+        async openCentroModal(id) {
             console.log(id)
-            $("#candidatoModal").modal("show");
+            $("#centroModal").modal("show");
             this.getProvinces();
             this.getListCodigoPais();
             this.getTipoDocumentos();
@@ -167,23 +175,23 @@ export default {
             if (id != 0) {
                 this.option = false
                 try {
-                    const result = await Services.getShowInfo('candidato/show', id);
+                    const result = await Services.getShowInfo('centro-votacion/show', id);
                     console.log(result)
 
-                    this.candidato = {
-                        id: result.candidato_id,
-
-                        orden: result.orden,
-                        persona_id: result.persona_id,
-                        tipo_candidato_id: result.tipo_candidato_id,
+                    this.centro = {
+                        id: result.centro_votacion_id,
+                        nombre: result.nombre,
+                        direccion: result.direccion,
                         provincia_id: result.provincia_id,
                         distrito_id: result.distrito,
-                        corregimiento_id: result.provincia_id,
+                        corregimiento_id: result.corregimiento_id,
+                        latitud: result.latitud,
+                        longitud: result.longitud,
+
                     }
 
 
 
-                    
                     this.getDistrict(result.provincia_id)
                     this.getCorregiment(result.distrito_id)
                 } catch (error) {
@@ -195,7 +203,7 @@ export default {
         },
         closepersonaModal() {
             this.user.id = 0;
-            $("#candidatoModal").modal("hide");
+            $("#centroModal").modal("hide");
             this.clearInput();
             this.errors = null;
         },
@@ -226,10 +234,10 @@ export default {
             }
         },
         getDistrictItem() {
-            this.getDistrict(this.candidato.provincia_id);
+            this.getDistrict(this.centro.provincia_id);
         },
         getCorregimientoItem() {
-            this.getCorregiment(this.candidato.distrito_id);
+            this.getCorregiment(this.centro.distrito_id);
         },
         async getProvinces() {
             try {
@@ -266,11 +274,11 @@ export default {
         async addNewUser() {
             this.errors = null;
             try {
-                const result = await Services.addNewInfo('candidato/add', this.candidato);
+                const result = await Services.addNewInfo('centro-votacion/add', this.centro);
                 if (result.status) {
                     if (result.result[0].status) {
                         this.clearInput();
-                        $("#candidatoModal").modal("hide");
+                        $("#centroModal").modal("hide");
                         this.$toast.success(result.result[0].message);
                         this.$emit('data-add');
                     } else {
@@ -286,11 +294,11 @@ export default {
         async updateUser() {
             this.errors = null;
             try {
-                const result = await Services.addNewInfo('candidato/update', this.candidato);
+                const result = await Services.addNewInfo('centro-votacion/update', this.centro);
                 if (result.status) {
                     if (result.result[0].status) {
                         this.clearInput();
-                        $("#candidatoModal").modal("hide");
+                        $("#centroModal").modal("hide");
                         this.$toast.success(result.result[0].message);
                         this.$emit('data-add');
                     } else {
@@ -304,14 +312,16 @@ export default {
             }
         },
         clearInput() {
-            this.candidato = {
+
+            this.centro = {
                 id: 0,
-                orden: '',
-                persona_id: '',
-                tipo_candidato_id: '',
+                nombre: '',
+                direccion: '',
                 provincia_id: '',
                 distrito_id: '',
                 corregimiento_id: '',
+                latitud: '',
+                longitud: '',
 
             }
         }

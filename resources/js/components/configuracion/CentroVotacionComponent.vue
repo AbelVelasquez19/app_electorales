@@ -5,9 +5,9 @@
                 <div class="col-12">
                     <div class="breadcrumb-wrapper">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="user">CANDIDATO</a>
+                            <li class="breadcrumb-item"><a href="user">CENTRO VOTACIÓN</a>
                             </li>
-                            <li class="breadcrumb-item active">lista de CANDIDATOS
+                            <li class="breadcrumb-item active">LISTA CENTRO VOTACIONES
                             </li>
                         </ol>
                     </div>
@@ -40,7 +40,7 @@
                                             v-model="searchQuery">
                                     </label>
                                     <button class="dt-button add-new btn btn-primary" type="button"
-                                        @click.prevent="openModal()"><span>Nuevo CANDIDATO</span></button>
+                                        @click.prevent="openModal()"><span>NUEVO CENTRO</span></button>
                                 </div>
                             </div>
                         </div>
@@ -52,71 +52,92 @@
                             <thead>
                                 <tr>
                                     <th class="text-center font-monospace" style="width: 5%;">Items</th>
-                                    <th class="text-center font-monospace" style="width: 8%;">NOMBRES Y APELLIDOS</th>
-                                    <th class="font-monospace">Nombre</th>
-                                    <th class="font-monospace">Apellidos</th>
-                                    <th class="font-monospace">Orden</th>
+                                    <th class="text-center font-monospace" style="width: 8%;">NOMBRES</th>
+                                    <th class="font-monospace">DIRECCIÓN</th>
+                                    <th class="font-monospace">PROVINCIA</th>
+                                    <th class="font-monospace">DISTRITO</th>
+                                    <th class="font-monospace">CORREGIMIENTO</th>
+                                    <th class="font-monospace">UBICACIÓN</th>
 
                                     <th class="text-center font-monospace" style="width: 10%;">Estado</th>
                                     <th class="text-center font-monospace" style="width: 6%;">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
-                                <tr v-for="(item, index) in candidatos.data" :key="item.id">
+                                <tr v-for="(item, index) in centros.data" :key="item.id">
                                     <td class="text-center">
                                         {{ index + 1 }} 
                                     </td>
-                                    <td class="text-center font-monospace">{{ item.numero_documento }}</td>
-                                    <td class="font-monospace">{{ item.nombre }}</td>
-                                    <td class="font-monospace"> {{ item.nombre }} {{ item.apellido_paterno }} {{ item.apellido_materno }}
+                                    <td class="text-center font-monospace">{{ item.nombre }}</td>
+                                    <td class="font-monospace">{{ item.direccion }}</td>
+                                    <td class="font-monospace"> {{ item.provincia_nombre }} 
                                     </td>
-                                    <td class="font-monospace">{{ item.orden }}</td>
+                                    <td class="font-monospace">{{ item.distrito_nombre }}</td>
+                                    
+                                    <td class="font-monospace">{{ item.corregimiento_nombre }}</td>
+
+                                    <td class="font-monospace">
+
+                                        <a class="btn btn-warning" :href="'https://www.google.com/maps?q=' + item.latitud + ',' + item.longitud" target="_blank"><i class="tf-icons ti ti-map"></i></a>
+
+                                    </td>
+
                                     <td class="text-center font-monospace">
                                         <span v-if="item.estado == 1" class="badge bg-label-success me-1">Activo</span>
                                         <span v-else class="badge bg-label-danger me-1">Inactivo</span>
                                     </td>
                                     <td class="text-center">
                                         <button class="btn btn-primary btn-sm"
-                                            @click.prevent="openModalEdit(item.candidato_id)"><i
+                                            @click.prevent="openModalEdit(item.centro_votacion_id)"><i
                                                 class="fa-solid fa-pen-to-square"></i></button>
+
+
+
+                                                
                                         <button v-if="item.estado == 1" class="btn btn-danger btn-sm"
-                                            @click.prevent="deleteItem(item.candidato_id)"><i
+                                            @click.prevent="deleteItem(item.centro_votacion_id)"><i
                                                 class="fa-solid fa-trash-can"></i></button>
                                         <button v-if="item.estado != 1" class="btn btn-success btn-sm"
-                                            @click.prevent="activeItem(item.candidato_id)"><i
+                                            @click.prevent="activeItem(item.centro_votacion_id)"><i
                                                 class="fa-solid fa-circle-check"></i></button>
+
+                                                <button class="btn btn-primary btn-sm"
+                                            @click.prevent="openRegistrarSupervisor(item.centro_votacion_id)"><i
+                                                class="fa-solid fa-bars"></i></button>
+                                                
                                     </td>
+
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="col-md-12 mt-1 d-flex justify-content-end align-items-center ">
-                        <nav aria-label="Page navigation example" v-if="candidatos.last_page > 1">
+                        <nav aria-label="Page navigation example" v-if="centros.last_page > 1">
                             <ul class="pagination justify-content-center align-items-center">
-                                <li class="page-item" :class="{ 'disabled': candidatos.current_page === 1 }">
+                                <li class="page-item" :class="{ 'disabled': centros.current_page === 1 }">
                                     <a class="page-link" @click.prevent="fetchUserList(1)"><i
                                             class="fa fa-fast-backward font-medium-3" aria-hidden="true"></i></a>
                                 </li>
-                                <li class="page-item " :class="{ 'disabled': candidatos.current_page === 1 }">
-                                    <a class="page-link" @click.prevent="fetchUserList(candidatos.current_page - 1)"><i
+                                <li class="page-item " :class="{ 'disabled': centros.current_page === 1 }">
+                                    <a class="page-link" @click.prevent="fetchUserList(centros.current_page - 1)"><i
                                             class="fa-solid fa-backward-step"></i></a>
                                 </li>
                                 <li class="page-item" v-for="pageNumber in displayedPages" :key="pageNumber"
-                                    :class="{ 'active': candidatos.current_page === pageNumber }">
+                                    :class="{ 'active': centros.current_page === pageNumber }">
                                     <a class="page-link" @click.prevent="fetchUserList(pageNumber)" href="#">{{
                                     pageNumber
                                 }}</a>
                                 </li>
                                 <li class="page-item"
-                                    :class="{ 'disabled': candidatos.current_page === candidatos.last_page }">
+                                    :class="{ 'disabled': centros.current_page === centros.last_page }">
                                     <a class="page-link" href="#"
-                                        @click.prevent="fetchUserList(candidatos.current_page + 1)"><i
+                                        @click.prevent="fetchUserList(centros.current_page + 1)"><i
                                             class="fa fa-step-forward font-medium-3" aria-hidden="true"></i></a>
                                 </li>
                                 <li class="page-item"
-                                    :class="{ 'disabled': candidatos.current_page === candidatos.last_page }">
+                                    :class="{ 'disabled': centros.current_page === centros.last_page }">
                                     <a class="page-link" href="#"
-                                        @click.prevent="fetchUserList(candidatos.last_page)"><i
+                                        @click.prevent="fetchUserList(centros.last_page)"><i
                                             class="fa fa-fast-forward font-medium-3" aria-hidden="true"></i></a>
                                 </li>
                             </ul>
@@ -124,7 +145,9 @@
                     </div>
                 </div>
             </div>
-            <CandidatoModal ref="RefCandidatoModal" @data-add="updateTable" />
+            <CentroModal ref="RefCentroModal" @data-add="updateTable" />
+            <CentroSupervisorModal ref="RefCentroSupervisorModal" @data-add="updateTable" />
+
         </div>
     </div>
 </template>
@@ -132,7 +155,9 @@
 
 <script>
 import Services from '../../services/services';
-import CandidatoModal from '../modals/candidatos/CandidatoModalComponent.vue';
+import CentroModal from '../modals/centros/CentroModalComponent.vue';
+import CentroSupervisorModal from '../modals/centros/CentroSupervisorModalComponent.vue';
+
 import { debounce } from 'lodash';
 export default {
     props: {
@@ -142,11 +167,12 @@ export default {
         },
     },
     components: {
-        CandidatoModal
+        CentroModal,
+        CentroSupervisorModal
     },
     data() {
         return {
-            candidatos: {},
+            centros: {},
             displayedPages: [],
             error: null,
             searchQuery: '',
@@ -157,7 +183,7 @@ export default {
     },
     computed: {
         totalPages() {
-            return Math.ceil(this.candidatos.total / this.pageSize);
+            return Math.ceil(this.centros.total / this.pageSize);
         }
     },
     mounted() {
@@ -167,14 +193,14 @@ export default {
     },
     methods: {
         openModal() {
-            if (this.$refs.RefCandidatoModal) {
-                this.$refs.RefCandidatoModal.openCandidatoModal(0);
+            if (this.$refs.RefCentroModal) {
+                this.$refs.RefCentroModal.openCentroModal(0);
             }
         },
         async fetchUserList(page = 1) {
             try {
-                const result = await Services.getListInfo(this.searchQuery, `candidato/list?page=${page}`, this.pageSize);
-                this.candidatos = result[0];
+                const result = await Services.getListInfo(this.searchQuery, `centro-votacion/list?page=${page}`, this.pageSize);
+                this.centros = result[0];
                 this.updateDisplayedPages();
             } catch (error) {
                 console.log(error)
@@ -184,8 +210,8 @@ export default {
             const totalDisplayedPages = 6;
             const halfDisplayedPages = Math.floor(totalDisplayedPages / 2);
 
-            let startPage = Math.max(1, this.candidatos.current_page - halfDisplayedPages);
-            let endPage = Math.min(this.candidatos.last_page, startPage + totalDisplayedPages - 1);
+            let startPage = Math.max(1, this.centros.current_page - halfDisplayedPages);
+            let endPage = Math.min(this.centros.last_page, startPage + totalDisplayedPages - 1);
 
             if (endPage - startPage + 1 < totalDisplayedPages) {
                 startPage = Math.max(1, endPage - totalDisplayedPages + 1);
@@ -201,8 +227,14 @@ export default {
         },
         openModalEdit(id) {
             console.log(id)
-            if (this.$refs.RefCandidatoModal) {
-                this.$refs.RefCandidatoModal.openCandidatoModal(id);
+            if (this.$refs.RefCentroModal) {
+                this.$refs.RefCentroModal.openCentroModal(id);
+            }
+        },
+        openRegistrarSupervisor(id) {
+            console.log(id)
+            if (this.$refs.RefCentroSupervisorModal) {
+                this.$refs.RefCentroSupervisorModal.openCentroSupervisorModal(id);
             }
         },
         deleteItem(id) {
