@@ -248,6 +248,7 @@ export default {
         async getCentroVotacion() {
             try {
                 const result = await Services.getAll('mapas/centro-votacion');
+                console.lo this.getCentroVotacion(result)
                 if (result.status) {
                     // Si la solicitud fue exitosa
                     this.markers = result.data.map(item => ({

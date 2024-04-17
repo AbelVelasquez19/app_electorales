@@ -15,7 +15,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="">Centro de votación</label>
-                               <select class="form-select" v-model="centro_votacion_id">
+                               <select class="form-select">
                                     <option v-for="(items,index) in actas.centroVotacion" :key="index" :value="items.id">{{items.nombre}}</option>
                                </select>
                             </div>
@@ -23,13 +23,13 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="">Supervisor</label>
-                                <select class="form-control" disabled v-model="supervirsor_id">
+                                <select class="form-control">
                                     <option v-for="(items,index) in actas.supervisor" :key="index" :value="items.user_id">{{items.supervisor}}</option>
                                </select>
                             </div>
                             <div class="col-md-6">
                                 <label for="">Personero</label>
-                                <select class="form-control" disabled v-model="personero_id">
+                                <select class="form-control">
                                     <option v-for="(items,index) in actas.personero" :key="index" :value="items.user_id">{{items.personero}}</option>
                                </select>
                             </div>
@@ -59,7 +59,7 @@
                     </fieldset>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" @click.prevent="addNewUser()"> Guardar </button>
+                    <button type="button" class="btn btn-primary" @click.prevent="addNewActa()"> Guardar </button>
                     <button type="button" class="btn btn-secondary" @click.prevent="closeUserModal()"> Cerrar </button>
                 </div>
             </div>
@@ -111,7 +111,6 @@ export default {
             }
         },
         closeUserModal(){
-            this.user.id=0;
             $("#actaModal").modal("hide");
            /*  this.clearInput(); */
             this.errors=null;
@@ -127,8 +126,10 @@ export default {
         async getPersonero(){
             try {
                 const actas = await Services.getAll('actas/personero');
-                console.log(actas.mesa)
                 this.actas = actas;
+                this.centro_votacion_id=actas.centroVotacion[0].id
+                this.supervirsor_id=actas.supervisor[0].user_id
+                this.personero_id=actas.personero[0].user_id
             } catch (error) {
                 return error;
             }
@@ -137,7 +138,43 @@ export default {
             this.total = this.partidos.reduce((total, partido) => {
                 return total + (partido.votos ? parseInt(partido.votos) : 0);
             }, 0);
+        },
+        async addNewActa(){
+            this.errors= null;
+            let obj  = {
+                mesa_id:this.mesa_id,
+                centro_votacion_id:this.centro_votacion_id,
+                supervirsor_id:this.supervirsor_id,
+                personero_id:this.personero_id,
+                total:this.total,
+                partidos:this.partidos
+            }
+            try {
+                const result = await Services.addNewInfo('actas/add',obj);
+                console.log(result)
+                if(result.status){
+                    if(result.result[0].status){
+                        this.clearInput();
+                        $("#actaModal").modal("hide");
+                        this.getListPartidoPoliticos();
+                        this.$toast.success(result.result[0].message);
+                        this.$emit('data-add');
+                    }else{
+                        this.$toast.error(result.result[0].message);
+                    }
+                }else{
+                    this.errors = result.result;
+                }
+            } catch (error) {
+                return error;
+            }
+        },
+
+        clearInput(){
+            this.mesa_id=''
+            this.total = 0;
         }
+
         /* async getPersona() {
             try {
                 const result = await Services.getShowInfo('user/person',this.user.document_number);

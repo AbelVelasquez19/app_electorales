@@ -87,7 +87,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/partido-politico', 'getListPartidoPoliticos');
             Route::post('/user-name', 'getUserName');
             Route::get('/personero', 'getPersonero');
-            Route::get('/codigo-pais', 'codigoPais');
+            Route::post('/add', 'addActas');
+            Route::get('/list-actas', 'getListActasRegistradas');
         });
     });
 
