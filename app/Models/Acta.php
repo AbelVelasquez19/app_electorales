@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CentroVotacion extends Model
+class Acta extends Model
 {
     use HasFactory;
 
-
-    protected $table = "centro_votacion";
+    protected $table = "acta";
     protected $primaryKey = 'id';
-
+    protected $guarded = ['id'];
 
 }
