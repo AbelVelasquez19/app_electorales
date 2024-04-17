@@ -305,10 +305,10 @@ export default {
         },
 
         closepersonaModal() {
-            this.user.id = 0;
+           /*  this.user.id = 0; */
             $("#centroSupervisorModal").modal("hide");
             this.clearInput();
-            this.errors = null;
+            /* this.errors = null; */
         },
 
         async getSupervisores() {

@@ -97,12 +97,12 @@ export default {
         return {
             user:{  
                 id:0,
-                document_number:'77777777',
+                document_number:'',
                 person_id:0,
-                name:'prueba',
-                user_name:'admin',
-                password:'12345678',
-                password_confirmation:'12345678',
+                name:'',
+                user_name:'',
+                password:'',
+                password_confirmation:'',
                 profile_id:'',
                 celular:''
             },

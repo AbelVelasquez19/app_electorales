@@ -5,6 +5,13 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'vue-toast-notification/dist/theme-sugar.css';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import 'leaflet/dist/leaflet.css';
+import VueApexCharts from 'vue-apexcharts';
+
+import HighchartsVue from 'highcharts-vue';
+Vue.use(HighchartsVue);
+
+
+Vue.component('apexchart', VueApexCharts);
 const options = {
     /* position: 'top-right', */
     duration: 3000,

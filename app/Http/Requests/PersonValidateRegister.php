@@ -30,7 +30,7 @@ class PersonValidateRegister extends FormRequest
     public function rules()
     {
         return [
-            'numero_documento' => 'required|min:8|max:8', //|unique:users,dni
+            'numero_documento' => 'required', //|unique:users,dni
             'nombre' => 'required',
             'apellido_paterno' => 'required',
             'apellido_materno' => 'required',

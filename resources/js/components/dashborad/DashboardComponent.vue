@@ -1,96 +1,122 @@
 <template>
     <div class="row">
-        <!-- View sales -->
-        <div class="col-xl-4 mb-4 col-lg-5 col-12">
-            <div class="card">
-            <div class="d-flex align-items-end row">
-                <div class="col-7">
-                <div class="card-body text-nowrap">
-                    <h5 class="card-title mb-0">Congratulations John! 🎉</h5>
-                    <p class="mb-2">Best seller of the month</p>
-                    <h4 class="text-primary mb-1">$48.9k</h4>
-                    <a href="javascript:;" class="btn btn-primary">View Sales</a>
-                </div>
-                </div>
-                <div class="col-5 text-center text-sm-left">
-                <div class="card-body pb-0 px-0 px-md-4">
-                    <!-- <img
-                    src="../../assets/img/illustrations/card-advance-sale.png"
-                    height="140"
-                    alt="view sales"
-                    /> -->
-                </div>
-                </div>
-            </div>
-            </div>
-        </div>
-        <!-- View sales -->
-
-        <!-- Statistics -->
-        <div class="col-xl-8 mb-4 col-lg-7 col-12">
+        <div class="col-xl-12 mb-4 col-lg-7 col-12">
             <div class="card h-100">
-            <div class="card-header">
-                <div class="d-flex justify-content-between mb-3">
-                <h5 class="card-title mb-0">Statistics</h5>
-                <small class="text-muted">Updated 1 month ago</small>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="row gy-3">
-                <div class="col-md-3 col-6">
-                    <div class="d-flex align-items-center">
-                    <div class="badge rounded-pill bg-label-primary me-3 p-2">
-                        <i class="ti ti-chart-pie-2 ti-sm"></i>
-                    </div>
-                    <div class="card-info">
-                        <h5 class="mb-0">230k</h5>
-                        <small>Sales</small>
-                    </div>
+                <div class="card-body">
+                    <div class="row gy-3">
+                        <div ref="chart" style="height: 500px;"></div>
                     </div>
                 </div>
-                <div class="col-md-3 col-6">
-                    <div class="d-flex align-items-center">
-                    <div class="badge rounded-pill bg-label-info me-3 p-2">
-                        <i class="ti ti-users ti-sm"></i>
-                    </div>
-                    <div class="card-info">
-                        <h5 class="mb-0">8.549k</h5>
-                        <small>Customers</small>
-                    </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <div class="d-flex align-items-center">
-                    <div class="badge rounded-pill bg-label-danger me-3 p-2">
-                        <i class="ti ti-shopping-cart ti-sm"></i>
-                    </div>
-                    <div class="card-info">
-                        <h5 class="mb-0">1.423k</h5>
-                        <small>Products</small>
-                    </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <div class="d-flex align-items-center">
-                    <div class="badge rounded-pill bg-label-success me-3 p-2">
-                        <i class="ti ti-currency-dollar ti-sm"></i>
-                    </div>
-                    <div class="card-info">
-                        <h5 class="mb-0">$9745</h5>
-                        <small>Revenue</small>
-                    </div>
-                    </div>
-                </div>
-                </div>
-            </div>
             </div>
         </div>
-        <!--/ Statistics -->
-     </div>
+    </div>
 </template>
+
 <script>
+import Services from '../../services/services';
+import Highcharts from 'highcharts';
+/* import HighchartsVue from 'highcharts-vue'; */
 export default {
     name: 'dashboard-component',
-    // Otras opciones del componente...
+    data() {
+        return {
+            chartOptions: {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    align: 'left',
+                    text: 'Reporte por candidato 2024'
+                },
+                subtitle: {
+                    align: 'left',
+                    /* text: 'Click the columns to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>' */
+                },
+                accessibility: {
+                    announceNewData: {
+                        enabled: true
+                    }
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    
+                    title: {
+                         text: 'Total porcentaje'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        pointWidth: 60, // Ajusta el ancho de las columnas según lo necesites
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            /* enabled: true, */
+                            useHTML: true,
+                            /* format: '{point.y}' */
+                            formatter: function() {
+                                return '<div style="display: flex; align-items: center;"><img src="' + this.point.logo + '" style="width: 35px; height: 35px; margin-right: 5px;"> ' + this.y + '</div>';
+                            }
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                   /*  pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> del total<br/>' */
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> del total<br/>'
+                },
+                /* colors: ['#FF5733', '#FFD700', '#32CD32', '#4169E1', '#FF69B4'], */
+                series: [
+                    {
+                        name: 'Electoral',
+                        colorByPoint: true,
+                        data: []
+                    }
+                ],
+                drilldown: {
+                    breadcrumbs: {
+                        position: {
+                            align: 'right'
+                        }
+                    },
+
+                }
+            }
+        }
+
+    },
+    async created() {
+        this.reportePartidoPolTotal()
+    },
+ /*    mounted() {
+        Highcharts.chart(this.$refs.chart, this.chartOptions);
+    }, */
+    methods: {
+        async reportePartidoPolTotal() {
+            try {
+                const result = await Services.getAll('dashboard/polito-voto-total');
+                console.log(result)
+                const seriesData = result.map(item => ({
+                    name: item.nombre,
+                    y: parseInt(item.suma),
+                    color: item.color,
+                    drilldown: item.nombre,
+                    logo: item.logo
+                }));
+                this.chartOptions.series[0].data = seriesData;
+                Highcharts.chart(this.$refs.chart, this.chartOptions);
+            } catch (error) {
+                return error;
+            }
+        },
+    }
 }
 </script>
+
+<style scoped></style>

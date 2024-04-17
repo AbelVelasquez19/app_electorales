@@ -117,7 +117,7 @@
                 </li>
               </ul>
             </li>
-            <li class="menu-item active">
+            <li class="menu-item">
               <a href="{{route('maps')}}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-mail"></i>
                 <div data-i18n="Mapa">Mapa</div>
@@ -146,18 +146,13 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="index.html" class="menu-link">
-                    <div data-i18n="Colegios"></div>
-                  </a>
-                </li>
-                <li class="menu-item">
                   <a href="{{route('centro-votacion.index')}}" class="menu-link">
-                    <div data-i18n="CENTRO VOTACIÓN" >CENTRO VOTACIÓN</div>
+                    <div data-i18n="Centro de votación" >Centro de votación</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a href="{{route('mesa.index')}}" class="menu-link">
-                    <div data-i18n="MESA" >MESA</div>
+                    <div data-i18n="Mesa" >Mesa</div>
                   </a>
                 </li>
               </ul>
@@ -560,7 +555,7 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
+                            <span class="fw-semibold d-block">{{Auth::user()->email}}</span>
                             <small class="text-muted">Admin</small>
                           </div>
                         </div>

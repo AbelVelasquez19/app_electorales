@@ -30,7 +30,7 @@ class UserValidateUpdate extends FormRequest
     public function rules()
     {
         return [
-            'document_number' => 'required|min:8|max:8', //|unique:users,dni
+            'document_number' => 'required', //|unique:users,dni
             'person_id'=>'required',
             'name' => 'required|min:3',
             'user_name' => 'required|min:3',
