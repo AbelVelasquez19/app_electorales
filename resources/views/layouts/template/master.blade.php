@@ -139,6 +139,16 @@
                     <div data-i18n="Colegios">Colegios</div>
                   </a>
                 </li>
+                <li class="menu-item">
+                  <a href="{{route('centro-votacion.index')}}" class="menu-link">
+                    <div data-i18n="CENTRO VOTACIÓN" >CENTRO VOTACIÓN</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="{{route('mesa.index')}}" class="menu-link">
+                    <div data-i18n="MESA" >MESA</div>
+                  </a>
+                </li>
               </ul>
             </li>
           </ul>

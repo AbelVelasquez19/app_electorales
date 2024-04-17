@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Web\CandidatoController;
+use App\Http\Controllers\Web\CentroVotacionController;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\LoginController;
+use App\Http\Controllers\Web\MesaController;
 use App\Http\Controllers\Web\PartidoPoliticoController;
 use App\Http\Controllers\Web\PersonaController;
 use App\Http\Controllers\Web\UbigeoController;
@@ -128,8 +130,59 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 
+    Route::prefix('centro-votacion')->group(function () {
+        Route::controller(CentroVotacionController::class)->group(function () {
+            Route::get('/', 'index')->name('centro-votacion.index');
+            Route::post('/add', 'agregarCentro');
+            Route::post('/add-supervisor', 'agregarCentroSupervisor');
+
+            Route::get('/list', 'getListCentros');
+            Route::get('/list-supervisores', 'getListSupervisores');
+            Route::get('/list-supervisores-centro', 'getListCentroSupervidores');
+
+            Route::post('/show', 'postShowCentro');
+            Route::post('/update', 'postUpdateCentro');
+            Route::post('/delete', 'postDeleteCandidato');
+            Route::post('/active', 'postActiveCandidato');
+            Route::get('/tipoCandidato', 'tipoCandidato');
+            Route::get('/tipoCandidatoPersonas', 'tipoCandidatoPersonas');
+
+            Route::post('/delete-supervisor', 'postDeleteCandidatoSupervisor');
+            Route::post('/active-supervisor', 'postActiveCandidatoSupervisor');
 
 
 
+        });
+    });
+
+
+
+    Route::prefix('mesa')->group(function () {
+        Route::controller(MesaController::class)->group(function () {
+            Route::get('/', 'index')->name('mesa.index');
+            Route::get('/list', 'getListMesas');
+            Route::get('/list-centros-votacion', 'getListCentrosVotacion');
+            Route::post('/show', 'postShowMesa');
+            Route::post('/add', 'agregarMesa');
+            Route::post('/update', 'postUpdateMesa');
+            Route::get('/list-personeros', 'getListPersoneros');
+
+            Route::get('/list-personeros-mesa', 'getListMesaPersonero');
+
+            Route::post('/add-personero', 'agregarMesaPersonero');
+
+
+            Route::post('/delete', 'postDeleteCandidato');
+            Route::post('/active', 'postActiveCandidato');
+            Route::get('/tipoCandidato', 'tipoCandidato');
+            Route::get('/tipoCandidatoPersonas', 'tipoCandidatoPersonas');
+
+            Route::post('/delete-personero', 'postDeleteMesaPersonero');
+            Route::post('/active-personero', 'postActiveMesaPersonero');
+
+
+
+        });
+    });
 });
 
