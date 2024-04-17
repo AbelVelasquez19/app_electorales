@@ -6,26 +6,35 @@
                     <fieldset>
                         <legend>Registrar Acta</legend>
                         <div class="row mb-3">
-                            <div class="col-md-12">
-                                <label for="">Personero</label>
-                                <input disabled type="text" class="form-control" :value="'('+userId+') '+userName">
+                            <div class="col-md-6">
+                                <label for="">Mesa</label>
+                                <select class="form-select" v-model="mesa_id">
+                                    <option value="" disabled selected>--Seleccionar--</option>
+                                    <option v-for="(items,index) in actas.mesa" :key="index" :value="items.id">{{ items.nombre }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="">Centro de votación</label>
+                               <select class="form-select" v-model="centro_votacion_id">
+                                    <option v-for="(items,index) in actas.centroVotacion" :key="index" :value="items.id">{{items.nombre}}</option>
+                               </select>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="">Centro de votación</label>
-                               <select name="" id="" class="form-select">
-                                    <option value=""></option>
+                                <label for="">Supervisor</label>
+                                <select class="form-control" disabled v-model="supervirsor_id">
+                                    <option v-for="(items,index) in actas.supervisor" :key="index" :value="items.user_id">{{items.supervisor}}</option>
                                </select>
                             </div>
                             <div class="col-md-6">
-                                <label for="">Mesa</label>
-                                <select name="" id="" class="form-control">
-                                    <option value=""></option>
-                                </select>
+                                <label for="">Personero</label>
+                                <select class="form-control" disabled v-model="personero_id">
+                                    <option v-for="(items,index) in actas.personero" :key="index" :value="items.user_id">{{items.personero}}</option>
+                               </select>
                             </div>
                         </div>
-                        <div class="row mt-1 d-flex justify-content-center align-items-center" v-for="partido in partidos" :key="partido.id">
+                        <div class="row mt-1 d-flex justify-content-center align-items-center" v-for="(partido,index) in partidos" :key="partido.id">
                             <div class="col-md-2">
                                 <img :src="partido.logo" alt="" class="rounded" width="70px" height="70px">
                             </div>
@@ -33,7 +42,7 @@
                                 <input disabled type="text" class="form-control" :value="partido.nombre">
                             </div>
                             <div class="col-md-2 d-flex justify-content-center align-items-center">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" v-model.number="partidos[index].votos" @input="sumarTotalVotos">
                             </div>
                         </div>
                         <div class="row mt-1 d-flex justify-content-center align-items-center">
@@ -44,13 +53,13 @@
                                 <h4 class="d-flex justify-content-end align-items-center mt-2">Total</h4>
                             </div>
                             <div class="col-md-2 d-flex justify-content-center align-items-center">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" :value="total">
                             </div>
                         </div>
                     </fieldset>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" @click.prevent="addNewUser()" v-if="option"> Guardar </button>
+                    <button type="button" class="btn btn-primary" @click.prevent="addNewUser()"> Guardar </button>
                     <button type="button" class="btn btn-secondary" @click.prevent="closeUserModal()"> Cerrar </button>
                 </div>
             </div>
@@ -63,23 +72,19 @@ import { debounce } from 'lodash';
 export default {
     data() {
         return {
-            user:{  
-                id:0,
-                document_number:'77777777',
-                person_id:0,
-                name:'prueba',
-                user_name:'admin',
-                password:'12345678',
-                password_confirmation:'12345678',
-                profile_id:'',
-                celular:''
-            },
+            mesa_id:'',
+            centro_votacion_id:null,
+            supervirsor_id:null,
+            personero_id:null,
+
             userId:null,
             userName:'',
             errors: null,
             loading:false,
             option:true,
             partidos:{},
+            actas:{},
+            total:0,
             debouncedSearch: null,
         }
     },
@@ -92,6 +97,7 @@ export default {
         async openModalActa(id){
             this.userId = id;
             $("#actaModal").modal("show");
+            this.getPersonero();
             if(id!=0){
                 this.option=false
                 try {
@@ -113,12 +119,25 @@ export default {
         async getListPartidoPoliticos(){
             try {
                 const partido = await Services.getAll('actas/partido-politico');
-                this.partidos = partido;
+                this.partidos = partido.map(partido=>({...partido,votos:0}));
             } catch (error) {
                 return error;
             }
         },
-
+        async getPersonero(){
+            try {
+                const actas = await Services.getAll('actas/personero');
+                console.log(actas.mesa)
+                this.actas = actas;
+            } catch (error) {
+                return error;
+            }
+        },
+        sumarTotalVotos() {
+            this.total = this.partidos.reduce((total, partido) => {
+                return total + (partido.votos ? parseInt(partido.votos) : 0);
+            }, 0);
+        }
         /* async getPersona() {
             try {
                 const result = await Services.getShowInfo('user/person',this.user.document_number);
