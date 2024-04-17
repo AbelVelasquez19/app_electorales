@@ -84,7 +84,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/', 'index')->name('actas');
             Route::get('/partido-politico', 'getListPartidoPoliticos');
             Route::post('/user-name', 'getUserName');
-            Route::post('/guardar', 'guardarCentroCosto')->name('guardarCentroCosto');
+            Route::get('/personero', 'getPersonero');
             Route::get('/codigo-pais', 'codigoPais');
         });
     });

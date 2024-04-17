@@ -141,13 +141,13 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="index.html" class="menu-link">
-                    <div data-i18n="Candidatos">Candidatos</div>
+                  <a href="{{route('partido-politico.index')}}" class="menu-link">
+                    <div data-i18n="Partido político">Partido político</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a href="index.html" class="menu-link">
-                    <div data-i18n="Colegios">Colegios</div>
+                    <div data-i18n="Colegios"></div>
                   </a>
                 </li>
               </ul>
