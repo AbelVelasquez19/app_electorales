@@ -64,8 +64,8 @@ class MesaSupervisorPersoneroController extends Controller
 
 
         $mesa_personero = new MesaPersonero();
-        $users->personero_id = $users->id;
-        $users->mesa_id = $mesa_id_input;
+        $mesa_personero->personero_id = $users->id;
+        $mesa_personero->mesa_id = $mesa_id_input;
         $mesa_personero->save();
 
 
@@ -74,19 +74,18 @@ class MesaSupervisorPersoneroController extends Controller
             DB::commit();
             return response()->json([
                 'status' => true,
-                'message' => 'La informacíon se guardo correctamente'
+                'message' => 'La informac on se guardo correctamente'
             ]);
         }
     }
 
 
-    public function listaMesasPersonero()
+    public function listaMesasPersonero(Request $request)
     {
-        $user = auth('api')->user();
-        $usuario_id = $user->id;
         // $user = auth('api')->user();
-        // $usuario_id = 4;
-        $mesas_personero = MesaPersonero::join('mesa', 'mesa.id', '=', 'personero_mesa.mesa_id')
+        // $usuario_id = $user->id;
+        $usuario_id = $request->input('usuario_id'); //personero id usuario logeado
+          $mesas_personero = MesaPersonero::join('mesa', 'mesa.id', '=', 'personero_mesa.mesa_id')
         ->join('centro_votacion', 'centro_votacion.id', '=', 'mesa.centro_votacion_id')
             ->select(
                 'personero_mesa.id',
@@ -100,6 +99,9 @@ class MesaSupervisorPersoneroController extends Controller
 
 
             )->where('personero_id', $usuario_id)->get();
+//  $mesas_personero = MesaPersonero::where('personero_id', $usuario_id)->get();
+
+
 
         return response()->json($mesas_personero);
     }
@@ -124,8 +126,13 @@ class MesaSupervisorPersoneroController extends Controller
 
     // }
     public function guardarMesaActa(Request $request){
-        $user = auth('api')->user();
-        $usuario_id = $user->id; //personero id usuario logeado
+        // $user = auth('api')->user();
+        // $usuario_id = $user->id; //personero id usuario logeado
+
+
+        $usuario_id = $request->input('usuario_id'); //personero id usuario logeado
+
+
         // Obtener todos los datos con el mismo nombre de clave
         $datos = $request->input('datos');
     
@@ -138,13 +145,13 @@ class MesaSupervisorPersoneroController extends Controller
                 'partida_politica_id' => $dato['partida_politica_id'],
                 'total_acta' => $dato['total_acta'],
                 'personero_id' => $dato['personero_id'],
-                // Puedes añadir más campos aquí según sea necesario
+                // Puedes a adir m s campos aqu  seg n sea necesario
             ]);
             // Guardar la instancia del modelo
             $modelo->save();
         }
     
-        // Aquí podrías devolver una respuesta adecuada, por ejemplo, un mensaje de éxito
+        // Aqu  podr as devolver una respuesta adecuada, por ejemplo, un mensaje de  xito
         return response()->json(['mensaje' => 'Datos guardados correctamente']);
     }
     
