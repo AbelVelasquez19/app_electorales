@@ -24,6 +24,9 @@ class AutenticacionController extends Controller
 
 
     public function verifyCode(Request $request){
+
+        $credentials = $request->only('email', 'password');
+
         $code = rand(100000, 999999);
         $sid = getenv("TWILIO_SID");
         $token = getenv("TWILIO_TOKEN");
@@ -31,6 +34,11 @@ class AutenticacionController extends Controller
         $twilio = new Client($sid, $token);
 
         $email = $request->input('email');
+
+        if (auth('api')->attempt($credentials)) {
+            return response()->json(['error' => 'Credenciales no válidas'], 401);
+        }
+
         $user = User::where('email',$email)->where('isActive',1)->first();
         if($user){
             $user->codigo_confirm = $code;

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\AutenticacionController;
+use App\Http\Controllers\Api\GeneralController;
+use App\Http\Controllers\Api\MesaSupervisorPersoneroController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,4 +32,14 @@ Route::group([
     Route::post('verificar-codigo', [AutenticacionController::class, 'verifyCode']);
 
 });
+
+
+Route::get('lista-mesas', [GeneralController::class, 'listaMesas']);
+
+Route::get('lista-partidos', [GeneralController::class, 'listadoPartidos']);
+
+Route::get('lista-mesas-personero', [MesaSupervisorPersoneroController::class, 'listaMesasPersonero']);
+Route::post('registrar-personero', [MesaSupervisorPersoneroController::class, 'guardarPersoneroMesa']);
+
+Route::post('guardar-mesa-acta', [MesaSupervisorPersoneroController::class, 'guardarMesaActa']);
 
