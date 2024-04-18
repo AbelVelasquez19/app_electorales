@@ -1,15 +1,15 @@
 <template>
-    <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+    <div class="modal fade" id="PersoneroModel" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-simple modal-enable-otp">
             <div class="modal-content p-3">
                 <div class="modal-header">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <h5 class="modal-title" v-if="option">Agregar nuevo usuario</h5>
-                    <h5 class="modal-title" v-else>Actualizar usuario</h5>
+                    <h5 class="modal-title" v-if="option">Agregar nuevo personero</h5>
+                    <h5 class="modal-title" v-else>Actualizar personero</h5>
                 </div>
                 <div class="modal-body">
                     <fieldset>
-                        <legend>Ingresar informacion del usuario</legend>
+                        <legend>Ingresar informacion del personero</legend>
                         <div class="row mb-1">
                             <div class="col-md-4">
                                 <div class="me-1">
@@ -60,14 +60,6 @@
                             </div>
                         </div>
                         <div class="row mb-1">
-                            <div class="col-md-6">
-                                <label>Perfil: </label>
-                                <select class="form-select" v-model="user.profile_id" :class="errors!=null  && errors.profile_id ? 'is-invalid' : '' ">
-                                    <option value="" selected disabled>--seleccionar--</option>
-                                    <option v-for="profile in profiles" :key="profile.id" :value="profile.id">{{ profile.nombre }}</option>
-                                </select>
-                                <span v-if="errors!=null  && errors.profile_id" class="text-danger">{{ errors.profile_id[0] }}</span>
-                            </div>
                             <div class="col-md-4">
                                 <div class="me-1">
                                     <div class="dataTables_filter">
@@ -83,7 +75,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" @click.prevent="addNewUser()" v-if="option"> Guardar </button>
                     <button type="button" class="btn btn-primary" @click.prevent="updateUser()" v-else> Actualizar </button>
-                    <button type="button" class="btn btn-secondary" @click.prevent="closeUserModal()"> Cerrar </button>
+                    <button type="button" class="btn btn-secondary" @click.prevent="closePersoneroModel()"> Cerrar </button>
                 </div>
             </div>
         </div>
@@ -103,7 +95,7 @@ export default {
                 user_name:'',
                 password:'',
                 password_confirmation:'',
-                profile_id:'',
+                profile_id:3,
                 celular:''
             },
             errors: null,
@@ -115,23 +107,22 @@ export default {
     },
     mounted(){
         this.debouncedSearch = debounce(this.getPersona, 500);
-        this.getListProfile();
     },
     methods: {
-        async openUserModal(id){
+        async openPersoneroModal(id){
             console.log(id)
-            $("#userModal").modal("show");
+            $("#PersoneroModel").modal("show");
             if(id!=0){
                 this.option=false
                 try {
-                    const result = await Services.getShowInfo('user/show',id);
+                    const result = await Services.getShowInfo('personero/show',id);
                     this.user={  
                         id:id,
                         document_number:result.numero_documento,
                         name:result.nombre+' '+result.apellido_paterno+' '+result.apellido_materno,
                         person_id:result.personas_id,
                         user_name:result.email,
-                        profile_id:result.perfiles_id,
+                        profile_id:3,
                         celular:result.codigo_pais+result.celular
                     }
                 } catch (error) {
@@ -143,7 +134,7 @@ export default {
         },
         async getPersona() {
             try {
-                const result = await Services.getShowInfo('user/person',this.user.document_number);
+                const result = await Services.getShowInfo('personero/person',this.user.document_number);
                 if(result.status){
                     this.user={  
                         document_number:result.data.numero_documento,
@@ -151,35 +142,27 @@ export default {
                         name:result.data.nombre+' '+result.data.apellido_paterno+' '+result.data.apellido_materno,
                         user_name:result.data.email,
                         celular:result.data.codigo_pais+result.data.celular,
-                        profile_id:'',
+                        profile_id:3,
                     }
                 }
             } catch (error) {
                 console.log(error)
             }
         },
-        closeUserModal(){
+        closePersoneroModel(){
             this.user.id=0;
-            $("#userModal").modal("hide");
+            $("#PersoneroModel").modal("hide");
             this.clearInput();
             this.errors=null;
-        },
-        async getListProfile(){
-            try {
-                const profile = await Services.getAll('user/profile');
-                this.profiles = profile;
-            } catch (error) {
-                return error;
-            }
         },
         async addNewUser(){
             this.errors= null;
             try {
-                const result = await Services.addNewInfo('user/add',this.user);
+                const result = await Services.addNewInfo('personero/add',this.user);
                 if(result.status){
                     if(result.result[0].status){
                         this.clearInput();
-                        $("#userModal").modal("hide");
+                        $("#PersoneroModel").modal("hide");
                         this.$toast.success(result.result[0].message);
                         this.$emit('data-add');
                     }else{
@@ -195,11 +178,11 @@ export default {
         async updateUser(){
             this.errors= null;
             try {
-                const result = await Services.addNewInfo('user/update',this.user);
+                const result = await Services.addNewInfo('personero/update',this.user);
                 if(result.status){
                     if(result.result[0].status){
                         this.clearInput();
-                        $("#userModal").modal("hide");
+                        $("#PersoneroModel").modal("hide");
                         this.$toast.success(result.result[0].message);
                         this.$emit('data-add');
                     }else{

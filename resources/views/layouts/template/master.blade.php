@@ -126,7 +126,7 @@
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
-                <div data-i18n="Configuración">Configuración</div>
+                <div data-i18n="Accesos">Accesos</div>
                 <div class="badge bg-label-primary rounded-pill ms-auto">3</div>
               </a>
               <ul class="menu-sub">
@@ -140,6 +140,20 @@
                     <div data-i18n="Usuarios">Usuarios</div>
                   </a>
                 </li>
+                <li class="menu-item">
+                  <a href="{{route('personeros')}}" class="menu-link">
+                    <div data-i18n="Personeros">Personeros</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                <div data-i18n="Configuración">Configuración</div>
+                <div class="badge bg-label-primary rounded-pill ms-auto">3</div>
+              </a>
+              <ul class="menu-sub">
                 <li class="menu-item">
                   <a href="{{route('partido-politico.index')}}" class="menu-link">
                     <div data-i18n="Partido político">Partido político</div>

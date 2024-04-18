@@ -5,9 +5,9 @@
                 <div class="col-12">
                     <div class="breadcrumb-wrapper">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="user">Centro de votación</a>
+                            <li class="breadcrumb-item"><a href="user">personero</a>
                             </li>
-                            <li class="breadcrumb-item active">Lista Centro de votaciónes
+                            <li class="breadcrumb-item active">lista de personeros
                             </li>
                         </ol>
                     </div>
@@ -29,16 +29,17 @@
                             </label>
                         </div>
                     </div>
-
+    
                     <div class="col-sm-12 col-lg-8 ps-xl-75 ps-0">
                         <div
                             class="dt-action-buttons d-flex align-items-center justify-content-center justify-content-lg-end flex-lg-nowrap flex-wrap">
                             <div class="me-1">
                                 <div class="dataTables_filter">
                                     <label>Buscar:<input type="search" @input="debouncedSearch"
-                                            class="form-control form-control-sm" placeholder="Buscar..."
-                                            v-model="searchQuery">
+                                            class="form-control form-control-sm" placeholder="Buscar..." v-model="searchQuery">
                                     </label>
+                                    <button class="dt-button add-new btn btn-primary" type="button"
+                                        @click.prevent="openModal()"><span>Nuevo Personero</span></button>
                                 </div>
                             </div>
                         </div>
@@ -50,72 +51,60 @@
                             <thead>
                                 <tr>
                                     <th class="text-center font-monospace" style="width: 5%;">Items</th>
-                                    <th class="text-center font-monospace" style="width: 8%;">Nombres</th>
-                                    <th class="font-monospace">Dirección</th>
-                                    <th class="font-monospace">Provincia</th>
-                                    <th class="font-monospace">Distrito</th>
-                                    <th class="font-monospace">Corregimiento</th>
+                                    <th class="text-center font-monospace" style="width: 8%;">Nro. Cédula</th>
+                                    <th class="font-monospace">Nombre y apellidos</th>
+                                    <th class="font-monospace">Email</th>
+                                    <th class="font-monospace">Numero Celular</th>
+                                    <th class="font-monospace">Perfil</th>
                                     <th class="text-center font-monospace" style="width: 10%;">Estado</th>
                                     <th class="text-center font-monospace" style="width: 6%;">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
-                                <tr v-for="(item, index) in centros.data" :key="item.id">
+                                <tr v-for="(item,index) in users.data" :key="item.id">
                                     <td class="text-center">
-                                        {{ index + 1 }} 
+                                        {{ index +1 }}
                                     </td>
-                                    <td class="text-center font-monospace">{{ item.nombre }}</td>
-                                    <td class="font-monospace">{{ item.direccion }}</td>
-                                    <td class="font-monospace"> {{ item.provincia_nombre }} </td>
-                                    <td class="font-monospace">{{ item.distrito_nombre }}</td>
-                                    <td class="font-monospace">{{ item.corregimiento_nombre }}</td>
+                                    <td class="text-center font-monospace">{{ item.numero_documento }}</td>
+                                    <td class="font-monospace">{{ item.nombre }} {{ item.apellido_paterno }} {{ item.apellido_materno }}</td>
+                                    <td class="font-monospace">{{item.email  }}</td>
+                                    <td class="font-monospace">{{item.numero_celular  }}</td>
+                                    <td class="font-monospace">{{item.perfiles_nombre  }}</td>
                                     <td class="text-center font-monospace">
-                                        <span v-if="item.estado == 1" class="badge bg-label-success me-1">Activo</span>
+                                        <span v-if="item.isActive == 1" class="badge bg-label-success me-1">Activo</span>
                                         <span v-else class="badge bg-label-danger me-1">Inactivo</span>
                                     </td>
                                     <td class="text-center">
-                                        <button v-if="item.estado == 1" class="btn btn-danger btn-sm"
-                                            @click.prevent="deleteItem(item.centro_votacion_id)"><i
-                                                class="fa-solid fa-trash-can"></i></button>
-                                        <button v-if="item.estado != 1" class="btn btn-success btn-sm"
-                                            @click.prevent="activeItem(item.centro_votacion_id)"><i
-                                                class="fa-solid fa-circle-check"></i></button>
-
-                                                <button class="btn btn-primary btn-sm"
-                                            @click.prevent="openRegistrarSupervisor(item.centro_votacion_id)"><i
-                                                class="fa-solid fa-bars"></i></button>
+                                        <button class="btn btn-primary btn-sm" @click.prevent="openModalEdit(item.id)"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button  v-if="item.isActive == 1" class="btn btn-danger btn-sm" @click.prevent="deleteItem(item.id)"><i class="fa-solid fa-trash-can"></i></button>
+                                        <button  v-if="item.isActive != 1" class="btn btn-success btn-sm" @click.prevent="activeItem(item.id)"><i class="fa-solid fa-circle-check"></i></button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="col-md-12 mt-1 d-flex justify-content-end align-items-center ">
-                        <nav aria-label="Page navigation example" v-if="centros.last_page > 1">
+                        <nav aria-label="Page navigation example" v-if="users.last_page > 1">
                             <ul class="pagination justify-content-center align-items-center">
-                                <li class="page-item" :class="{ 'disabled': centros.current_page === 1 }">
-                                    <a class="page-link" @click.prevent="fetchCentroVotacionList(1)"><i
+                                <li class="page-item" :class="{ 'disabled': users.current_page === 1 }">
+                                    <a class="page-link" @click.prevent="fetchUserList(1)"><i
                                             class="fa fa-fast-backward font-medium-3" aria-hidden="true"></i></a>
                                 </li>
-                                <li class="page-item " :class="{ 'disabled': centros.current_page === 1 }">
-                                    <a class="page-link" @click.prevent="fetchCentroVotacionList(centros.current_page - 1)"><i
+                                <li class="page-item " :class="{ 'disabled': users.current_page === 1 }">
+                                    <a class="page-link" @click.prevent="fetchUserList(users.current_page - 1)"><i
                                             class="fa-solid fa-backward-step"></i></a>
                                 </li>
                                 <li class="page-item" v-for="pageNumber in displayedPages" :key="pageNumber"
-                                    :class="{ 'active': centros.current_page === pageNumber }">
-                                    <a class="page-link" @click.prevent="fetchCentroVotacionList(pageNumber)" href="#">{{
-                                    pageNumber
-                                }}</a>
+                                    :class="{ 'active': users.current_page === pageNumber }">
+                                    <a class="page-link" @click.prevent="fetchUserList(pageNumber)" href="#">{{ pageNumber
+                                    }}</a>
                                 </li>
-                                <li class="page-item"
-                                    :class="{ 'disabled': centros.current_page === centros.last_page }">
-                                    <a class="page-link" href="#"
-                                        @click.prevent="fetchCentroVotacionList(centros.current_page + 1)"><i
+                                <li class="page-item" :class="{ 'disabled': users.current_page === users.last_page }">
+                                    <a class="page-link" href="#" @click.prevent="fetchUserList(users.current_page + 1)"><i
                                             class="fa fa-step-forward font-medium-3" aria-hidden="true"></i></a>
                                 </li>
-                                <li class="page-item"
-                                    :class="{ 'disabled': centros.current_page === centros.last_page }">
-                                    <a class="page-link" href="#"
-                                        @click.prevent="fetchCentroVotacionList(centros.last_page)"><i
+                                <li class="page-item" :class="{ 'disabled': users.current_page === users.last_page }">
+                                    <a class="page-link" href="#" @click.prevent="fetchUserList(users.last_page)"><i
                                             class="fa fa-fast-forward font-medium-3" aria-hidden="true"></i></a>
                                 </li>
                             </ul>
@@ -123,9 +112,7 @@
                     </div>
                 </div>
             </div>
-            <CentroModal ref="RefCentroModal" @data-add="updateTable" />
-            <CentroSupervisorModal ref="RefCentroSupervisorModal" @data-add="updateTable" />
-
+            <PersoneroModal ref="RefPersoneroModal" @data-add="updateTable" />
         </div>
     </div>
 </template>
@@ -133,9 +120,7 @@
 
 <script>
 import Services from '../../services/services';
-import CentroModal from '../modals/centros/CentroModalComponent.vue';
-import CentroSupervisorModal from '../modals/centros/CentroSupervisorModalComponent.vue';
-
+import PersoneroModal from '../modals/personero/PersoneroModalComponent.vue';
 import { debounce } from 'lodash';
 export default {
     props: {
@@ -145,12 +130,11 @@ export default {
         },
     },
     components: {
-        CentroModal,
-        CentroSupervisorModal
+        PersoneroModal
     },
     data() {
         return {
-            centros: {},
+            users: {},
             displayedPages: [],
             error: null,
             searchQuery: '',
@@ -161,24 +145,24 @@ export default {
     },
     computed: {
         totalPages() {
-            return Math.ceil(this.centros.total / this.pageSize);
+            return Math.ceil(this.users.total / this.pageSize);
         }
     },
     mounted() {
-        this.debouncedSearch = debounce(this.fetchCentroVotacionList, 500);
-        this.fetchCentroVotacionList();
-
+        this.debouncedSearch = debounce(this.fetchUserList, 500);
+        this.fetchUserList();
+        
     },
-    methods: {
+    methods: {  
         openModal() {
-            if (this.$refs.RefCentroModal) {
-                this.$refs.RefCentroModal.openCentroModal(0);
+            if (this.$refs.RefPersoneroModal) {
+                this.$refs.RefPersoneroModal.openPersoneroModal(0);
             }
         },
-        async fetchCentroVotacionList(page = 1) {
+        async fetchUserList(page = 1) {
             try {
-                const result = await Services.getListInfo(this.searchQuery, `centro-votacion/list?page=${page}`, this.pageSize);
-                this.centros = result[0];
+                const result = await Services.getListInfo(this.searchQuery, `personero/list?page=${page}`, this.pageSize);
+                this.users = result[0];
                 this.updateDisplayedPages();
             } catch (error) {
                 console.log(error)
@@ -188,8 +172,8 @@ export default {
             const totalDisplayedPages = 6;
             const halfDisplayedPages = Math.floor(totalDisplayedPages / 2);
 
-            let startPage = Math.max(1, this.centros.current_page - halfDisplayedPages);
-            let endPage = Math.min(this.centros.last_page, startPage + totalDisplayedPages - 1);
+            let startPage = Math.max(1, this.users.current_page - halfDisplayedPages);
+            let endPage = Math.min(this.users.last_page, startPage + totalDisplayedPages - 1);
 
             if (endPage - startPage + 1 < totalDisplayedPages) {
                 startPage = Math.max(1, endPage - totalDisplayedPages + 1);
@@ -198,20 +182,14 @@ export default {
             this.displayedPages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
         },
         changePageSize() {
-            this.fetchCentroVotacionList(1);
+            this.fetchUserList(1);
         },
         updateTable() {
-            this.fetchCentroVotacionList();
+            this.fetchUserList();
         },
         openModalEdit(id) {
-            console.log(id)
-            if (this.$refs.RefCentroModal) {
-                this.$refs.RefCentroModal.openCentroModal(id);
-            }
-        },
-        openRegistrarSupervisor(id) {
-            if (this.$refs.RefCentroSupervisorModal) {
-                this.$refs.RefCentroSupervisorModal.openCentroSupervisorModal(id);
+            if (this.$refs.RefPersoneroModal) {
+                this.$refs.RefPersoneroModal.openPersoneroModal(id);
             }
         },
         deleteItem(id) {
@@ -227,10 +205,10 @@ export default {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     try {
-                        const result = await Services.addNewInfo('centro-votacion/delete', { id: id });
+                        const result = await Services.addNewInfo('personero/delete', { id: id });
                         if (result.status) {
                             if (result.result[0].status) {
-                                this.fetchCentroVotacionList();
+                                this.fetchUserList();
                                 this.$swal({
                                     title: "Eliminado!",
                                     text: result.result[0].message,
@@ -246,12 +224,12 @@ export default {
                 }
             });
         },
-        async activeItem(id) {
+        async activeItem(id){
             try {
-                const result = await Services.addNewInfo('centro-votacion/active', { id: id });
+                const result = await Services.addNewInfo('personero/active', { id: id });
                 if (result.status) {
                     if (result.result[0].status) {
-                        this.fetchCentroVotacionList();
+                        this.fetchUserList();
                     }
                 } else {
                     this.errors = result.result;

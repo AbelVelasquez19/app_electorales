@@ -13,37 +13,44 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class UserioController extends Controller
+class PersoneroController extends Controller
 {
     public function index(){
-        return view('page.user');
+        return view('page.personero');
     }
 
     public function getListUsers(Request $request){
         $query = $request->input('q');
-        
         $pageSize = $request->input('pageSize', 10);
-
-        $users = User::join('personas','personas.id','=','users.persona_id')
-        ->join('perfiles','perfiles.id','=','users.perfil_id')
-        ->select('users.id',
-                 'users.isActive',
-                 'users.email',
-                 'users.numero_celular',
-                 'personas.id as persona_id',
-                 'personas.numero_documento',
-                 'personas.nombre as persona_nombre',
-                 'personas.apellido_paterno',
-                 'personas.apellido_materno',
-                 'perfiles.id as perfiles_id',
-                 'perfiles.nombre as perfiles_nombre',
-        )
-            ->where('personas.numero_documento', 'like', "%$query%")
-            ->orWhere('personas.nombre', 'like', "%$query%")
-            ->orWhere('personas.apellido_paterno', 'like', "%$query%")
-            ->orWhere('personas.apellido_materno', 'like', "%$query%")
-            ->orderBy('users.id', 'desc')
-            ->paginate($pageSize);
+        
+        $users = User::join('personas', 'personas.id', '=', 'users.persona_id')
+            ->join('perfiles', 'perfiles.id', '=', 'users.perfil_id')
+            ->select('users.id',
+                     'users.isActive',
+                     'users.email',
+                     'users.numero_celular',
+                     'personas.id as persona_id',
+                     'personas.numero_documento',
+                     'personas.nombre as persona_nombre',
+                     'personas.apellido_paterno',
+                     'personas.apellido_materno',
+                     'perfiles.id as perfiles_id',
+                     'perfiles.nombre as perfiles_nombre'
+            )
+            ->where('users.sub_usuario', Auth::user()->id)
+            ->where('users.perfil_id', 3);
+        
+        if (!empty($query)) {
+            $users->where(function ($queryBuilder) use ($query) {
+                $queryBuilder->where('personas.numero_documento', 'like', '%' . $query . '%')
+                             ->orWhere('personas.nombre', 'like', '%' . $query . '%')
+                             ->orWhere('personas.apellido_paterno', 'like', '%' . $query . '%')
+                             ->orWhere('personas.apellido_materno', 'like', '%' . $query . '%');
+            });
+        }
+        
+        $users = $users->orderBy('users.id', 'desc')
+                       ->paginate($pageSize);
         return response()->json($users);
     }
 
@@ -91,6 +98,7 @@ class UserioController extends Controller
             }
                 $person->perfil_id=$request->profile_id;
                 $person->persona_id=$request->person_id;
+                $person->sub_usuario=Auth::user()->id;
                 $person->email = e(strtoupper(trim($request->user_name)));
                 $person->password = Hash::make($request->password);
                 $person->numero_celular = e(strtoupper(trim($request->celular)));
@@ -128,6 +136,7 @@ class UserioController extends Controller
             }else{
                 $person = User::where('id','=',$request->id)->first();
                 $person->perfil_id=$request->profile_id;
+                $person->sub_usuario=Auth::user()->id;
                 $person->persona_id=$request->person_id;
                 $person->email = e(strtoupper(trim($request->user_name)));
                 $person->password = Hash::make($request->password);
@@ -182,7 +191,7 @@ class UserioController extends Controller
 
     public function getListProfile(){
         try {
-            $profile = Perfil::where('status','=',1)->where('id','<>','3')->get();
+            $profile = Perfil::where('status','=',1)->get();
             return response()->json($profile);
         } catch (\Throwable $th) {
             throw $th;
