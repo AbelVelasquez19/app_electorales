@@ -8,14 +8,16 @@ use App\Models\CentroVotacion;
 use App\Models\Mesa;
 use App\Models\MesaPersonero;
 use App\Models\User;
+use App\Traits\Acces;
 use Illuminate\Support\Facades\DB;
 
 class MesaController extends Controller
 {
-
+    use Acces;
     public function index()
     {
-        return view('page.mesa.index');
+        $menusPrin = $this->getMenus();
+        return view('page.mesa.index',compact('menusPrin'));
     }
 
 

@@ -4,15 +4,18 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\PartidoPolitico;
+use App\Traits\Acces;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class PartidoPoliticoController extends Controller
 {
+    use Acces; 
     public function index()
     {
-        return view('page.partidoPolitico.index');
+        $menusPrin = $this->getMenus();
+        return view('page.partidoPolitico.index',compact('menusPrin'));
     }
 
 

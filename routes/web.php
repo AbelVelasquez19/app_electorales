@@ -10,6 +10,8 @@ use App\Http\Controllers\Web\MesaController;
 use App\Http\Controllers\Web\PartidoPoliticoController;
 use App\Http\Controllers\Web\PersonaController;
 use App\Http\Controllers\Web\PersoneroController;
+use App\Http\Controllers\Web\ProfileController;
+use App\Http\Controllers\Web\RoleController;
 use App\Http\Controllers\Web\UbigeoController;
 use App\Http\Controllers\Web\UserioController;
 use Illuminate\Support\Facades\Route;
@@ -172,6 +174,40 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/active', 'postActiveUser');
             Route::get('/profile', 'getListProfile');
             Route::post('/person', 'getPersona');
+        });
+    });
+
+    Route::prefix('profile')->group(function () {
+        Route::controller(ProfileController::class)->group(function () {
+            Route::get('/', 'index')->name('profile.index');
+            Route::get('/list', 'getListProfile');
+            Route::post('/show', 'postShowProfile');
+            Route::post('/add', 'postAddProfile');
+            Route::post('/update', 'postUpdateProfile');
+            Route::post('/delete', 'postDeleteProfile');
+            Route::post('/active', 'postActiveProfile');
+            Route::get('/list-role', 'getListRoles');
+        });
+    });
+
+    Route::prefix('role')->group(function () {
+        Route::controller(RoleController::class)->group(function () {
+            Route::get('/', 'index')->name('role.index');
+            Route::get('/list', 'getListRole');
+            Route::post('/show', 'postShowRole');
+            Route::post('/add', 'postAddRole');
+            Route::post('/update', 'postUpdateRole');
+            Route::post('/delete', 'postDeleteRole');
+            Route::post('/active', 'postActiveRole');
+            Route::post('/sub-role', 'getListSubRole');
+            Route::post('/delete/sub-role', 'postDeleteRoleSubRole');
+            Route::post('/sub-role/add', 'postSubRole');
+        });
+    });
+    
+    Route::prefix('permisos')->group(function () {
+        Route::controller(RoleController::class)->group(function () {
+            Route::get('/', 'index')->name('permisos.index');
         });
     });
 });

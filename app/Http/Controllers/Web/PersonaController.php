@@ -7,14 +7,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PersonValidateRegister;
 use App\Http\Requests\PersonValidateUpdate;
 use App\Models\Person;
+use App\Traits\Acces;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PersonaController extends Controller
 {
+    use Acces;
     public function index(){
-        return view('page.persona');
+        $menusPrin = $this->getMenus();
+        return view('page.persona', compact('menusPrin'));
     }
 
     public function getListUsers(Request $request){

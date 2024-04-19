@@ -89,88 +89,30 @@
           </div>
 
           <div class="menu-inner-shadow"></div>
-
           <ul class="menu-inner py-1">
-            <li class="menu-item active">
-                <a href="{{route('dashboard')}}" class="menu-link">
-                  <i class="menu-icon tf-icons ti ti-mail"></i>
-                  <div data-i18n="Dashboards">Dashboards</div>
+            @foreach($menusPrin as $menuPrin) 
+            @if($menuPrin->estado_sub_menu != 2)
+                <li class="menu-item {{ Route::currentRouteName() === $menuPrin->url ? 'active' : '' }}">
+                <a href="{{ !empty($menuPrin->url) ? route($menuPrin->url) : '#' }}" class="menu-link {{$menuPrin->estado_sub_menu==0 ? 'menu-toggle mt-1' : ''}}"> 
+                    <i class="menu-icon tf-icons ti ti-smart-home text-white"></i>
+                    <div class="text-white">{{$menuPrin->nombre}}</div>
                 </a>
-            </li>
-            <!-- Dashboards -->
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ti ti-smart-home"></i>
-                <div data-i18n="Actas">Actas</div>
-                <div class="badge bg-label-primary rounded-pill ms-auto">3</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="{{route('actas')}}" class="menu-link">
-                    <div data-i18n="Actas validas">Actas válidas</div>
-                  </a>
+                @if($menuPrin->estado_sub_menu == 0)
+                <ul class="menu-sub">
+                    @foreach($menusPrin as $subMenu)
+                        @if($subMenu->estado_sub_menu == 2 && $subMenu->sub_role == $menuPrin->id)
+                        <li class="menu-item {{ Route::currentRouteName() === $subMenu->url ? 'active' : '' }}"> 
+                            <a href="{{ !empty($subMenu->url) ? route($subMenu->url) : '#' }}" class="menu-link">
+                                <div class="text-white">{{$subMenu->nombre}}</div>
+                            </a>
+                        </li>
+                        @endif
+                    @endforeach
+                </ul>
+                @endif
                 </li>
-                <li class="menu-item">
-                  <a href="index.html" class="menu-link">
-                    <div data-i18n="Actas observadas">Actas observadas</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="menu-item">
-              <a href="{{route('maps')}}" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-mail"></i>
-                <div data-i18n="Mapa">Mapa</div>
-              </a>
-          </li>
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ti ti-smart-home"></i>
-                <div data-i18n="Accesos">Accesos</div>
-                <div class="badge bg-label-primary rounded-pill ms-auto">3</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="{{route('persona')}}" class="menu-link">
-                    <div data-i18n="Personas">Personas</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="{{route('user')}}" class="menu-link">
-                    <div data-i18n="Usuarios">Usuarios</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="{{route('personeros')}}" class="menu-link">
-                    <div data-i18n="Personeros">Personeros</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ti ti-smart-home"></i>
-                <div data-i18n="Configuración">Configuración</div>
-                <div class="badge bg-label-primary rounded-pill ms-auto">3</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="{{route('partido-politico.index')}}" class="menu-link">
-                    <div data-i18n="Partido político">Partido político</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="{{route('centro-votacion.index')}}" class="menu-link">
-                    <div data-i18n="Centro de votación" >Centro de votación</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="{{route('mesa.index')}}" class="menu-link">
-                    <div data-i18n="Mesa" >Mesa</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
+                @endif
+            @endforeach
           </ul>
         </aside>
         <!-- / Menu -->

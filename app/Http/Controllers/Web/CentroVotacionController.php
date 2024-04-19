@@ -6,14 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\CentroVotacion;
 use App\Models\CentroVotacionSupervisor;
 use App\Models\User;
+use App\Traits\Acces;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CentroVotacionController extends Controller
 {
+    use Acces;
     public function index()
     {
-        return view('page.centroVotacion.index');
+        $menusPrin = $this->getMenus();
+        return view('page.centroVotacion.index',compact('menusPrin'));
     }
     //ok
     public function getListCentros(Request $request)

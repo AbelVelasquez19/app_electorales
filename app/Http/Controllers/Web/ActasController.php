@@ -13,13 +13,16 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\Persona;
+use App\Traits\Acces;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Stmt\TryCatch;
 
 class ActasController extends Controller
 {
+    use Acces;
     public function index(){
-        return view('page.actas');
+        $menusPrin = $this->getMenus();
+        return view('page.actas',compact('menusPrin'));
     }
 
     public function getListPartidoPoliticos(Request $request)

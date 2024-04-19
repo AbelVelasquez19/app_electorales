@@ -5,13 +5,16 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CentroVotacionRegister;
 use App\Models\CentroVotacion;
+use App\Traits\Acces;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class MapsController extends Controller
 {
+    use Acces;
     public function index(){
-        return view('page.maps');
+        $menusPrin = $this->getMenus();
+        return view('page.maps',compact('menusPrin'));
     }
 
     public function getListCentroVotacion(){

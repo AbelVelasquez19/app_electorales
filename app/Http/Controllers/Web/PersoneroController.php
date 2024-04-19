@@ -8,6 +8,7 @@ use App\Http\Requests\UserValidateUpdate;
 use App\Models\Perfil;
 use App\Models\Person;
 use App\Models\User;
+use App\Traits\Acces;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,8 +16,10 @@ use Illuminate\Support\Facades\Hash;
 
 class PersoneroController extends Controller
 {
+    use Acces;
     public function index(){
-        return view('page.personero');
+        $menusPrin = $this->getMenus();
+        return view('page.personero',compact('menusPrin'));
     }
 
     public function getListUsers(Request $request){
