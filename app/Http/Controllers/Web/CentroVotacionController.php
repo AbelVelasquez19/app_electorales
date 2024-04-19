@@ -273,6 +273,7 @@ class CentroVotacionController extends Controller
             throw $th;
         }
     }
+    
 
     public function postActiveCentroVoatacion(Request $request)
     {
