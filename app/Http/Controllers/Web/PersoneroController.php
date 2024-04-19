@@ -20,9 +20,10 @@ use Illuminate\Support\Facades\Hash;
 class PersoneroController extends Controller
 {
     use Acces;
-    public function index(){
+    public function index()
+    {
         $menusPrin = $this->getMenus();
-        return view('page.personero',compact('menusPrin'));
+        return view('page.personero', compact('menusPrin'));
     }
 
     public function getListUsers(Request $request)
@@ -225,7 +226,7 @@ class PersoneroController extends Controller
         $centro_id = $request->input('centro_id');
 
         $mesas = Mesa::select('mesa.nombre', 'mesa.id')
-        ->join('centro_votacion', 'centro_votacion.id', '=', 'mesa.centro_votacion_id');
+            ->leftjoin('centro_votacion', 'centro_votacion.id', '=', 'mesa.centro_votacion_id');
 
         if ($provincia_id) {
             // Agregar una condición WHERE si se proporciona el parámetro persona_id
@@ -240,12 +241,17 @@ class PersoneroController extends Controller
             $mesas->where('mesa.centro_votacion_id', $centro_id);
         }
 
-        // Filtrando las mesas donde la persona no esté registrada
-        $mesas->leftJoin('personero_mesa', function ($join) use ($persona_id) {
-            $join->on('mesa.id', '=', 'personero_mesa.mesa_id')
-                ->where('personero_mesa.personero_id', '=', $persona_id);
-        })
-            ->whereNull('personero_mesa.mesa_id');
+        // // Filtrando las mesas donde la persona no esté registrada
+        // $mesas->leftJoin('personero_mesa', function ($join) use ($persona_id) {
+        //     $join->on('mesa.id', '=', 'personero_mesa.mesa_id')
+        //         ->where('personero_mesa.personero_id', '=', $persona_id);
+        // })
+        //     ->whereNull('personero_mesa.mesa_id');
+        // Filtrar mesas que no tienen asignado ningún personero
+        $mesas->whereNotIn('mesa.id', function ($query) {
+            $query->select('mesa_id')
+                ->from('personero_mesa');
+        });
 
         $mesas = $mesas->get();
 
