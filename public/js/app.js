@@ -47969,7 +47969,7 @@ var staticRenderFns = [
             staticClass: "text-center font-monospace",
             staticStyle: { width: "8%" },
           },
-          [_vm._v("NOMBRES Y APELLIDOS")]
+          [_vm._v("N° Documento")]
         ),
         _vm._v(" "),
         _c("th", { staticClass: "font-monospace" }, [_vm._v("Nombre")]),

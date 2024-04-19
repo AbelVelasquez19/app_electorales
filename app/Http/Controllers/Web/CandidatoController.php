@@ -36,10 +36,10 @@ class CandidatoController extends Controller
             'personas.nombre',
             'personas.apellido_paterno',
             'personas.apellido_materno',
-
-
         )
-            // ->where('persona_id', 'like', "%$query%")
+            ->where('personas.nombre', 'like', "%$query%")
+            ->orWhere('personas.apellido_paterno', 'like', "%$query%")
+            ->orWhere('personas.apellido_materno', 'like', "%$query%")
             ->leftjoin('personas', 'candidatos.persona_id', '=', 'personas.id')
 
             ->orderBy('candidatos.id', 'desc')->paginate($pageSize);

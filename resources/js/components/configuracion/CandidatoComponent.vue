@@ -52,7 +52,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center font-monospace" style="width: 5%;">Items</th>
-                                    <th class="text-center font-monospace" style="width: 8%;">NOMBRES Y APELLIDOS</th>
+                                    <th class="text-center font-monospace" style="width: 8%;">N° Documento</th>
                                     <th class="font-monospace">Nombre</th>
                                     <th class="font-monospace">Apellidos</th>
                                     <th class="font-monospace">Orden</th>
