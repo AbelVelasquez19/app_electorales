@@ -85,6 +85,9 @@
 
 
 
+
+
+                                                
                                         <button v-if="item.estado == 1" class="btn btn-danger btn-sm"
                                             @click.prevent="deleteItem(item.mesa_id)"><i
                                                 class="fa-solid fa-trash-can"></i></button>

@@ -33,6 +33,8 @@
 
                             <div class="col-md-6">
                                 <div class="me-1">
+
+                                    
                                     <div class="dataTables_filter">
                                         <label>Número: </label>
                                         <input type="number" placeholder="número mesa" v-model="mesa.numero"

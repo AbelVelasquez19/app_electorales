@@ -13,6 +13,7 @@
                         <legend>Ingresar informacion del Centro de votación</legend>
 
 
+                        
 
                         <div class="row mb-1">
 
