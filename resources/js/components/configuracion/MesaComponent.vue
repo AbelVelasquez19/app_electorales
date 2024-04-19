@@ -92,9 +92,9 @@
                                             @click.prevent="activeItem(item.mesa_id)"><i
                                                 class="fa-solid fa-circle-check"></i></button>
 
-                                        <button class="btn btn-primary btn-sm"
+                                        <!-- <button class="btn btn-primary btn-sm"
                                             @click.prevent="openRegistrarPersonero(item.mesa_id)"><i
-                                                class="fa-solid fa-bars"></i></button>
+                                                class="fa-solid fa-bars"></i></button> -->
 
                                     </td>
 
