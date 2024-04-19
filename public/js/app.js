@@ -4457,6 +4457,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -52697,6 +52703,27 @@ var render = function () {
                           ),
                         ]),
                         _vm._v(" "),
+                        _c("td", { staticClass: "font-monospace" }, [
+                          _vm._v(_vm._s(item.email)),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "font-monospace" }, [
+                          _vm._v(
+                            "(" +
+                              _vm._s(item.codigo_pais) +
+                              ")" +
+                              _vm._s(item.celular)
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "font-monospace" }, [
+                          _c(
+                            "span",
+                            { staticClass: "badge bg-label-success me-1" },
+                            [_vm._v(_vm._s(item.nombre_perfil))]
+                          ),
+                        ]),
+                        _vm._v(" "),
                         _c(
                           "td",
                           { staticClass: "text-center font-monospace" },
@@ -53034,6 +53061,12 @@ var staticRenderFns = [
         _c("th", { staticClass: "font-monospace" }, [_vm._v("Nombre")]),
         _vm._v(" "),
         _c("th", { staticClass: "font-monospace" }, [_vm._v("Apellidos")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-monospace" }, [_vm._v("Correo")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-monospace" }, [_vm._v("Celular")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-monospace" }, [_vm._v("Perfil")]),
         _vm._v(" "),
         _c(
           "th",

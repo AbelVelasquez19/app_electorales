@@ -84,20 +84,19 @@ class ActasController extends Controller
                         inner join personas p on u.persona_id = p.id 
                         where u.id = ".Auth::user()->id."
                         group by u.id,u.sub_usuario,p.id,  concat(p.nombre,' ',p.apellido_paterno,' ',p.apellido_materno)");
-
+       
         //supervisor                        
         $supervisor = DB::select("select u.id as user_id, p.id as persona_id, concat(p.nombre,' ',p.apellido_paterno,' ',p.apellido_materno)as supervisor from users u
                                 inner join personas p on u.persona_id = p.id 
                                 where u.id =".$personero[0]->sub_usuario);
-
+        
         //centro de votacion                        
         $centroVotacion = DB::select("select cv.id,cvs.supervisor_id,cvs.centro_votacion_id,cv.nombre  from centro_votacion_supervisor cvs
                                 inner join centro_votacion cv on cvs.centro_votacion_id = cv.id 
                                 where cvs.supervisor_id =".$supervisor[0]->user_id);
-
+       
         //mesa
         $mesa = DB::select("select * from mesa m where m.estado=1 and m.centro_votacion_id = ".$centroVotacion[0]->centro_votacion_id);  
-        
         return response()->json([
             'personero'=>$personero,
             'supervisor'=>$supervisor,

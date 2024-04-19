@@ -54,6 +54,9 @@
                                     <th class="text-center font-monospace" style="width: 8%;">Nro. Cédula</th>
                                     <th class="font-monospace">Nombre</th>
                                     <th class="font-monospace">Apellidos</th>
+                                    <th class="font-monospace">Correo</th>
+                                    <th class="font-monospace">Celular</th>
+                                    <th class="font-monospace">Perfil</th>
                                     <th class="text-center font-monospace" style="width: 10%;">Estado</th>
                                     <th class="text-center font-monospace" style="width: 6%;">Opciones</th>
                                 </tr>
@@ -66,6 +69,9 @@
                                     <td class="text-center font-monospace">{{ item.numero_documento }}</td>
                                     <td class="font-monospace">{{ item.nombre }}</td>
                                     <td class="font-monospace">{{ item.apellido_paterno }} {{ item.apellido_materno }}</td>
+                                    <td class="font-monospace">{{ item.email }}</td>
+                                    <td class="font-monospace">({{ item.codigo_pais }}){{ item.celular }}</td>
+                                    <td class="font-monospace"><span class="badge bg-label-success me-1">{{ item.nombre_perfil }}</span></td>
                                     <td class="text-center font-monospace">
                                         <span v-if="item.estado == 1" class="badge bg-label-success me-1">Activo</span>
                                         <span v-else class="badge bg-label-danger me-1">Inactivo</span>

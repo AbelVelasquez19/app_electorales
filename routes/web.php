@@ -13,7 +13,7 @@ use App\Http\Controllers\Web\PersoneroController;
 use App\Http\Controllers\Web\ProfileController;
 use App\Http\Controllers\Web\RoleController;
 use App\Http\Controllers\Web\UbigeoController;
-use App\Http\Controllers\Web\UserioController;
+use App\Http\Controllers\Web\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,7 +54,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::prefix('user')->group(function () {
-        Route::controller(UserioController::class)->group(function () {
+        Route::controller(UsuarioController::class)->group(function () {
             Route::get('/', 'index')->name('user');
             Route::post('/add', 'agregarUser');
             Route::get('/list', 'getListUsers');
