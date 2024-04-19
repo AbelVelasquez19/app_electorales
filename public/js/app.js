@@ -7276,7 +7276,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     closepersonaModal: function closepersonaModal() {
-      this.user.id = 0;
+      this.centro.id = 0;
       $("#centroSupervisorModal").modal("hide");
       this.clearInput();
       this.errors = null;
@@ -48872,22 +48872,6 @@ var render = function () {
                                 ]
                               )
                             : _vm._e(),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-primary btn-sm",
-                              on: {
-                                click: function ($event) {
-                                  $event.preventDefault()
-                                  return _vm.openRegistrarPersonero(
-                                    item.mesa_id
-                                  )
-                                },
-                              },
-                            },
-                            [_c("i", { staticClass: "fa-solid fa-bars" })]
-                          ),
                         ]),
                       ])
                     }),

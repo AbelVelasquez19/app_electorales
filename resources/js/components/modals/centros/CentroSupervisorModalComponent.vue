@@ -309,7 +309,7 @@ export default {
         },
 
         closepersonaModal() {
-            this.user.id = 0;
+            this.centro.id = 0;
             $("#centroSupervisorModal").modal("hide");
             this.clearInput();
             this.errors = null;
