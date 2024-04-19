@@ -18,7 +18,6 @@ class CentroVotacionController extends Controller
         $menusPrin = $this->getMenus();
         return view('page.centroVotacion.index',compact('menusPrin'));
     }
-    //ok
     public function getListCentros(Request $request)
     {
         $query = $request->input('q');

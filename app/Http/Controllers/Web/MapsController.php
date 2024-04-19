@@ -43,7 +43,8 @@ class MapsController extends Controller
     }
 
     public function getNewCentroVotacion(){
-        return view('page.centroVotacionNuevo');
+        $menusPrin = $this->getMenus();
+        return view('page.centroVotacionNuevo',compact('menusPrin'));
     }
 
     public function guardarCentroCosto(CentroVotacionRegister $request){

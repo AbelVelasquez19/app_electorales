@@ -20,13 +20,10 @@ class MesaController extends Controller
         return view('page.mesa.index',compact('menusPrin'));
     }
 
-
     public function getListMesas(Request $request)
     {
         $query = $request->input('q');
-
         $pageSize = $request->input('pageSize', 10);
-        // return $candidatos = Cantidato::all();
         $candidatos = Mesa::select(
             'mesa.id as mesa_id',
             'mesa.nombre',
@@ -39,16 +36,12 @@ class MesaController extends Controller
         )
             ->leftjoin('centro_votacion', 'mesa.centro_votacion_id', '=', 'centro_votacion.id')
             ->orderBy('mesa.id', 'desc')->paginate($pageSize);
-
-        // Actualizar la colección de resultados paginados con la colección modificada
         return response()->json($candidatos);
     }
-
 
     public function getListCentrosVotacion()
     {
         $centros_votacion = CentroVotacion::get();
-
         return response()->json($centros_votacion);
     }
 
@@ -67,33 +60,22 @@ class MesaController extends Controller
         )
             ->leftjoin('centro_votacion', 'mesa.centro_votacion_id', '=', 'centro_votacion.id')
             ->where('mesa.id', '=', $query)->first();
-        // Modificar el logo si está definido
-
         return response()->json($mesa);
     }
-
-
 
     public function agregarMesa(Request $request)
     {
         try {
             DB::beginTransaction();
-
             $nombre_input = $request->input('nombre');
             $numero_input = $request->input('numero');
             $centro_votacion_id_input = $request->input('centro_votacion_id');
             $cantidad_votantes_input = $request->input('cantidad_votantes');
-
-
-
-
             $mesa = new Mesa();
             $mesa->nombre = $nombre_input;
             $mesa->numero = $numero_input;
-
             $mesa->centro_votacion_id = $centro_votacion_id_input;
             $mesa->cantidad_votantes = $cantidad_votantes_input;
-
             if ($mesa->save()) {
                 $mesa_id = $mesa->id;
                 DB::commit();
@@ -124,11 +106,8 @@ class MesaController extends Controller
             $mesa = Mesa::where('id', '=', $request->id)->first();
             $mesa->nombre = $nombre_input;
             $mesa->numero = $numero_input;
-
             $mesa->centro_votacion_id = $centro_votacion_id_input;
             $mesa->cantidad_votantes = $cantidad_votantes_input;
-
-
             if ($mesa->save()) {
                 $mesa_id = $mesa->id;
                 DB::commit();
@@ -147,10 +126,8 @@ class MesaController extends Controller
         }
     }
 
-
     public function getListPersoneros(Request $request)
     {
-
         $mesa_id = $request->input('mesa_id');
         $personeros =  User::join('personas', 'personas.id', '=', 'users.persona_id')
             ->join('perfiles', 'perfiles.id', '=', 'users.perfil_id')
@@ -167,8 +144,6 @@ class MesaController extends Controller
                 'perfiles.id as perfiles_id',
                 'perfiles.nombre as perfiles_nombre',
             )
-            // ->where('users.perfil_id', 3)->get();
-
             ->where('users.perfil_id', 3)
             ->whereNotExists(function ($query) use ($mesa_id) {
                 $query->select(DB::raw(1))
@@ -177,8 +152,6 @@ class MesaController extends Controller
                     ->where('personero_mesa.mesa_id', $mesa_id);
             })
             ->get();
-
-            
         return response()->json($personeros);
     }
 
@@ -186,16 +159,11 @@ class MesaController extends Controller
     {
         try {
             DB::beginTransaction();
-
-
             $personero_id_input = $request->input('personero_id');
             $mesa_id_input = $request->input('id');
-
-
             $mesa_personero = new MesaPersonero();
             $mesa_personero->personero_id = $personero_id_input;
             $mesa_personero->mesa_id = $mesa_id_input;
-
             if ($mesa_personero->save()) {
                 $mesa_personero_id = $mesa_personero->id;
                 DB::commit();
@@ -214,15 +182,11 @@ class MesaController extends Controller
         }
     }
 
-
     public function getListMesaPersonero(Request $request)
     {
-
         $query = $request->input('q');
         $mesa_id = $request->input('mesa_id');
-
         $pageSize = $request->input('pageSize', 10);
-        // return $candidatos = Cantidato::all();
         $mesa_personeros = MesaPersonero::select(
             'personas.nombre',
             'personas.apellido_paterno',
@@ -230,16 +194,10 @@ class MesaController extends Controller
             'personero_mesa.id',
             'personero_mesa.estado',
         )
-            ->leftjoin('users', 'personero_mesa.personero_id', '=', 'users.id')
-            // ->leftjoin('personas', 'personero_mesa.personero_id', '=', 'personas.id')
-            ->leftjoin('personas','personas.id','=','users.persona_id')
-            ->where('personero_mesa.mesa_id', $mesa_id)
-            ->orderBy('personero_mesa.id', 'desc')->paginate($pageSize);
-        //    return $mesa_personeros;
-
-
-        // Actualizar la colección de resultados paginados con la colección modificada
-
+        ->leftjoin('users', 'personero_mesa.personero_id', '=', 'users.id')
+        ->leftjoin('personas','personas.id','=','users.persona_id')
+        ->where('personero_mesa.mesa_id', $mesa_id)
+        ->orderBy('personero_mesa.id', 'desc')->paginate($pageSize);
         return response()->json($mesa_personeros);
     }
 
@@ -258,6 +216,7 @@ class MesaController extends Controller
             throw $th;
         }
     }
+
     public function postActiveMesaPersonero(Request $request)
     {
         try {
