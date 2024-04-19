@@ -20,7 +20,9 @@
 
                                     <div class="col-md-12">
                                         <label>PERSONEROS: </label>
-                                        <select class="form-select" v-model="mesa.personero_id"
+                                        <select id="personero_id"
+                                            class="select2 form-select form-select-sm form-select-lg"
+                                            v-model="mesa.personero_id"
                                             :class="errors != null && errors.personero_id ? 'is-invalid' : ''">
                                             <option value="" selected disabled>--seleccionar--</option>
                                             <option v-for="personero in personerosList" :key="personero.id"
@@ -30,6 +32,11 @@
                         personero.apellido_paterno }} {{
                         personero.apellido_materno }} </option>
                                         </select>
+                                        <!-- <v-select :options="personerosList" v-model="mesa.personero_id" label="persona_nombre" index="id">
+¿                                        </v-select> -->
+                                        <!-- <v-select :options="personerosList" v-model="mesa.personero_id"
+                                            label="persona_nombre" item-value="id" >
+                                        </v-select> -->
                                         <span v-if="errors != null && errors.personero_id" class="text-danger">{{
                         errors.personero_id[0] }}</span>
                                     </div>
@@ -217,14 +224,21 @@
 <script>
 import Services from '../../../services/services';
 import { debounce } from 'lodash';
+import "vue-select/dist/vue-select.css";
+
+import VueSelect from 'vue-select';
 
 export default {
     components: {
-
+        VueSelect
     },
     data() {
         return {
-
+            options: [
+                { value: 'option1', label: 'Option 1' },
+                { value: 'option2', label: 'Option 2' },
+                { value: 'option3', label: 'Option 3' }
+            ],
             centro: {
                 id: 0,
                 personero_id: '',
@@ -265,13 +279,18 @@ export default {
             pageSize: 5,
             error: null,
             displayedPages: [],
-            personerosList: {}
+            personerosList: []
 
         }
     },
     mounted() {
         this.debouncedSearch = debounce(this.fetchUserList, 500);
         this.fetchUserList();
+
+        // $('#personero_id').select2();
+        // $('#personero_id').on('select2:select', () => {
+        //         this.mesa.personero_id = $('#personero_id').val();
+        //     });
     },
     methods: {
         async openMesaPersoneroModal(id) {
@@ -280,7 +299,7 @@ export default {
             this.getProvinces();
             this.getListCodigoPais();
             this.getTipoDocumentos();
-            this.getPersoneros();
+            this.getPersoneros(id);
 
 
             if (id != 0) {
@@ -299,7 +318,7 @@ export default {
 
 
 
-                    
+
                     this.fetchUserList();
 
                 } catch (error) {
@@ -317,9 +336,9 @@ export default {
             this.errors = null;
         },
 
-        async getPersoneros() {
+        async getPersoneros(id) {
             try {
-                const result = await Services.getAll('mesa/list-personeros');
+                const result = await Services.getAll(`mesa/list-personeros?mesa_id=` + id);
                 this.personerosList = result
             } catch (error) {
                 return error;
@@ -390,6 +409,7 @@ export default {
                         // $("#mesaPersoneroModal").modal("hide");
                         this.$toast.success(result.result[0].message);
                         // this.$emit('data-add');
+                        this.getPersoneros();
                         this.fetchUserList();
                     } else {
                         this.$toast.error(result.result[0].message);
@@ -505,3 +525,5 @@ export default {
     },
 }
 </script>
+
+<style src="vue-select/dist/vue-select.css"></style>

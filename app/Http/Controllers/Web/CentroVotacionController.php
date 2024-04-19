@@ -55,16 +55,28 @@ class CentroVotacionController extends Controller
     public function postShowCentroSupervisor(Request $request)
     {
         $query = $request->input('params');
-        $resultado = CentroVotacionSupervisor::join('users as u', 'centro_votacion_supervisor.supervisor_id', '=', 'u.id')
-        ->join('personas as p', 'u.persona_id', '=', 'p.id')
-        ->join('centro_votacion as cv', 'centro_votacion_supervisor.centro_votacion_id', '=', 'cv.id')
-        ->select(DB::raw('CONCAT(p.nombre, " ", p.apellido_paterno, " ", p.apellido_materno) AS personero'),
-                'p.id as supervisor_id',
-                'p.estado',
-                'centro_votacion_supervisor.id as centro_votacion_id')
-        ->where('cv.id', $query)
-        ->get();
-        return response()->json($resultado);
+        $centro = CentroVotacion::select(
+            'centro_votacion.id as centro_votacion_id',
+            'centro_votacion.nombre',
+            'centro_votacion.direccion',
+            'centro_votacion.provincia_id',
+            'distrito',
+            'corregimiento_id',
+            'latitud',
+            'longitud',
+            'centro_votacion.estado',
+            'provincia.nombre as provincia_nombre',
+            'distrito.nombre as distrito_nombre',
+            'corregimiento.nombre as corregimiento_nombre',
+        )
+            // ->where('persona_id', 'like', "%$query%")
+            ->leftjoin('provincia', 'centro_votacion.provincia_id', '=', 'provincia.id')
+            ->leftjoin('distrito', 'centro_votacion.distrito', '=', 'distrito.id')
+            ->leftjoin('corregimiento', 'centro_votacion.corregimiento_id', '=', 'corregimiento.id')
+            ->where('centro_votacion.id', '=', $query)->first();
+        // Modificar el logo si está definido
+
+        return response()->json($centro);
     }
 
     public function getListCentroSupervidores(Request $request)
@@ -80,7 +92,9 @@ class CentroVotacionController extends Controller
             'centro_votacion_supervisor.estado',
 
         )
-        ->leftjoin('personas', 'centro_votacion_supervisor.supervisor_id', '=', 'personas.id')
+        ->leftjoin('users', 'centro_votacion_supervisor.supervisor_id', '=', 'users.id')
+        ->leftjoin('personas','personas.id','=','users.persona_id')
+
         ->where('centro_votacion_supervisor.centro_votacion_id', $centro_id)
         ->orderBy('centro_votacion_supervisor.id', 'desc')->paginate($pageSize);
 
@@ -88,10 +102,12 @@ class CentroVotacionController extends Controller
     }
 
 
-    public function getListSupervisores()
+    public function getListSupervisores(Request $request)
     {
-        $supervisores =  User::join('personas', 'personas.id', '=', 'users.persona_id')
+        /*$supervisores =  User::join('personas', 'personas.id', '=', 'users.persona_id')
             ->join('perfiles', 'perfiles.id', '=', 'users.perfil_id')
+            ->leftJoin('centro_votacion_supervisor', 'users.id', '=', 'centro_votacion_supervisor.supervisor_id')
+
             ->select(
                 'users.id',
                 'users.isActive',
@@ -104,7 +120,37 @@ class CentroVotacionController extends Controller
                 'personas.apellido_materno',
                 'perfiles.id as perfiles_id',
                 'perfiles.nombre as perfiles_nombre',
-            )->where('users.perfil_id', 2)->get();
+            )->where('users.perfil_id', 2)->whereNull('centro_votacion_supervisor.user_id')
+
+            
+            ->get();*/
+            $centro_id = $request->input('centro_id'); // Cambia esto al ID del centro de votación deseado
+
+            $supervisores = User::join('personas', 'personas.id', '=', 'users.persona_id')
+                ->join('perfiles', 'perfiles.id', '=', 'users.perfil_id')
+                ->leftJoin('centro_votacion_supervisor', function ($join) use ($centro_id) {
+                    $join->on('users.id', '=', 'centro_votacion_supervisor.supervisor_id')
+                         ->where('centro_votacion_supervisor.centro_votacion_id', '=', $centro_id);
+                })
+                ->select(
+                    'users.id',
+                    'users.isActive',
+                    'users.email',
+                    'users.numero_celular',
+                    'personas.id as persona_id',
+                    'personas.numero_documento',
+                    'personas.nombre as persona_nombre',
+                    'personas.apellido_paterno',
+                    'personas.apellido_materno',
+                    'perfiles.id as perfiles_id',
+                    'perfiles.nombre as perfiles_nombre',
+                )
+                ->where('users.perfil_id', 2)
+                ->whereNull('centro_votacion_supervisor.supervisor_id')
+                ->get();
+            
+
+
         return response()->json($supervisores);
     }
 
@@ -242,4 +288,37 @@ class CentroVotacionController extends Controller
             throw $th;
         }
     }
+
+
+    public function postDeleteCentroSupervisor(Request $request)
+    {
+        try {
+            $centro_supervisor = CentroVotacionSupervisor::findOrFail($request->id);
+            $centro_supervisor->estado = 0;
+            if ($centro_supervisor->save()) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'La informacíon se eliminó correctamente'
+                ]);
+            }
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function postActiveCentroSupervisor(Request $request)
+    {
+        try {
+            $centro_supervisor = CentroVotacionSupervisor::findOrFail($request->id);
+            $centro_supervisor->estado = 1;
+            if ($centro_supervisor->save()) {
+                return response()->json([
+                    'status' => true,
+                ]);
+            }
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+
 }

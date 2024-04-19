@@ -146,8 +146,10 @@ class MesaController extends Controller
     }
 
 
-    public function getListPersoneros()
+    public function getListPersoneros(Request $request)
     {
+
+        $mesa_id = $request->input('mesa_id');
         $personeros =  User::join('personas', 'personas.id', '=', 'users.persona_id')
             ->join('perfiles', 'perfiles.id', '=', 'users.perfil_id')
             ->select(
@@ -162,7 +164,19 @@ class MesaController extends Controller
                 'personas.apellido_materno',
                 'perfiles.id as perfiles_id',
                 'perfiles.nombre as perfiles_nombre',
-            )->where('users.perfil_id', 3)->get();
+            )
+            // ->where('users.perfil_id', 3)->get();
+
+            ->where('users.perfil_id', 3)
+            ->whereNotExists(function ($query) use ($mesa_id) {
+                $query->select(DB::raw(1))
+                    ->from('personero_mesa')
+                    ->whereRaw('personero_mesa.personero_id = users.id')
+                    ->where('personero_mesa.mesa_id', $mesa_id);
+            })
+            ->get();
+
+            
         return response()->json($personeros);
     }
 

@@ -136,8 +136,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/active', 'postActiveCentroVoatacion');
             Route::get('/tipoCandidato', 'tipoCandidato');
             Route::get('/tipoCandidatoPersonas', 'tipoCandidatoPersonas');
-            Route::post('/delete-supervisor', 'postDeleteCandidatoSupervisor');
-            Route::post('/active-supervisor', 'postActiveCandidatoSupervisor');
+            Route::post('/delete-supervisor', 'postDeleteCentroSupervisor');
+            Route::post('/active-supervisor', 'postActiveCentroSupervisor');
         });
     });
 
@@ -172,6 +172,14 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/active', 'postActiveUser');
             Route::get('/profile', 'getListProfile');
             Route::post('/person', 'getPersona');
+            Route::get('/list-mesas-personero', 'getListMesasPersoneros');
+
+            Route::get('/list-centros-votacion', 'getListCentroVotacion');
+            Route::post('/add-mesa-personero', 'agregarMesaPersonero');
+
+            Route::get('/list-personeros-mesa', 'listMesaPersonero');
+            Route::post('/delete-mesa', 'postDeleteMesaPersonero');
+            Route::post('/active-mesa', 'postActiveMesaPersonero');
         });
     });
 });

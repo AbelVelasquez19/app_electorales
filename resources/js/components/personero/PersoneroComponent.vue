@@ -78,6 +78,10 @@
                                         <button class="btn btn-primary btn-sm" @click.prevent="openModalEdit(item.id)"><i class="fa-solid fa-pen-to-square"></i></button>
                                         <button  v-if="item.isActive == 1" class="btn btn-danger btn-sm" @click.prevent="deleteItem(item.id)"><i class="fa-solid fa-trash-can"></i></button>
                                         <button  v-if="item.isActive != 1" class="btn btn-success btn-sm" @click.prevent="activeItem(item.id)"><i class="fa-solid fa-circle-check"></i></button>
+                                    
+                                        <button class="btn btn-primary btn-sm"
+                                            @click.prevent="openRegistrarMesa(item.id)"><i
+                                                class="fa-solid fa-bars"></i></button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -113,6 +117,10 @@
                 </div>
             </div>
             <PersoneroModal ref="RefPersoneroModal" @data-add="updateTable" />
+
+            <MesaPersoneroModal ref="RefMesaPersoneroModal" @data-add="updateTable" />
+
+
         </div>
     </div>
 </template>
@@ -121,6 +129,8 @@
 <script>
 import Services from '../../services/services';
 import PersoneroModal from '../modals/personero/PersoneroModalComponent.vue';
+import MesaPersoneroModal from '../modals/personero/MesaPersoneroModalComponent.vue';
+
 import { debounce } from 'lodash';
 export default {
     props: {
@@ -130,7 +140,8 @@ export default {
         },
     },
     components: {
-        PersoneroModal
+        PersoneroModal,
+        MesaPersoneroModal
     },
     data() {
         return {
@@ -157,6 +168,12 @@ export default {
         openModal() {
             if (this.$refs.RefPersoneroModal) {
                 this.$refs.RefPersoneroModal.openPersoneroModal(0);
+            }
+        },
+        openRegistrarMesa(id) {
+            console.log(id)
+            if (this.$refs.RefMesaPersoneroModal) {
+                this.$refs.RefMesaPersoneroModal.openMesaPersoneroModal(id);
             }
         },
         async fetchUserList(page = 1) {

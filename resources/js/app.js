@@ -6,6 +6,8 @@ import 'vue-toast-notification/dist/theme-sugar.css';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import 'leaflet/dist/leaflet.css';
 import VueApexCharts from 'vue-apexcharts';
+import vSelect from "vue-select";
+
 
 import HighchartsVue from 'highcharts-vue';
 Vue.use(HighchartsVue);
@@ -45,6 +47,7 @@ Vue.component('candidato-component', CandidatoComponent);
 Vue.component('centro-votacion-component', CentroVotacionComponent);
 Vue.component('personero-component', PersoneroComponent);
 Vue.component('mesa-component', MesaComponent);
+Vue.component("v-select", vSelect);
 
 const app = new Vue({
     el: '#app',
