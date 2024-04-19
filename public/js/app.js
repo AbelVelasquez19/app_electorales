@@ -7603,20 +7603,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     deleteItem: function deleteItem(id) {
       var _this12 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee12() {
-        var result;
+        var id_centro, result;
         return _regeneratorRuntime().wrap(function _callee12$(_context12) {
           while (1) switch (_context12.prev = _context12.next) {
             case 0:
               _context12.prev = 0;
-              _context12.next = 3;
+              id_centro = _this12.centro.id;
+              _context12.next = 4;
               return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('centro-votacion/delete-supervisor', {
                 id: id
               });
-            case 3:
+            case 4:
               result = _context12.sent;
               if (result.status) {
                 if (result.result[0].status) {
                   _this12.fetchUserList();
+                  _this12.getSupervisores(id_centro);
                   _this12.$swal({
                     title: "Eliminado!",
                     text: result.result[0].message,
@@ -7626,51 +7628,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               } else {
                 _this12.errors = result.result;
               }
-              _context12.next = 10;
+              _context12.next = 11;
               break;
-            case 7:
-              _context12.prev = 7;
+            case 8:
+              _context12.prev = 8;
               _context12.t0 = _context12["catch"](0);
               return _context12.abrupt("return", _context12.t0);
-            case 10:
+            case 11:
             case "end":
               return _context12.stop();
           }
-        }, _callee12, null, [[0, 7]]);
+        }, _callee12, null, [[0, 8]]);
       }))();
     },
     activeItem: function activeItem(id) {
       var _this13 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee13() {
-        var result;
+        var id_centro, result;
         return _regeneratorRuntime().wrap(function _callee13$(_context13) {
           while (1) switch (_context13.prev = _context13.next) {
             case 0:
               _context13.prev = 0;
-              _context13.next = 3;
+              id_centro = _this13.centro.id;
+              _context13.next = 4;
               return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('centro-votacion/active-supervisor', {
                 id: id
               });
-            case 3:
+            case 4:
               result = _context13.sent;
               if (result.status) {
                 if (result.result[0].status) {
+                  _this13.getSupervisores(id_centro);
                   _this13.fetchUserList();
                 }
               } else {
                 _this13.errors = result.result;
               }
-              _context13.next = 10;
+              _context13.next = 11;
               break;
-            case 7:
-              _context13.prev = 7;
+            case 8:
+              _context13.prev = 8;
               _context13.t0 = _context13["catch"](0);
               return _context13.abrupt("return", _context13.t0);
-            case 10:
+            case 11:
             case "end":
               return _context13.stop();
           }
-        }, _callee13, null, [[0, 7]]);
+        }, _callee13, null, [[0, 8]]);
       }))();
     }
   }
@@ -52551,7 +52555,7 @@ var render = function () {
             _c("div", { staticClass: "modal-body" }, [
               _c("fieldset", [
                 _c("legend", [
-                  _vm._v("Ingresar informacion del CENTRO DE VOTACIÓN"),
+                  _vm._v("Ingresar informacion del Centro de votación"),
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "row mb-1" }, [
@@ -53084,7 +53088,7 @@ var render = function () {
                   _c("div", { staticClass: "col-md-4" }, [
                     _c("div", { staticClass: "row" }, [
                       _c("div", { staticClass: "col-md-12" }, [
-                        _c("label", [_vm._v("SUPERVISORES: ")]),
+                        _c("label", [_vm._v("Supervisores: ")]),
                         _vm._v(" "),
                         _c(
                           "select",
@@ -53824,13 +53828,13 @@ var render = function () {
             _vm._v(" "),
             _c("div", { staticClass: "modal-body" }, [
               _c("fieldset", [
-                _c("legend", [_vm._v("Ingresar informacion del MESA")]),
+                _c("legend", [_vm._v("Ingresar informacion de la Mesa")]),
                 _vm._v(" "),
                 _c("div", { staticClass: "row mb-1" }, [
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("div", { staticClass: "me-1" }, [
                       _c("div", { staticClass: "dataTables_filter" }, [
-                        _c("label", [_vm._v("NOMBRE: ")]),
+                        _c("label", [_vm._v("Nombre: ")]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -53870,7 +53874,7 @@ var render = function () {
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("div", { staticClass: "me-1" }, [
                       _c("div", { staticClass: "dataTables_filter" }, [
-                        _c("label", [_vm._v("NÚMERO: ")]),
+                        _c("label", [_vm._v("Número: ")]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -53908,7 +53912,7 @@ var render = function () {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-6" }, [
-                    _c("label", [_vm._v("Provincia: ")]),
+                    _c("label", [_vm._v("Centro de Votación: ")]),
                     _vm._v(" "),
                     _c(
                       "select",
@@ -53974,7 +53978,7 @@ var render = function () {
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("div", { staticClass: "me-1" }, [
                       _c("div", { staticClass: "dataTables_filter" }, [
-                        _c("label", [_vm._v("CANTIDAD DE VOTANTES: ")]),
+                        _c("label", [_vm._v("Cantidad de votantes: ")]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
