@@ -1,7 +1,7 @@
 <template>
     <div class="modal fade" id="partidoModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-backdrop="static"
         data-keyboard="false" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-simple modal-enable-otp">
+        <div class="modal-dialog modal-lg modal-simple modal-enable-otp">
             <div class="modal-content p-3">
                 <div class="modal-header">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -48,31 +48,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
-
-
-                        <div class="row mb-1">
-                            <div class="col-md-12">
-                                <label>Provincia: </label>
-                                <select class="form-select" v-model="user.provincia_id"
-                                    :class="errors != null && errors.provincia_id ? 'is-invalid' : ''"
-                                    @change="getDistrictItem">
-                                    <option value="" selected disabled>--seleccionar--</option>
-                                    <option v-for="province in provinces" :key="province.id" :value="province.id">{{
-                        province.nombre }}</option>
-                                </select>
-                                <span v-if="errors != null && errors.provincia_id" class="text-danger">{{
-                        errors.provincia_id[0] }}</span>
-                            </div>
-
-                        </div>
-
-
-
-                        <div class="mt-3">
-                            <img :src="partido.logo" alt="" class="rounded" width="150px" height="150px">
-
 
                         </div>
                     </fieldset>

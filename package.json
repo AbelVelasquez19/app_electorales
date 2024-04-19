@@ -19,8 +19,12 @@
         "vue-template-compiler": "^2.7.16"
     },
     "dependencies": {
+        "apexcharts": "^3.48.0",
+        "highcharts": "^11.4.1",
+        "highcharts-vue": "^2.0.1",
         "leaflet": "^1.9.4",
         "lodash.debounce": "^4.0.8",
+        "vue-apexcharts": "^1.6.2",
         "vue-select": "^3.20.3",
         "vue-sweetalert2": "^5.0.5",
         "vue-toast-notification": "^1.0.1",

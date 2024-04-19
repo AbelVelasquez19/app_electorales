@@ -51,60 +51,51 @@
                             <thead>
                                 <tr>
                                     <th class="text-center font-monospace" style="width: 5%;">Items</th>
-                                    <th class="text-center font-monospace" style="width: 8%;">Nro. Cédula</th>
-                                    <th class="font-monospace">Nombre y apellidos</th>
-                                    <th class="font-monospace">Email</th>
-                                    <th class="font-monospace">Numero Celular</th>
-                                    <th class="font-monospace">Perfil</th>
-                                    <th class="text-center font-monospace" style="width: 10%;">Estado</th>
+                                    <th class="text-center font-monospace" style="width: 8%;">Numero de Mesa</th>
+                                    <th class="font-monospace">Total de votos</th>
+                                    <th class="font-monospace">Personero</th>
+                                    <th class="font-monospace">Centro de votación</th>
                                     <th class="text-center font-monospace" style="width: 6%;">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
-                                <tr v-for="(item,index) in users.data" :key="item.id">
+                                <tr v-for="(item,index) in actas.data" :key="item.id">
                                     <td class="text-center">
                                         {{ index +1 }}
                                     </td>
-                                    <td class="text-center font-monospace">{{ item.numero_documento }}</td>
-                                    <td class="font-monospace">{{ item.nombre }} {{ item.apellido_paterno }} {{ item.apellido_materno }}</td>
-                                    <td class="font-monospace">{{item.email  }}</td>
-                                    <td class="font-monospace">{{item.numero_celular  }}</td>
-                                    <td class="font-monospace">{{item.perfiles_nombre  }}</td>
-                                    <td class="text-center font-monospace">
-                                        <span v-if="item.isActive == 1" class="badge bg-label-success me-1">Activo</span>
-                                        <span v-else class="badge bg-label-danger me-1">Inactivo</span>
-                                    </td>
+                                    <td class="text-center font-monospace">{{ item.nombre }}</td>
+                                    <td class="font-monospace">{{ item.cantidad_votantes }} </td>
+                                    <td class="font-monospace">{{item.personero  }}</td>
+                                    <td class="font-monospace">{{item.nombre_centro_votacion  }}</td>
                                     <td class="text-center">
                                         <button class="btn btn-primary btn-sm" @click.prevent="openModalEdit(item.id)"><i class="fa-solid fa-pen-to-square"></i></button>
-                                        <button  v-if="item.isActive == 1" class="btn btn-danger btn-sm" @click.prevent="deleteItem(item.id)"><i class="fa-solid fa-trash-can"></i></button>
-                                        <button  v-if="item.isActive != 1" class="btn btn-success btn-sm" @click.prevent="activeItem(item.id)"><i class="fa-solid fa-circle-check"></i></button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="col-md-12 mt-1 d-flex justify-content-end align-items-center ">
-                        <nav aria-label="Page navigation example" v-if="users.last_page > 1">
+                        <nav aria-label="Page navigation example" v-if="actas.last_page > 1">
                             <ul class="pagination justify-content-center align-items-center">
-                                <li class="page-item" :class="{ 'disabled': users.current_page === 1 }">
-                                    <a class="page-link" @click.prevent="fetchUserList(1)"><i
+                                <li class="page-item" :class="{ 'disabled': actas.current_page === 1 }">
+                                    <a class="page-link" @click.prevent="fetchList(1)"><i
                                             class="fa fa-fast-backward font-medium-3" aria-hidden="true"></i></a>
                                 </li>
-                                <li class="page-item " :class="{ 'disabled': users.current_page === 1 }">
-                                    <a class="page-link" @click.prevent="fetchUserList(users.current_page - 1)"><i
+                                <li class="page-item " :class="{ 'disabled': actas.current_page === 1 }">
+                                    <a class="page-link" @click.prevent="fetchList(actas.current_page - 1)"><i
                                             class="fa-solid fa-backward-step"></i></a>
                                 </li>
                                 <li class="page-item" v-for="pageNumber in displayedPages" :key="pageNumber"
-                                    :class="{ 'active': users.current_page === pageNumber }">
-                                    <a class="page-link" @click.prevent="fetchUserList(pageNumber)" href="#">{{ pageNumber
+                                    :class="{ 'active': actas.current_page === pageNumber }">
+                                    <a class="page-link" @click.prevent="fetchList(pageNumber)" href="#">{{ pageNumber
                                     }}</a>
                                 </li>
-                                <li class="page-item" :class="{ 'disabled': users.current_page === users.last_page }">
-                                    <a class="page-link" href="#" @click.prevent="fetchUserList(users.current_page + 1)"><i
+                                <li class="page-item" :class="{ 'disabled': actas.current_page === actas.last_page }">
+                                    <a class="page-link" href="#" @click.prevent="fetchList(actas.current_page + 1)"><i
                                             class="fa fa-step-forward font-medium-3" aria-hidden="true"></i></a>
                                 </li>
-                                <li class="page-item" :class="{ 'disabled': users.current_page === users.last_page }">
-                                    <a class="page-link" href="#" @click.prevent="fetchUserList(users.last_page)"><i
+                                <li class="page-item" :class="{ 'disabled': actas.current_page === actas.last_page }">
+                                    <a class="page-link" href="#" @click.prevent="fetchList(actas.last_page)"><i
                                             class="fa fa-fast-forward font-medium-3" aria-hidden="true"></i></a>
                                 </li>
                             </ul>
@@ -145,16 +136,17 @@ export default {
             debouncedSearch: null,
             pageSize: 15,
             errors: null,
+            actas:{}
         }
     },
     computed: {
         totalPages() {
-            return Math.ceil(this.users.total / this.pageSize);
+            return Math.ceil(this.actas.total / this.pageSize);
         }
     },
     mounted() {
-        this.debouncedSearch = debounce(this.fetchUserList, 500);
-        this.fetchUserList();
+        this.debouncedSearch = debounce(this.fetchList, 500);
+        this.fetchList();
         
     },
     methods: {  
@@ -163,10 +155,10 @@ export default {
                 this.$refs.RefActaModalComponent.openModalActa(this.userId);
             }
         },
-        async fetchUserList(page = 1) {
+        async fetchList(page = 1) {
             try {
-                const result = await Services.getListInfo(this.searchQuery, `user/list?page=${page}`, this.pageSize);
-                this.users = result[0];
+                const result = await Services.getListInfo(this.searchQuery, `actas/list-actas?page=${page}`, this.pageSize);
+                this.actas = result[0];
                 this.updateDisplayedPages();
             } catch (error) {
                 console.log(error)
@@ -176,8 +168,8 @@ export default {
             const totalDisplayedPages = 6;
             const halfDisplayedPages = Math.floor(totalDisplayedPages / 2);
 
-            let startPage = Math.max(1, this.users.current_page - halfDisplayedPages);
-            let endPage = Math.min(this.users.last_page, startPage + totalDisplayedPages - 1);
+            let startPage = Math.max(1, this.actas.current_page - halfDisplayedPages);
+            let endPage = Math.min(this.actas.last_page, startPage + totalDisplayedPages - 1);
 
             if (endPage - startPage + 1 < totalDisplayedPages) {
                 startPage = Math.max(1, endPage - totalDisplayedPages + 1);
@@ -186,10 +178,10 @@ export default {
             this.displayedPages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
         },
         changePageSize() {
-            this.fetchUserList(1);
+            this.fetchList(1);
         },
         updateTable() {
-            this.fetchUserList();
+            this.fetchList();
         },
         openModalEdit(id) {
             console.log(id)
@@ -197,52 +189,6 @@ export default {
                 this.$refs.RefUserModal.openUserModal(id);
             }
         },
-        deleteItem(id) {
-            this.$swal({
-                title: "¿Estás seguro?",
-                text: "Esta acción no se puede revertir. ¿Quieres continuar?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Sí, eliminar",
-                cancelButtonText: 'Cancelar',
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    try {
-                        const result = await Services.addNewInfo('user/delete', { id: id });
-                        if (result.status) {
-                            if (result.result[0].status) {
-                                this.fetchUserList();
-                                this.$swal({
-                                    title: "Eliminado!",
-                                    text: result.result[0].message,
-                                    icon: "success"
-                                });
-                            }
-                        } else {
-                            this.errors = result.result;
-                        }
-                    } catch (error) {
-                        return error;
-                    }
-                }
-            });
-        },
-        async activeItem(id){
-            try {
-                const result = await Services.addNewInfo('user/active', { id: id });
-                if (result.status) {
-                    if (result.result[0].status) {
-                        this.fetchUserList();
-                    }
-                } else {
-                    this.errors = result.result;
-                }
-            } catch (error) {
-                return error;
-            }
-        }
     },
 }
 </script>

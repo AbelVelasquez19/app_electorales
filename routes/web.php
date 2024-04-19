@@ -9,6 +9,7 @@ use App\Http\Controllers\Web\MapsController;
 use App\Http\Controllers\Web\MesaController;
 use App\Http\Controllers\Web\PartidoPoliticoController;
 use App\Http\Controllers\Web\PersonaController;
+use App\Http\Controllers\Web\PersoneroController;
 use App\Http\Controllers\Web\UbigeoController;
 use App\Http\Controllers\Web\UserioController;
 use Illuminate\Support\Facades\Route;
@@ -30,9 +31,11 @@ Route::middleware(['guest'])->group(function () {
 });
 Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
     Route::prefix('dashboard')->group(function () {
         Route::controller(DashboardController::class)->group(function () {
             Route::get('/', 'index')->name('dashboard');
+            Route::get('/polito-voto-total', 'reportePartidoPolTotal');
         });
     });
 
@@ -87,7 +90,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/partido-politico', 'getListPartidoPoliticos');
             Route::post('/user-name', 'getUserName');
             Route::get('/personero', 'getPersonero');
-            Route::get('/codigo-pais', 'codigoPais');
+            Route::post('/add', 'addActas');
+            Route::get('/list-actas', 'getListActasRegistradas');
         });
     });
 
@@ -126,10 +130,10 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/list', 'getListCentros');
             Route::get('/list-supervisores', 'getListSupervisores');
             Route::get('/list-supervisores-centro', 'getListCentroSupervidores');
-            Route::post('/show', 'postShowCentro');
+            Route::post('/show-centro-supervisor', 'postShowCentroSupervisor');
             Route::post('/update', 'postUpdateCentro');
-            Route::post('/delete', 'postDeleteCandidato');
-            Route::post('/active', 'postActiveCandidato');
+            Route::post('/delete', 'postDeleteCentroVoatacion');
+            Route::post('/active', 'postActiveCentroVoatacion');
             Route::get('/tipoCandidato', 'tipoCandidato');
             Route::get('/tipoCandidatoPersonas', 'tipoCandidatoPersonas');
             Route::post('/delete-supervisor', 'postDeleteCandidatoSupervisor');
@@ -154,6 +158,20 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/tipoCandidatoPersonas', 'tipoCandidatoPersonas');
             Route::post('/delete-personero', 'postDeleteMesaPersonero');
             Route::post('/active-personero', 'postActiveMesaPersonero');
+        });
+    });
+
+    Route::prefix('personero')->group(function () {
+        Route::controller(PersoneroController::class)->group(function () {
+            Route::get('/', 'index')->name('personeros');
+            Route::post('/add', 'agregarUser');
+            Route::get('/list', 'getListUsers');
+            Route::post('/show', 'postShowUser');
+            Route::post('/update', 'postUpdateUser');
+            Route::post('/delete', 'postDeleteUser');
+            Route::post('/active', 'postActiveUser');
+            Route::get('/profile', 'getListProfile');
+            Route::post('/person', 'getPersona');
         });
     });
 });

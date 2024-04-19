@@ -202,7 +202,7 @@ export default {
             }
         },
         closepersonaModal() {
-            this.user.id = 0;
+            /* this.user.id = 0; */
             $("#centroModal").modal("hide");
             this.clearInput();
             this.errors = null;

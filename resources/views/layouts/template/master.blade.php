@@ -117,7 +117,7 @@
                 </li>
               </ul>
             </li>
-            <li class="menu-item active">
+            <li class="menu-item">
               <a href="{{route('maps')}}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-mail"></i>
                 <div data-i18n="Mapa">Mapa</div>
@@ -126,7 +126,7 @@
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
-                <div data-i18n="Configuración">Configuración</div>
+                <div data-i18n="Accesos">Accesos</div>
                 <div class="badge bg-label-primary rounded-pill ms-auto">3</div>
               </a>
               <ul class="menu-sub">
@@ -141,23 +141,32 @@
                   </a>
                 </li>
                 <li class="menu-item">
+                  <a href="{{route('personeros')}}" class="menu-link">
+                    <div data-i18n="Personeros">Personeros</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                <div data-i18n="Configuración">Configuración</div>
+                <div class="badge bg-label-primary rounded-pill ms-auto">3</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
                   <a href="{{route('partido-politico.index')}}" class="menu-link">
                     <div data-i18n="Partido político">Partido político</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="index.html" class="menu-link">
-                    <div data-i18n="Colegios"></div>
-                  </a>
-                </li>
-                <li class="menu-item">
                   <a href="{{route('centro-votacion.index')}}" class="menu-link">
-                    <div data-i18n="CENTRO VOTACIÓN" >CENTRO VOTACIÓN</div>
+                    <div data-i18n="Centro de votación" >Centro de votación</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a href="{{route('mesa.index')}}" class="menu-link">
-                    <div data-i18n="MESA" >MESA</div>
+                    <div data-i18n="Mesa" >Mesa</div>
                   </a>
                 </li>
               </ul>
@@ -560,7 +569,7 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
+                            <span class="fw-semibold d-block">{{Auth::user()->email}}</span>
                             <small class="text-muted">Admin</small>
                           </div>
                         </div>

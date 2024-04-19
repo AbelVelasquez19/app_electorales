@@ -19,9 +19,7 @@ class PartidoPoliticoController extends Controller
     public function getListPartidoPoliticos(Request $request)
     {
         $query = $request->input('q');
-
         $pageSize = $request->input('pageSize', 10);
-
         $partido_politicos = PartidoPolitico::select(
             'id',
             'nombre',
@@ -30,28 +28,17 @@ class PartidoPoliticoController extends Controller
             'orden',
             'estado'
         )
-            ->where('nombre', 'like', "%$query%")
-            ->orderBy('id', 'desc');
-
-
-        // $partido_politicos->paginate($pageSize);
-
+        ->where('nombre', 'like', "%$query%")
+        ->orderBy('orden', 'asc');
 
         $paginatedResults = $partido_politicos->paginate($pageSize);
-
-
-        // Transformar los resultados antes de devolverlos como JSON
         $modifiedResults = $paginatedResults->getCollection()->map(function ($item) {
-            // Convertir el campo 'url' a una URL utilizando Storage::url()
             if (isset($item->logo)) {
                 $item->logo = Storage::url($item->logo);
             }
             return $item;
         });
-
-        // Actualizar la colección de resultados paginados con la colección modificada
         $paginatedResults->setCollection($modifiedResults);
-
         return response()->json($paginatedResults);
     }
 
@@ -67,7 +54,6 @@ class PartidoPoliticoController extends Controller
             'estado'
         )
             ->where('id', '=', $query)->first();
-        // Modificar el logo si está definido
         if (isset($partido_politico->logo)) {
             $partido_politico->logo = Storage::url($partido_politico->logo);
         }
@@ -78,22 +64,13 @@ class PartidoPoliticoController extends Controller
     {
         try {
             DB::beginTransaction();
-
             $logo_input = $request->file('logo');
-            $nombre_input = $request->input('nombre');
-            $orden_input = $request->input('orden');
-
-
-
             $ruta_logo = Storage::put('public/logo-partidos', $logo_input);
-
             $partido = new PartidoPolitico();
-            $partido->nombre = $nombre_input;
-            $partido->partido_politico = $nombre_input;
-
+            $partido->nombre =$request->input('nombre');
+            $partido->partido_politico = $request->input('nombre');
             $partido->logo = $ruta_logo;
-            $partido->orden = $orden_input;
-
+            $partido->orden = $request->input('orden');
             if ($partido->save()) {
                 $partido_id = $partido->id;
                 DB::commit();
@@ -112,25 +89,19 @@ class PartidoPoliticoController extends Controller
         }
     }
 
-
-
     public function postUpdatePartido(Request $request)
     {
         try {
             DB::beginTransaction();
             $logo_input = $request->file('logo');
-            $nombre_input = $request->input('nombre');
-            $orden_input = $request->input('orden');
-
             $partido = PartidoPolitico::where('id', '=', $request->id)->first();
-            $partido->nombre = $nombre_input;
-            $partido->partido_politico = $nombre_input;
+            $partido->nombre = $request->input('nombre');
+            $partido->partido_politico = $request->input('nombre');
             if ($logo_input) {
                 $ruta_logo = Storage::put('public/logo-partidos', $logo_input);
                 $partido->logo = $ruta_logo;
             }
-            $partido->orden = $orden_input;
-
+            $partido->orden = $request->input('orden');
 
             if ($partido->save()) {
                 $partido_id = $partido->id;
@@ -141,11 +112,11 @@ class PartidoPoliticoController extends Controller
                 ]);
             }
         } catch (\Throwable $th) {
-            // DB::rollBack();
-            // return response()->json([
-            //     'status' => false,
-            //     'message' => 'La informacíon no se guardó'
-            // ]);
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => 'La informacíon no se guardó'
+            ]);
             throw $th;
         }
     }

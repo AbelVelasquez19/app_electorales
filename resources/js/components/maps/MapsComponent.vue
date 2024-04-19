@@ -48,7 +48,7 @@
                 <span class="badge bg-success bg-glow">100% de votos</span>
             </div>
             <div class="col-md-4 text-end">
-                <a class="btn btn-primary" @click="nuevoRegistroCentVotacion()">Registrar Nuevo</a>
+                <a class="btn btn-primary text-white" @click="nuevoRegistroCentVotacion()">Registrar Nuevo</a>
             </div>
         </div>
         <l-map :zoom.sync="zoom" :options="mapOptions" :center="center" :bounds="bounds" :min-zoom="minZoom"
@@ -248,15 +248,17 @@ export default {
         async getCentroVotacion() {
             try {
                 const result = await Services.getAll('mapas/centro-votacion');
+                /* console.lo this.getCentroVotacion(result) */
                 if (result.status) {
                     // Si la solicitud fue exitosa
                     this.markers = result.data.map(item => ({
                         id: item.id.toString(), // Convierte el ID a string si es necesario
                         position: { lat: parseFloat(item.latitud), lng: parseFloat(item.longitud) },
-                        tooltip: item.nombre,
-                        draggable: true,
+                        tooltip: `${item.nombre} ${item.porcentaje_mesa_cerrado}%`,
+                        draggable: false,
                         visible: true,
-                        color: 'red', // Define el color de acuerdo a tus requerimientos
+                        color: item.porcentaje_mesa_cerrado == 0 ? 'red' : (item.porcentaje_mesa_cerrado >= 100 ? 'yelaow' : 'blue'), // Define el color de acuerdo a tus requerimientos
+                        title: `${item.porcentaje_mesa_cerrado}%`
                     }));
                 } else {
                     console.error('Error obteniendo los datos de los centros de votación:', result);

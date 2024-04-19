@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CentroVotacionRegister;
 use App\Models\CentroVotacion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MapsController extends Controller
 {
@@ -15,6 +16,26 @@ class MapsController extends Controller
 
     public function getListCentroVotacion(){
         $result = CentroVotacion::where('estado',1)->get();
+        $result->map(function ($centro) {
+            $total_mesa_habilitado = DB::select("SELECT COUNT(id) AS total_mesa_habilitado FROM mesa WHERE centro_votacion_id = ? AND estado = 1", [$centro->id])[0]->total_mesa_habilitado;
+            $total_mesa_cerrado = DB::select("SELECT COUNT(id) AS total_mesa_cerrado FROM mesa WHERE centro_votacion_id = ? AND estado = 0", [$centro->id])[0]->total_mesa_cerrado;
+        
+            $total_mesa = $total_mesa_habilitado + $total_mesa_cerrado;
+        
+            if ($total_mesa > 0) {
+                $centro->total_mesa_habilitado = $total_mesa_habilitado;
+                $centro->total_mesa_cerrado = $total_mesa_cerrado;
+                $centro->porcentaje_mesa_habilitado = round(($total_mesa_habilitado / $total_mesa) * 100);
+                $centro->porcentaje_mesa_cerrado = round(($total_mesa_cerrado / $total_mesa) * 100, 2);
+            } else {
+                $centro->total_mesa_habilitado = 0;
+                $centro->total_mesa_cerrado = 0;
+                $centro->porcentaje_mesa_habilitado = 0;
+                $centro->porcentaje_mesa_cerrado = 0;
+            }
+        
+            return $centro;
+        });
         return response()->json(['status'=>true, 'data'=>$result]);
     }
 

@@ -62,8 +62,8 @@ export default {
     },
     data() {
         return {
-            userName: 'homenick.josianne@example.org',
-            password: 'password',
+            userName: '',
+            password: '',
             codeVerify:null,
             loading: false,
             errorMessage: {

@@ -151,10 +151,10 @@ export default {
         return {
             user:{  
                 id:0,
-                numero_documento:'77777777',
-                nombre:'prueba',
-                apellido_paterno:'prueba',
-                apellido_materno:'prueba',
+                numero_documento:'',
+                nombre:'',
+                apellido_paterno:'',
+                apellido_materno:'',
                 sexo:1,
                 codigo_pais_id:'',
                 celular:'',
