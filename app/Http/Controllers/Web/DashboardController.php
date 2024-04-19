@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\PartidoPolitico;
+use App\Traits\Acces;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
 {
+    use Acces;
     public function index(){
-        return view('page.index');
+        $menusPrin = $this->getMenus();
+        return view('page.index',compact('menusPrin'));
     }
 
     public function reportePartidoPolTotal(){

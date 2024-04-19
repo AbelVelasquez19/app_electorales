@@ -6,14 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Cantidato;
 use App\Models\Persona;
 use App\Models\TipoCandidato;
+use App\Traits\Acces;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CandidatoController extends Controller
 {
+    use Acces;
     public function index()
     {
-        return view('page.candidatos.index');
+        $menusPrin = $this->getMenus();
+        return view('page.candidatos.index',compact('menusPrin'));
     }
 
 

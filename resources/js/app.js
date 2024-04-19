@@ -34,6 +34,9 @@ import CandidatoComponent from './components/configuracion/CandidatoComponent.vu
 import CentroVotacionComponent from './components/configuracion/CentroVotacionComponent.vue';
 import PersoneroComponent from './components/personero/PersoneroComponent.vue';
 import MesaComponent from './components/configuracion/MesaComponent.vue';
+import PerfilesComponent from './components/configuracion/PerfilesComponent.vue';
+import RolesComponent from './components/configuracion/RolesComponent.vue';
+import PermisosComponent from './components/configuracion/PermisosComponent.vue';
 
 Vue.component('login-component', LoginComponent);
 Vue.component('dashboard-component', DashboardComponent);
@@ -48,6 +51,9 @@ Vue.component('centro-votacion-component', CentroVotacionComponent);
 Vue.component('personero-component', PersoneroComponent);
 Vue.component('mesa-component', MesaComponent);
 Vue.component("v-select", vSelect);
+Vue.component('perfiles-component', PerfilesComponent);
+Vue.component('roles-component', RolesComponent);
+Vue.component('permisos-component', PermisosComponent);
 
 const app = new Vue({
     el: '#app',

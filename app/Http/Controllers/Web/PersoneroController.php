@@ -11,6 +11,7 @@ use App\Models\MesaPersonero;
 use App\Models\Perfil;
 use App\Models\Person;
 use App\Models\User;
+use App\Traits\Acces;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,9 +19,16 @@ use Illuminate\Support\Facades\Hash;
 
 class PersoneroController extends Controller
 {
+<<<<<<< HEAD
     public function index()
     {
         return view('page.personero');
+=======
+    use Acces;
+    public function index(){
+        $menusPrin = $this->getMenus();
+        return view('page.personero',compact('menusPrin'));
+>>>>>>> fix/acta-v1
     }
 
     public function getListUsers(Request $request)
