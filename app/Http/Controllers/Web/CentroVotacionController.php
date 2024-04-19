@@ -297,8 +297,8 @@ class CentroVotacionController extends Controller
     {
         try {
             $centro_supervisor = CentroVotacionSupervisor::findOrFail($request->id);
-            $centro_supervisor->estado = 0;
-            if ($centro_supervisor->save()) {
+            // $centro_supervisor->estado = 0;
+            if ($centro_supervisor->delete()) {
                 return response()->json([
                     'status' => true,
                     'message' => 'La informacíon se eliminó correctamente'

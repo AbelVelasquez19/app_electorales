@@ -10,7 +10,7 @@
                 </div>
                 <div class="modal-body">
                     <fieldset>
-                        <legend>Ingresar informacion del CENTRO DE VOTACIÓN</legend>
+                        <legend>Ingresar informacion del Centro de votación</legend>
 
 
 

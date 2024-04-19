@@ -10,7 +10,7 @@
                 </div>
                 <div class="modal-body">
                     <fieldset>
-                        <legend>Ingresar informacion del MESA</legend>
+                        <legend>Ingresar informacion de la Mesa</legend>
 
 
 
@@ -20,7 +20,7 @@
                             <div class="col-md-6">
                                 <div class="me-1">
                                     <div class="dataTables_filter">
-                                        <label>NOMBRE: </label>
+                                        <label>Nombre: </label>
                                         <input type="text" placeholder="nombre mesa" v-model="mesa.nombre"
                                             class="form-control"
                                             :class="errors != null && errors.nombre ? 'is-invalid' : ''">
@@ -34,7 +34,7 @@
                             <div class="col-md-6">
                                 <div class="me-1">
                                     <div class="dataTables_filter">
-                                        <label>NÚMERO: </label>
+                                        <label>Número: </label>
                                         <input type="number" placeholder="número mesa" v-model="mesa.numero"
                                             class="form-control"
                                             :class="errors != null && errors.numero ? 'is-invalid' : ''">
@@ -45,7 +45,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label>Provincia: </label>
+                                <label>Centro de Votación: </label>
                                 <select class="form-select" v-model="mesa.centro_votacion_id"
                                     :class="errors != null && errors.centro_votacion_id ? 'is-invalid' : ''">
                                     <option value="" selected disabled>--seleccionar--</option>
@@ -60,7 +60,7 @@
                             <div class="col-md-6">
                                 <div class="me-1">
                                     <div class="dataTables_filter">
-                                        <label>CANTIDAD DE VOTANTES: </label>
+                                        <label>Cantidad de votantes: </label>
                                         <input type="number" placeholder="número mesa" v-model="mesa.cantidad_votantes"
                                             class="form-control"
                                             :class="errors != null && errors.cantidad_votantes ? 'is-invalid' : ''">

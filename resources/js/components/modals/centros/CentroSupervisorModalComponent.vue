@@ -19,7 +19,7 @@
                                 <div class="row">
 
                                     <div class="col-md-12">
-                                        <label>SUPERVISORES: </label>
+                                        <label>Supervisores: </label>
                                         <select class="form-select" v-model="centro.supervisor_id"
                                             :class="errors != null && errors.supervisor_id ? 'is-invalid' : ''">
                                             <option value="" selected disabled>--seleccionar--</option>
@@ -469,10 +469,13 @@ export default {
             // }).then(async (result) => {
             //     if (result.isConfirmed) {
             try {
+                const id_centro = this.centro.id;
+
                 const result = await Services.addNewInfo('centro-votacion/delete-supervisor', { id: id });
                 if (result.status) {
                     if (result.result[0].status) {
                         this.fetchUserList();
+                        this.getSupervisores(id_centro);
                         this.$swal({
                             title: "Eliminado!",
                             text: result.result[0].message,
@@ -488,11 +491,16 @@ export default {
             // }
             // });
         },
+
         async activeItem(id) {
             try {
+                const id_centro = this.centro.id;
+
                 const result = await Services.addNewInfo('centro-votacion/active-supervisor', { id: id });
                 if (result.status) {
                     if (result.result[0].status) {
+                        this.getSupervisores(id_centro);
+
                         this.fetchUserList();
                     }
                 } else {
