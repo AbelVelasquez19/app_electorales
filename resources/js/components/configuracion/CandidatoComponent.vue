@@ -61,6 +61,7 @@
                                     <th class="text-center font-monospace" style="width: 6%;">Opciones</th>
                                 </tr>
                             </thead>
+                            
                             <tbody class="table-border-bottom-0">
                                 <tr v-for="(item, index) in candidatos.data" :key="item.id">
                                     <td class="text-center">
