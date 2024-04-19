@@ -19,16 +19,10 @@ use Illuminate\Support\Facades\Hash;
 
 class PersoneroController extends Controller
 {
-<<<<<<< HEAD
-    public function index()
-    {
-        return view('page.personero');
-=======
     use Acces;
     public function index(){
         $menusPrin = $this->getMenus();
         return view('page.personero',compact('menusPrin'));
->>>>>>> fix/acta-v1
     }
 
     public function getListUsers(Request $request)
