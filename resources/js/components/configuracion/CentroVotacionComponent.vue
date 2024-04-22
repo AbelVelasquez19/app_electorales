@@ -5,9 +5,9 @@
                 <div class="col-12">
                     <div class="breadcrumb-wrapper">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="user">Centro de votación</a>
+                            <li class="breadcrumb-item"><a href="user">Centro de votacion</a>
                             </li>
-                            <li class="breadcrumb-item active">Lista Centro de votaciónes
+                            <li class="breadcrumb-item active">Lista Centro de votaciones
                             </li>
                         </ol>
                     </div>

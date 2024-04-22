@@ -205,7 +205,6 @@ class MesaController extends Controller
     {
         try {
             $mesa_personero = MesaPersonero::find($request->id);
-            // $mesa_personero->estado = 0;
             if ($mesa_personero->delete()) {
                 return response()->json([
                     'status' => true,

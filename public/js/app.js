@@ -50717,12 +50717,12 @@ var staticRenderFns = [
           _c("ol", { staticClass: "breadcrumb" }, [
             _c("li", { staticClass: "breadcrumb-item" }, [
               _c("a", { attrs: { href: "user" } }, [
-                _vm._v("Centro de votación"),
+                _vm._v("Centro de votacion"),
               ]),
             ]),
             _vm._v(" "),
             _c("li", { staticClass: "breadcrumb-item active" }, [
-              _vm._v("Lista Centro de votaciónes\n                        "),
+              _vm._v("Lista Centro de votaciones\n                        "),
             ]),
           ]),
         ]),
