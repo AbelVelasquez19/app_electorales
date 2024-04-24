@@ -3428,44 +3428,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3558,13 +3520,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.fetchUserList();
     },
     openModalEdit: function openModalEdit(id) {
-      console.log(id);
       if (this.$refs.RefMesaModal) {
         this.$refs.RefMesaModal.openMesaModal(id);
       }
     },
     openRegistrarPersonero: function openRegistrarPersonero(id) {
-      console.log(id);
       if (this.$refs.RefMesaPersoneroModal) {
         this.$refs.RefMesaPersoneroModal.openMesaPersoneroModal(id);
       }
@@ -3592,7 +3552,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
                 _context2.prev = 1;
                 _context2.next = 4;
-                return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('candidato/delete', {
+                return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('mesa/delete-mesa', {
                   id: id
                 });
               case 4:
@@ -3635,7 +3595,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               _context3.prev = 0;
               _context3.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('candidato/active', {
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('mesa/active-mesa', {
                 id: id
               });
             case 3:
@@ -3892,7 +3852,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.fetchUserList();
     },
     openModalEdit: function openModalEdit(id) {
-      console.log(id);
       if (this.$refs.RefPartidoModal) {
         this.$refs.RefPartidoModal.openPartidoModal(id);
       }
@@ -7197,47 +7156,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -7282,7 +7200,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this.getTipoDocumentos();
               _this.getPersonas();
               if (!(id != 0)) {
-                _context.next = 23;
+                _context.next = 22;
                 break;
               }
               _this.option = false;
@@ -7291,7 +7209,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('centro-votacion/show', id);
             case 11:
               result = _context.sent;
-              console.log(result);
               _this.centro = {
                 id: result.centro_votacion_id,
                 nombre: result.nombre,
@@ -7304,26 +7221,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               };
               _this.getDistrict(result.provincia_id);
               _this.getCorregiment(result.distrito_id);
-              _context.next = 21;
+              _context.next = 20;
               break;
-            case 18:
-              _context.prev = 18;
+            case 17:
+              _context.prev = 17;
               _context.t0 = _context["catch"](8);
               return _context.abrupt("return", _context.t0);
-            case 21:
-              _context.next = 24;
+            case 20:
+              _context.next = 23;
               break;
-            case 23:
+            case 22:
               _this.option = true;
-            case 24:
+            case 23:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[8, 18]]);
+        }, _callee, null, [[8, 17]]);
       }))();
     },
     closepersonaModal: function closepersonaModal() {
-      /* this.user.id = 0; */
       $("#centroModal").modal("hide");
       this.clearInput();
       this.errors = null;
@@ -7702,144 +7618,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -7849,7 +7627,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       centro: {
         id: 0,
-        supervisor_id: '',
+        supervisor_id: "",
         nombre: '',
         direccion: '',
         provincia_id: '',
@@ -7889,23 +7667,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              console.log(id);
               $("#centroSupervisorModal").modal("show");
               _this.getProvinces();
               _this.getListCodigoPais();
               _this.getTipoDocumentos();
               _this.getSupervisores(id);
               if (!(id != 0)) {
-                _context.next = 24;
+                _context.next = 22;
                 break;
               }
               _this.option = false;
-              _context.prev = 8;
-              _context.next = 11;
+              _context.prev = 7;
+              _context.next = 10;
               return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('centro-votacion/show-centro-supervisor', id);
-            case 11:
+            case 10:
               result = _context.sent;
-              console.log(result);
               _this.centro = {
                 id: result.centro_votacion_id,
                 nombre: result.nombre,
@@ -7914,27 +7690,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 distrito_id: result.distrito,
                 corregimiento_id: result.corregimiento_id,
                 latitud: result.latitud,
-                longitud: result.longitud
+                longitud: result.longitud,
+                supervisor_id: ""
               };
               _this.getDistrict(result.provincia_id);
               _this.getCorregiment(result.distrito_id);
               _this.fetchUserList();
-              _context.next = 22;
+              _context.next = 20;
               break;
-            case 19:
-              _context.prev = 19;
-              _context.t0 = _context["catch"](8);
+            case 17:
+              _context.prev = 17;
+              _context.t0 = _context["catch"](7);
               return _context.abrupt("return", _context.t0);
-            case 22:
-              _context.next = 25;
+            case 20:
+              _context.next = 23;
               break;
-            case 24:
+            case 22:
               _this.option = true;
-            case 25:
+            case 23:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[8, 19]]);
+        }, _callee, null, [[7, 17]]);
       }))();
     },
     closepersonaModal: function closepersonaModal() {
@@ -8146,11 +7923,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 5:
               result = _context9.sent;
               if (result.status) {
+                _this9.centro.supervisor_id = '';
                 if (result.result[0].status) {
-                  // this.clearInput();
-                  // $("#centroSupervisorModal").modal("hide");
                   _this9.$toast.success(result.result[0].message);
-                  // this.$emit('data-add');
                   _this9.getSupervisores(id_centro);
                   _this9.fetchUserList();
                 } else {
@@ -8228,36 +8003,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 4:
               result = _context11.sent;
               _this11.centros = result[0];
-              _this11.updateDisplayedPages();
-              _context11.next = 12;
+              _context11.next = 11;
               break;
-            case 9:
-              _context11.prev = 9;
+            case 8:
+              _context11.prev = 8;
               _context11.t0 = _context11["catch"](1);
               console.log(_context11.t0);
-            case 12:
+            case 11:
             case "end":
               return _context11.stop();
           }
-        }, _callee11, null, [[1, 9]]);
+        }, _callee11, null, [[1, 8]]);
       }))();
-    },
-    updateDisplayedPages: function updateDisplayedPages() {
-      var totalDisplayedPages = 6;
-      var halfDisplayedPages = Math.floor(totalDisplayedPages / 2);
-      var startPage = Math.max(1, this.centros.current_page - halfDisplayedPages);
-      var endPage = Math.min(this.centros.last_page, startPage + totalDisplayedPages - 1);
-      if (endPage - startPage + 1 < totalDisplayedPages) {
-        startPage = Math.max(1, endPage - totalDisplayedPages + 1);
-      }
-      this.displayedPages = Array.from({
-        length: endPage - startPage + 1
-      }, function (_, i) {
-        return startPage + i;
-      });
-    },
-    changePageSize: function changePageSize() {
-      this.fetchUserList(1);
     },
     updateTable: function updateTable() {
       this.fetchUserList();
@@ -8278,14 +8035,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 4:
               result = _context12.sent;
               if (result.status) {
+                _this12.centro.supervisor_id = '';
                 if (result.result[0].status) {
                   _this12.fetchUserList();
                   _this12.getSupervisores(id_centro);
-                  _this12.$swal({
-                    title: "Eliminado!",
-                    text: result.result[0].message,
-                    icon: "success"
-                  });
                 }
               } else {
                 _this12.errors = result.result;
@@ -8421,40 +8174,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -8490,25 +8209,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              console.log(id);
               $("#mesaModal").modal("show");
-              _this.getProvinces();
-              _this.getListCodigoPais();
-              _this.getTipoDocumentos();
               _this.getCentrosVotacion();
               _this.clearInput();
               if (!(id != 0)) {
-                _context.next = 21;
+                _context.next = 17;
                 break;
               }
               _this.option = false;
-              _context.prev = 9;
-              _context.next = 12;
+              _context.prev = 5;
+              _context.next = 8;
               return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('mesa/show', id);
-            case 12:
+            case 8:
               result = _context.sent;
-              // console.log(result)
-
               _this.mesa = {
                 id: result.mesa_id,
                 nombre: result.nombre,
@@ -8516,22 +8229,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 centro_votacion_id: result.centro_votacion_id,
                 cantidad_votantes: result.cantidad_votantes
               };
-              _context.next = 19;
+              _context.next = 15;
               break;
-            case 16:
-              _context.prev = 16;
-              _context.t0 = _context["catch"](9);
+            case 12:
+              _context.prev = 12;
+              _context.t0 = _context["catch"](5);
               return _context.abrupt("return", _context.t0);
-            case 19:
-              _context.next = 22;
+            case 15:
+              _context.next = 18;
               break;
-            case 21:
+            case 17:
               _this.option = true;
-            case 22:
+            case 18:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[9, 16]]);
+        }, _callee, null, [[5, 12]]);
       }))();
     },
     closepersonaModal: function closepersonaModal() {
@@ -8566,242 +8279,80 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2, null, [[0, 7]]);
       }))();
     },
-    getDepartments: function getDepartments() {
+    addNewUser: function addNewUser() {
       var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var result;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
-              _context3.prev = 0;
-              _context3.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('ubigeus/department');
-            case 3:
+              _this3.errors = null;
+              _context3.prev = 1;
+              _context3.next = 4;
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('mesa/add', _this3.mesa);
+            case 4:
               result = _context3.sent;
-              _this3.departments = result;
-              _context3.next = 10;
+              if (result.status) {
+                if (result.result[0].status) {
+                  _this3.clearInput();
+                  $("#mesaModal").modal("hide");
+                  _this3.$toast.success(result.result[0].message);
+                  _this3.$emit('data-add');
+                } else {
+                  _this3.$toast.error(result.result[0].message);
+                }
+              } else {
+                _this3.errors = result.result;
+              }
+              _context3.next = 11;
               break;
-            case 7:
-              _context3.prev = 7;
-              _context3.t0 = _context3["catch"](0);
+            case 8:
+              _context3.prev = 8;
+              _context3.t0 = _context3["catch"](1);
               return _context3.abrupt("return", _context3.t0);
-            case 10:
+            case 11:
             case "end":
               return _context3.stop();
           }
-        }, _callee3, null, [[0, 7]]);
+        }, _callee3, null, [[1, 8]]);
       }))();
     },
-    getTipoDocumentos: function getTipoDocumentos() {
+    updateUser: function updateUser() {
       var _this4 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         var result;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              _context4.prev = 0;
-              _context4.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('candidato/tipoCandidato');
-            case 3:
+              _this4.errors = null;
+              _context4.prev = 1;
+              _context4.next = 4;
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('mesa/update', _this4.mesa);
+            case 4:
               result = _context4.sent;
-              _this4.tipoCandidatos = result;
-              _context4.next = 10;
+              if (result.status) {
+                if (result.result[0].status) {
+                  _this4.clearInput();
+                  $("#mesaModal").modal("hide");
+                  _this4.$toast.success(result.result[0].message);
+                  _this4.$emit('data-add');
+                } else {
+                  _this4.$toast.error(result.result[0].message);
+                }
+              } else {
+                _this4.errors = result.result;
+              }
+              _context4.next = 11;
               break;
-            case 7:
-              _context4.prev = 7;
-              _context4.t0 = _context4["catch"](0);
+            case 8:
+              _context4.prev = 8;
+              _context4.t0 = _context4["catch"](1);
               return _context4.abrupt("return", _context4.t0);
-            case 10:
+            case 11:
             case "end":
               return _context4.stop();
           }
-        }, _callee4, null, [[0, 7]]);
-      }))();
-    },
-    getDistrictItem: function getDistrictItem() {
-      this.getDistrict(this.centro.provincia_id);
-    },
-    getCorregimientoItem: function getCorregimientoItem() {
-      this.getCorregiment(this.centro.distrito_id);
-    },
-    getProvinces: function getProvinces() {
-      var _this5 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        var result;
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) switch (_context5.prev = _context5.next) {
-            case 0:
-              _context5.prev = 0;
-              _context5.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('ubigeus/province');
-            case 3:
-              result = _context5.sent;
-              _this5.provinces = result;
-              _context5.next = 10;
-              break;
-            case 7:
-              _context5.prev = 7;
-              _context5.t0 = _context5["catch"](0);
-              return _context5.abrupt("return", _context5.t0);
-            case 10:
-            case "end":
-              return _context5.stop();
-          }
-        }, _callee5, null, [[0, 7]]);
-      }))();
-    },
-    getDistrict: function getDistrict(province_id) {
-      var _this6 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
-        var result;
-        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-          while (1) switch (_context6.prev = _context6.next) {
-            case 0:
-              _context6.prev = 0;
-              _context6.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('ubigeus/district', province_id);
-            case 3:
-              result = _context6.sent;
-              _this6.districts = result;
-              _context6.next = 10;
-              break;
-            case 7:
-              _context6.prev = 7;
-              _context6.t0 = _context6["catch"](0);
-              return _context6.abrupt("return", _context6.t0);
-            case 10:
-            case "end":
-              return _context6.stop();
-          }
-        }, _callee6, null, [[0, 7]]);
-      }))();
-    },
-    getCorregiment: function getCorregiment(distric_id) {
-      var _this7 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
-        var result;
-        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-          while (1) switch (_context7.prev = _context7.next) {
-            case 0:
-              _context7.prev = 0;
-              _context7.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('ubigeus/corregimient', distric_id);
-            case 3:
-              result = _context7.sent;
-              _this7.corrigement = result;
-              _context7.next = 10;
-              break;
-            case 7:
-              _context7.prev = 7;
-              _context7.t0 = _context7["catch"](0);
-              return _context7.abrupt("return", _context7.t0);
-            case 10:
-            case "end":
-              return _context7.stop();
-          }
-        }, _callee7, null, [[0, 7]]);
-      }))();
-    },
-    getListCodigoPais: function getListCodigoPais() {
-      var _this8 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
-        var codigoPais;
-        return _regeneratorRuntime().wrap(function _callee8$(_context8) {
-          while (1) switch (_context8.prev = _context8.next) {
-            case 0:
-              _context8.prev = 0;
-              _context8.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('ubigeus/codigo-pais');
-            case 3:
-              codigoPais = _context8.sent;
-              _this8.codigoPais = codigoPais;
-              _context8.next = 10;
-              break;
-            case 7:
-              _context8.prev = 7;
-              _context8.t0 = _context8["catch"](0);
-              return _context8.abrupt("return", _context8.t0);
-            case 10:
-            case "end":
-              return _context8.stop();
-          }
-        }, _callee8, null, [[0, 7]]);
-      }))();
-    },
-    addNewUser: function addNewUser() {
-      var _this9 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
-        var result;
-        return _regeneratorRuntime().wrap(function _callee9$(_context9) {
-          while (1) switch (_context9.prev = _context9.next) {
-            case 0:
-              _this9.errors = null;
-              _context9.prev = 1;
-              _context9.next = 4;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('mesa/add', _this9.mesa);
-            case 4:
-              result = _context9.sent;
-              if (result.status) {
-                if (result.result[0].status) {
-                  _this9.clearInput();
-                  $("#mesaModal").modal("hide");
-                  _this9.$toast.success(result.result[0].message);
-                  _this9.$emit('data-add');
-                } else {
-                  _this9.$toast.error(result.result[0].message);
-                }
-              } else {
-                _this9.errors = result.result;
-              }
-              _context9.next = 11;
-              break;
-            case 8:
-              _context9.prev = 8;
-              _context9.t0 = _context9["catch"](1);
-              return _context9.abrupt("return", _context9.t0);
-            case 11:
-            case "end":
-              return _context9.stop();
-          }
-        }, _callee9, null, [[1, 8]]);
-      }))();
-    },
-    updateUser: function updateUser() {
-      var _this10 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10() {
-        var result;
-        return _regeneratorRuntime().wrap(function _callee10$(_context10) {
-          while (1) switch (_context10.prev = _context10.next) {
-            case 0:
-              _this10.errors = null;
-              _context10.prev = 1;
-              _context10.next = 4;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('mesa/update', _this10.mesa);
-            case 4:
-              result = _context10.sent;
-              if (result.status) {
-                if (result.result[0].status) {
-                  _this10.clearInput();
-                  $("#mesaModal").modal("hide");
-                  _this10.$toast.success(result.result[0].message);
-                  _this10.$emit('data-add');
-                } else {
-                  _this10.$toast.error(result.result[0].message);
-                }
-              } else {
-                _this10.errors = result.result;
-              }
-              _context10.next = 11;
-              break;
-            case 8:
-              _context10.prev = 8;
-              _context10.t0 = _context10["catch"](1);
-              return _context10.abrupt("return", _context10.t0);
-            case 11:
-            case "end":
-              return _context10.stop();
-          }
-        }, _callee10, null, [[1, 8]]);
+        }, _callee4, null, [[1, 8]]);
       }))();
     },
     clearInput: function clearInput() {
@@ -9656,20 +9207,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {},
   data: function data() {
     return {
       user: {
@@ -9706,8 +9246,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mounted: function mounted() {},
   methods: {
     handleFileChange: function handleFileChange(event) {
-      // Access the selected file through event.target.files
-      // For example, to access the first selected file:
       this.partido.logo = event.target.files[0];
     },
     openPartidoModal: function openPartidoModal(id) {
@@ -9717,21 +9255,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              console.log(id);
               $("#partidoModal").modal("show");
               _this.getProvinces();
               _this.getListCodigoPais();
               if (!(id != 0)) {
-                _context.next = 21;
+                _context.next = 19;
                 break;
               }
               _this.option = false;
-              _context.prev = 6;
-              _context.next = 9;
+              _context.prev = 5;
+              _context.next = 8;
               return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('partido-politico/show', id);
-            case 9:
+            case 8:
               result = _context.sent;
-              console.log(result);
               _this.partido = {
                 id: id,
                 nombre: result.nombre,
@@ -9740,23 +9276,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               };
               _this.getDistrict(result.provincia_id);
               _this.getCorregiment(result.distrito_id);
-              _context.next = 19;
+              _context.next = 17;
               break;
-            case 16:
-              _context.prev = 16;
-              _context.t0 = _context["catch"](6);
+            case 14:
+              _context.prev = 14;
+              _context.t0 = _context["catch"](5);
               return _context.abrupt("return", _context.t0);
-            case 19:
-              _context.next = 23;
+            case 17:
+              _context.next = 21;
               break;
-            case 21:
+            case 19:
               _this.option = true;
               _this.clearInput();
-            case 23:
+            case 21:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[6, 16]]);
+        }, _callee, null, [[5, 14]]);
       }))();
     },
     closepersonaModal: function closepersonaModal() {
@@ -9910,7 +9446,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               _this7.errors = null;
               _context7.prev = 1;
-              formData = new FormData(); // Agregar cada propiedad de applicantDetails al FormData
+              formData = new FormData();
               formData.append('nombre', _this7.partido.nombre);
               formData.append('logo', _this7.partido.logo);
               formData.append('orden', _this7.partido.orden);
@@ -9952,7 +9488,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               _this8.errors = null;
               _context8.prev = 1;
-              formDataUpdate = new FormData(); // Agregar cada propiedad de applicantDetails al FormData
+              formDataUpdate = new FormData();
               formDataUpdate.append('nombre', _this8.partido.nombre);
               formDataUpdate.append('logo', _this8.partido.logo);
               formDataUpdate.append('orden', _this8.partido.orden);
@@ -10632,138 +10168,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -10825,11 +10229,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mounted: function mounted() {
     this.debouncedSearch = (0,lodash__WEBPACK_IMPORTED_MODULE_1__.debounce)(this.fetchUserList, 500);
     this.fetchUserList();
-
-    // $('#personero_id').select2();
-    // $('#personero_id').on('select2:select', () => {
-    //         this.mesa.personero_id = $('#personero_id').val();
-    //     });
   },
   methods: {
     openMesaPersoneroModal: function openMesaPersoneroModal(id) {
@@ -10838,7 +10237,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              console.log(id);
               $("#mesaPersoneroSaveModal").modal("show");
               _this.getProvinces();
               _this.getListCodigoPais();
@@ -10846,24 +10244,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this.getMesas(id);
               _this.getCentros();
               _this.personero.id = id;
+              _this.centro.id = '';
               if (!(id != 0)) {
                 _context.next = 19;
                 break;
               }
               _this.option = false;
               _context.prev = 10;
-              // this.personeros.id = id
-              // const result = await Services.getShowInfo('mesa/show', id);
-              // console.log(result)
-
-              // this.mesa = {
-              //     id: result.mesa_id,
-              //     nombre: result.nombre,
-              //     numero: result.numero,
-              //     centro_votacion_id: result.centro_votacion_id,
-              //     cantidad_votantes: result.cantidad_votantes,
-              // }
-
               _this.fetchUserList();
               _context.next = 17;
               break;
@@ -10967,14 +10354,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4, null, [[0, 7]]);
       }))();
     },
-    /*async getMesasFilterProvincia(){
-        try {
-            const result = await Services.getAll(`personero/list-mesas-personero?persona_id=` + this.personero.id);
-            this.mesas = result
-        } catch (error) {
-            return error;
-        }
-    },*/
     getMesaCentroItem: function getMesaCentroItem() {
       this.getMesasCentro(this.centro.id);
     },
@@ -11023,18 +10402,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 3:
               result_centros = _context6.sent;
               _this6.centros = result_centros;
-              console.log('peepepewpep');
-              _context6.next = 11;
+              _context6.next = 10;
               break;
-            case 8:
-              _context6.prev = 8;
+            case 7:
+              _context6.prev = 7;
               _context6.t0 = _context6["catch"](0);
               return _context6.abrupt("return", _context6.t0);
-            case 11:
+            case 10:
             case "end":
               return _context6.stop();
           }
-        }, _callee6, null, [[0, 8]]);
+        }, _callee6, null, [[0, 7]]);
       }))();
     },
     getDistrict: function getDistrict(province_id) {
@@ -11060,18 +10438,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 11:
               result_mesas = _context7.sent;
               _this7.mesas = result_mesas;
-              console.log('peepepewpep');
-              _context7.next = 19;
+              _context7.next = 18;
               break;
-            case 16:
-              _context7.prev = 16;
+            case 15:
+              _context7.prev = 15;
               _context7.t0 = _context7["catch"](0);
               return _context7.abrupt("return", _context7.t0);
-            case 19:
+            case 18:
             case "end":
               return _context7.stop();
           }
-        }, _callee7, null, [[0, 16]]);
+        }, _callee7, null, [[0, 15]]);
       }))();
     },
     getCorregiment: function getCorregiment(distric_id) {
@@ -11150,7 +10527,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee10, null, [[0, 7]]);
       }))();
     },
-    addNewUser: function addNewUser() {
+    addPersoneroMesa: function addPersoneroMesa() {
       var _this11 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee11() {
         var result;
@@ -11164,12 +10541,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 4:
               result = _context11.sent;
               if (result.status) {
+                _this11.personero.mesa_id = "";
                 if (result.result[0].status) {
-                  // this.clearInput();
-                  // $("#mesaPersoneroSaveModal").modal("hide");
                   _this11.$toast.success(result.result[0].message);
-                  // this.$emit('data-add');
-                  // this.getMesas();
                   _this11.getMesas(_this11.personero.id);
                   _this11.fetchUserList();
                 } else {
@@ -11296,13 +10670,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 3:
               result = _context14.sent;
               if (result.status) {
+                _this14.getMesas(_this14.personero.id);
                 if (result.result[0].status) {
                   _this14.fetchUserList();
-                  _this14.$swal({
-                    title: "Eliminado!",
-                    text: result.result[0].message,
-                    icon: "success"
-                  });
                 }
               } else {
                 _this14.errors = result.result;
@@ -11731,6 +11101,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -11738,6 +11115,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       selectedValues: [],
       roles: {},
+      permision: {},
       idProfile: null,
       role_id: null
     };
@@ -11751,38 +11129,115 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
+              _this.openPermisionAsing(id);
               _this.idProfile = id;
               $("#modalPermission").offcanvas('show');
-              _context.prev = 2;
-              _context.next = 5;
+              _context.prev = 3;
+              _context.next = 6;
               return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('profile/list-role');
-            case 5:
+            case 6:
               result = _context.sent;
               _this.roles = result.result;
-              _context.next = 12;
+              _context.next = 13;
               break;
-            case 9:
-              _context.prev = 9;
-              _context.t0 = _context["catch"](2);
+            case 10:
+              _context.prev = 10;
+              _context.t0 = _context["catch"](3);
               return _context.abrupt("return", _context.t0);
-            case 12:
+            case 13:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[2, 9]]);
+        }, _callee, null, [[3, 10]]);
       }))();
     },
-    changeRole: function changeRole(role_id) {
+    openPermisionAsing: function openPermisionAsing(id) {
+      var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var result;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              console.log(role_id);
-            case 1:
+              _context2.prev = 0;
+              _context2.next = 3;
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getId('permisos/list-permisions-asing', {
+                'id': id
+              });
+            case 3:
+              result = _context2.sent;
+              _this2.permision = result;
+              _context2.next = 10;
+              break;
+            case 7:
+              _context2.prev = 7;
+              _context2.t0 = _context2["catch"](0);
+              return _context2.abrupt("return", _context2.t0);
+            case 10:
             case "end":
               return _context2.stop();
           }
-        }, _callee2);
+        }, _callee2, null, [[0, 7]]);
+      }))();
+    },
+    addPermisos: function addPermisos(id) {
+      var _this3 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        var result;
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.prev = 0;
+              _context3.next = 3;
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('permisos/add-permisions-asing', {
+                'idRole': id,
+                'idProfile': _this3.idProfile
+              });
+            case 3:
+              result = _context3.sent;
+              if (result.status) {
+                _this3.openPermisionAsing(_this3.idProfile);
+              }
+              _context3.next = 10;
+              break;
+            case 7:
+              _context3.prev = 7;
+              _context3.t0 = _context3["catch"](0);
+              return _context3.abrupt("return", _context3.t0);
+            case 10:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3, null, [[0, 7]]);
+      }))();
+    },
+    deletePermisos: function deletePermisos(id) {
+      var _this4 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        var result;
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.prev = 0;
+              _context4.next = 3;
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('permisos/delete-permisions-asing', {
+                'permisosId': id
+              });
+            case 3:
+              result = _context4.sent;
+              if (result.status) {
+                _this4.openPermisionAsing(_this4.idProfile);
+              }
+              _context4.next = 10;
+              break;
+            case 7:
+              _context4.prev = 7;
+              _context4.t0 = _context4["catch"](0);
+              return _context4.abrupt("return", _context4.t0);
+            case 10:
+            case "end":
+              return _context4.stop();
+          }
+        }, _callee4, null, [[0, 7]]);
       }))();
     }
   }
@@ -50386,11 +49841,9 @@ var render = function () {
                           ),
                         ]),
                         _vm._v(" "),
-                        _c(
-                          "td",
-                          { staticClass: "text-center font-monospace" },
-                          [_vm._v(_vm._s(item.nombre))]
-                        ),
+                        _c("td", { staticClass: "font-monospace" }, [
+                          _vm._v(_vm._s(item.nombre)),
+                        ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "font-monospace" }, [
                           _vm._v(_vm._s(item.direccion)),
@@ -50746,10 +50199,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c(
           "th",
-          {
-            staticClass: "text-center font-monospace",
-            staticStyle: { width: "8%" },
-          },
+          { staticClass: "font-monospace", staticStyle: { width: "8%" } },
           [_vm._v("Nombres")]
         ),
         _vm._v(" "),
@@ -50970,11 +50420,7 @@ var render = function () {
                     _vm._l(_vm.centros.data, function (item, index) {
                       return _c("tr", { key: item.id }, [
                         _c("td", { staticClass: "text-center" }, [
-                          _vm._v(
-                            "\n                                    " +
-                              _vm._s(index + 1) +
-                              "\n                                "
-                          ),
+                          _vm._v(" " + _vm._s(index + 1)),
                         ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "font-monospace" }, [
@@ -50982,11 +50428,7 @@ var render = function () {
                         ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "font-monospace" }, [
-                          _vm._v(
-                            " " +
-                              _vm._s(item.numero) +
-                              "\n                                "
-                          ),
+                          _vm._v(" " + _vm._s(item.numero)),
                         ]),
                         _vm._v(" "),
                         _c(
@@ -51340,14 +50782,14 @@ var staticRenderFns = [
           [_vm._v("NOMBRE")]
         ),
         _vm._v(" "),
-        _c("th", { staticClass: "font-monospace" }, [_vm._v("NÚMERO")]),
+        _c("th", { staticClass: "font-monospace" }, [_vm._v("Numero")]),
         _vm._v(" "),
         _c("th", { staticClass: "font-monospace" }, [
-          _vm._v("CENTRO VOTACIÓN"),
+          _vm._v("Centro votación"),
         ]),
         _vm._v(" "),
         _c("th", { staticClass: "font-monospace" }, [
-          _vm._v("CANTIDAD VOTANTES"),
+          _vm._v("Cantidad Votantes"),
         ]),
         _vm._v(" "),
         _c(
@@ -56289,7 +55731,7 @@ var render = function () {
                         },
                       },
                     },
-                    [_vm._v(" Guardar\n                ")]
+                    [_vm._v(" Guardar")]
                   )
                 : _c(
                     "button",
@@ -56303,7 +55745,7 @@ var render = function () {
                         },
                       },
                     },
-                    [_vm._v(" Actualizar\n                ")]
+                    [_vm._v(" Actualizar")]
                   ),
               _vm._v(" "),
               _c(
@@ -56318,7 +55760,7 @@ var render = function () {
                     },
                   },
                 },
-                [_vm._v(" Cerrar\n                ")]
+                [_vm._v(" Cerrar")]
               ),
             ]),
           ]),
@@ -56366,7 +55808,7 @@ var render = function () {
     [
       _c(
         "div",
-        { staticClass: "modal-dialog modal-xl modal-simple modal-enable-otp" },
+        { staticClass: "modal-dialog modal-lg modal-simple modal-enable-otp" },
         [
           _c("div", { staticClass: "modal-content p-3" }, [
             _c("div", { staticClass: "modal-header" }, [
@@ -56381,12 +55823,11 @@ var render = function () {
               _vm._v(" "),
               _vm.option
                 ? _c("h5", { staticClass: "modal-title" }, [
-                    _vm._v(" CENTRO DE VOTACIÓN - SUPERVISOR"),
+                    _vm._v(" Centro de Votación - Supervisor"),
                   ])
                 : _c("h5", { staticClass: "modal-title" }, [
                     _vm._v(
-                      "Agregar CENTRO DE VOTACIÓN | " +
-                        _vm._s(_vm.centro.nombre)
+                      "AgregarCentro de Votación | " + _vm._s(_vm.centro.nombre)
                     ),
                   ]),
             ]),
@@ -56395,15 +55836,15 @@ var render = function () {
               _c("fieldset", [
                 _c("legend", [
                   _vm._v(
-                    "Ingresar informacion del CENTRO DE VOTACIÓN - SUPERVISOR | " +
+                    "Ingresar informacion del Centro de Votación - Supervisor | " +
                       _vm._s(_vm.centro.nombre)
                   ),
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "row mb-1" }, [
-                  _c("div", { staticClass: "col-md-4" }, [
+                  _c("div", { staticClass: "col-md-12" }, [
                     _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-md-12" }, [
+                      _c("div", { staticClass: "col-md-8" }, [
                         _c("label", [_vm._v("Supervisores: ")]),
                         _vm._v(" "),
                         _c(
@@ -56464,7 +55905,7 @@ var render = function () {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                            " +
+                                    " " +
                                       _vm._s(supervisor.persona_nombre) +
                                       " " +
                                       _vm._s(supervisor.apellido_paterno) +
@@ -56486,7 +55927,7 @@ var render = function () {
                           : _vm._e(),
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-12 mt-3" }, [
+                      _c("div", { staticClass: "col-md-2 mt-3" }, [
                         _c(
                           "button",
                           {
@@ -56499,500 +55940,149 @@ var render = function () {
                               },
                             },
                           },
-                          [
-                            _vm._v(
-                              "\n                                        Agregar Supervisor\n                                    "
-                            ),
-                          ]
+                          [_vm._v(" Agregar")]
                         ),
                       ]),
                     ]),
                   ]),
-                ]),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-12 mt-5" }, [
-                _c("label", [
-                  _vm._v("LISTA DE SUPERVISORES EN CENTRO DE VOTACIÓN: "),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "card mb-1 p-3" }, [
-                  _c(
-                    "div",
-                    {
-                      staticClass:
-                        "d-flex justify-content-between align-items-center row mt-75",
-                    },
-                    [
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-12 mt-5" }, [
+                    _c("label", [
+                      _vm._v("Lista de Supervisores en Centro de Votación: "),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row mt-2" }, [
                       _c(
                         "div",
                         {
-                          staticClass:
-                            "col-sm-12 col-lg-4 d-flex justify-content-center justify-content-lg-start",
+                          staticClass: "col-md-12 table-responsive text-nowrap",
                         },
                         [
                           _c(
-                            "div",
-                            {
-                              staticClass: "dataTables_length",
-                              attrs: { id: "DataTables_Table_0_length" },
-                            },
+                            "table",
+                            { staticClass: "table table-hover table-sm" },
                             [
-                              _c("label", [
-                                _vm._v(
-                                  "\n                                        Show\n                                        "
-                                ),
-                                _c(
-                                  "select",
-                                  {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.pageSize,
-                                        expression: "pageSize",
-                                      },
-                                    ],
-                                    staticClass: "form-select",
-                                    on: {
-                                      change: [
-                                        function ($event) {
-                                          var $$selectedVal =
-                                            Array.prototype.filter
-                                              .call(
-                                                $event.target.options,
-                                                function (o) {
-                                                  return o.selected
-                                                }
-                                              )
-                                              .map(function (o) {
-                                                var val =
-                                                  "_value" in o
-                                                    ? o._value
-                                                    : o.value
-                                                return val
-                                              })
-                                          _vm.pageSize = $event.target.multiple
-                                            ? $$selectedVal
-                                            : $$selectedVal[0]
+                              _vm._m(0),
+                              _vm._v(" "),
+                              _c(
+                                "tbody",
+                                { staticClass: "table-border-bottom-0" },
+                                _vm._l(
+                                  _vm.centros.data,
+                                  function (item, index) {
+                                    return _c("tr", { key: item.id }, [
+                                      _c("td", { staticClass: "text-center" }, [
+                                        _vm._v(
+                                          "\n                                                    " +
+                                            _vm._s(index + 1) +
+                                            "\n                                                "
+                                        ),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "td",
+                                        {
+                                          staticClass:
+                                            "text-center font-monospace",
                                         },
-                                        _vm.changePageSize,
-                                      ],
-                                    },
-                                  },
-                                  [
-                                    _c("option", { attrs: { value: "5" } }, [
-                                      _vm._v("5"),
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("option", { attrs: { value: "15" } }, [
-                                      _vm._v("15"),
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("option", { attrs: { value: "25" } }, [
-                                      _vm._v("25"),
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("option", { attrs: { value: "50" } }, [
-                                      _vm._v("50"),
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("option", { attrs: { value: "100" } }, [
-                                      _vm._v("100"),
-                                    ]),
-                                  ]
-                                ),
-                                _vm._v(
-                                  "\n                                        entries\n                                    "
-                                ),
-                              ]),
-                            ]
-                          ),
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "col-sm-12 col-lg-8 ps-xl-75 ps-0" },
-                        [
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "dt-action-buttons d-flex align-items-center justify-content-center justify-content-lg-end flex-lg-nowrap flex-wrap",
-                            },
-                            [
-                              _c("div", { staticClass: "me-1" }, [
-                                _c(
-                                  "div",
-                                  { staticClass: "dataTables_filter" },
-                                  [
-                                    _c("label", [
-                                      _vm._v("Buscar:"),
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.searchQuery,
-                                            expression: "searchQuery",
-                                          },
-                                        ],
-                                        staticClass:
-                                          "form-control form-control-sm",
-                                        attrs: {
-                                          type: "search",
-                                          placeholder: "Buscar...",
-                                        },
-                                        domProps: { value: _vm.searchQuery },
-                                        on: {
-                                          input: [
-                                            function ($event) {
-                                              if ($event.target.composing) {
-                                                return
-                                              }
-                                              _vm.searchQuery =
-                                                $event.target.value
-                                            },
-                                            _vm.debouncedSearch,
-                                          ],
-                                        },
-                                      }),
-                                    ]),
-                                  ]
-                                ),
-                              ]),
-                            ]
-                          ),
-                        ]
-                      ),
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "row mt-2" }, [
-                    _c(
-                      "div",
-                      { staticClass: "col-md-12 table-responsive text-nowrap" },
-                      [
-                        _c(
-                          "table",
-                          { staticClass: "table table-hover table-sm" },
-                          [
-                            _vm._m(0),
-                            _vm._v(" "),
-                            _c(
-                              "tbody",
-                              { staticClass: "table-border-bottom-0" },
-                              _vm._l(_vm.centros.data, function (item, index) {
-                                return _c("tr", { key: item.id }, [
-                                  _c("td", { staticClass: "text-center" }, [
-                                    _vm._v(
-                                      "\n                                                " +
-                                        _vm._s(index + 1) +
-                                        "\n                                            "
-                                    ),
-                                  ]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "td",
-                                    {
-                                      staticClass: "text-center font-monospace",
-                                    },
-                                    [
-                                      _vm._v(
-                                        _vm._s(item.nombre) +
-                                          " " +
-                                          _vm._s(item.apellido_paterno) +
-                                          " " +
-                                          _vm._s(item.apellido_materno) +
-                                          " "
-                                      ),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "td",
-                                    {
-                                      staticClass: "text-center font-monospace",
-                                    },
-                                    [
-                                      item.estado == 1
-                                        ? _c(
-                                            "span",
-                                            {
-                                              staticClass:
-                                                "badge bg-label-success me-1",
-                                            },
-                                            [_vm._v("Activo")]
-                                          )
-                                        : _c(
-                                            "span",
-                                            {
-                                              staticClass:
-                                                "badge bg-label-danger me-1",
-                                            },
-                                            [_vm._v("Inactivo")]
+                                        [
+                                          _vm._v(
+                                            _vm._s(item.nombre) +
+                                              " " +
+                                              _vm._s(item.apellido_paterno) +
+                                              " " +
+                                              _vm._s(item.apellido_materno) +
+                                              " "
                                           ),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("td", { staticClass: "text-center" }, [
-                                    item.estado == 1
-                                      ? _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-danger btn-sm",
-                                            on: {
-                                              click: function ($event) {
-                                                $event.preventDefault()
-                                                return _vm.deleteItem(item.id)
-                                              },
-                                            },
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass:
-                                                "fa-solid fa-trash-can",
-                                            }),
-                                          ]
-                                        )
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    item.estado != 1
-                                      ? _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-success btn-sm",
-                                            on: {
-                                              click: function ($event) {
-                                                $event.preventDefault()
-                                                return _vm.activeItem(item.id)
-                                              },
-                                            },
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass:
-                                                "fa-solid fa-circle-check",
-                                            }),
-                                          ]
-                                        )
-                                      : _vm._e(),
-                                  ]),
-                                ])
-                              }),
-                              0
-                            ),
-                          ]
-                        ),
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "col-md-12 mt-1 d-flex justify-content-end align-items-center",
-                      },
-                      [
-                        _vm.centros.last_page > 1
-                          ? _c(
-                              "nav",
-                              {
-                                attrs: {
-                                  "aria-label": "Page navigation example",
-                                },
-                              },
-                              [
-                                _c(
-                                  "ul",
-                                  {
-                                    staticClass:
-                                      "pagination justify-content-center align-items-center",
-                                  },
-                                  [
-                                    _c(
-                                      "li",
-                                      {
-                                        staticClass: "page-item",
-                                        class: {
-                                          disabled:
-                                            _vm.centros.current_page === 1,
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "td",
+                                        {
+                                          staticClass:
+                                            "text-center font-monospace",
                                         },
-                                      },
-                                      [
-                                        _c(
-                                          "a",
-                                          {
-                                            staticClass: "page-link",
-                                            on: {
-                                              click: function ($event) {
-                                                $event.preventDefault()
-                                                return _vm.fetchUserList(1)
-                                              },
-                                            },
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass:
-                                                "fa fa-fast-backward font-medium-3",
-                                              attrs: { "aria-hidden": "true" },
-                                            }),
-                                          ]
-                                        ),
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "li",
-                                      {
-                                        staticClass: "page-item",
-                                        class: {
-                                          disabled:
-                                            _vm.centros.current_page === 1,
-                                        },
-                                      },
-                                      [
-                                        _c(
-                                          "a",
-                                          {
-                                            staticClass: "page-link",
-                                            on: {
-                                              click: function ($event) {
-                                                $event.preventDefault()
-                                                return _vm.fetchUserList(
-                                                  _vm.centros.current_page - 1
-                                                )
-                                              },
-                                            },
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass:
-                                                "fa-solid fa-backward-step",
-                                            }),
-                                          ]
-                                        ),
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _vm._l(
-                                      _vm.displayedPages,
-                                      function (pageNumber) {
-                                        return _c(
-                                          "li",
-                                          {
-                                            key: pageNumber,
-                                            staticClass: "page-item",
-                                            class: {
-                                              active:
-                                                _vm.centros.current_page ===
-                                                pageNumber,
-                                            },
-                                          },
-                                          [
-                                            _c(
-                                              "a",
+                                        [
+                                          item.estado == 1
+                                            ? _c(
+                                                "span",
+                                                {
+                                                  staticClass:
+                                                    "badge bg-label-success me-1",
+                                                },
+                                                [_vm._v("Activo")]
+                                              )
+                                            : _c(
+                                                "span",
+                                                {
+                                                  staticClass:
+                                                    "badge bg-label-danger me-1",
+                                                },
+                                                [_vm._v("Inactivo")]
+                                              ),
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("td", { staticClass: "text-center" }, [
+                                        item.estado == 1
+                                          ? _c(
+                                              "button",
                                               {
-                                                staticClass: "page-link",
-                                                attrs: { href: "#" },
+                                                staticClass:
+                                                  "btn btn-danger btn-sm",
                                                 on: {
                                                   click: function ($event) {
                                                     $event.preventDefault()
-                                                    return _vm.fetchUserList(
-                                                      pageNumber
+                                                    return _vm.deleteItem(
+                                                      item.id
                                                     )
                                                   },
                                                 },
                                               },
-                                              [_vm._v(_vm._s(pageNumber))]
-                                            ),
-                                          ]
-                                        )
-                                      }
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "li",
-                                      {
-                                        staticClass: "page-item",
-                                        class: {
-                                          disabled:
-                                            _vm.centros.current_page ===
-                                            _vm.centros.last_page,
-                                        },
-                                      },
-                                      [
-                                        _c(
-                                          "a",
-                                          {
-                                            staticClass: "page-link",
-                                            attrs: { href: "#" },
-                                            on: {
-                                              click: function ($event) {
-                                                $event.preventDefault()
-                                                return _vm.fetchUserList(
-                                                  _vm.centros.current_page + 1
-                                                )
+                                              [
+                                                _c("i", {
+                                                  staticClass:
+                                                    "fa-solid fa-trash-can",
+                                                }),
+                                              ]
+                                            )
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        item.estado != 1
+                                          ? _c(
+                                              "button",
+                                              {
+                                                staticClass:
+                                                  "btn btn-success btn-sm",
+                                                on: {
+                                                  click: function ($event) {
+                                                    $event.preventDefault()
+                                                    return _vm.activeItem(
+                                                      item.id
+                                                    )
+                                                  },
+                                                },
                                               },
-                                            },
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass:
-                                                "fa fa-step-forward font-medium-3",
-                                              attrs: { "aria-hidden": "true" },
-                                            }),
-                                          ]
-                                        ),
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "li",
-                                      {
-                                        staticClass: "page-item",
-                                        class: {
-                                          disabled:
-                                            _vm.centros.current_page ===
-                                            _vm.centros.last_page,
-                                        },
-                                      },
-                                      [
-                                        _c(
-                                          "a",
-                                          {
-                                            staticClass: "page-link",
-                                            attrs: { href: "#" },
-                                            on: {
-                                              click: function ($event) {
-                                                $event.preventDefault()
-                                                return _vm.fetchUserList(
-                                                  _vm.centros.last_page
-                                                )
-                                              },
-                                            },
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass:
-                                                "fa fa-fast-forward font-medium-3",
-                                              attrs: { "aria-hidden": "true" },
-                                            }),
-                                          ]
-                                        ),
-                                      ]
-                                    ),
-                                  ],
-                                  2
+                                              [
+                                                _c("i", {
+                                                  staticClass:
+                                                    "fa-solid fa-circle-check",
+                                                }),
+                                              ]
+                                            )
+                                          : _vm._e(),
+                                      ]),
+                                    ])
+                                  }
                                 ),
-                              ]
-                            )
-                          : _vm._e(),
-                      ]
-                    ),
+                                0
+                              ),
+                            ]
+                          ),
+                        ]
+                      ),
+                    ]),
                   ]),
                 ]),
               ]),
@@ -57033,7 +56123,7 @@ var staticRenderFns = [
             staticClass: "text-center font-monospace",
             staticStyle: { width: "5%" },
           },
-          [_vm._v("Items\n                                            ")]
+          [_vm._v("Items")]
         ),
         _vm._v(" "),
         _c(
@@ -57042,11 +56132,7 @@ var staticRenderFns = [
             staticClass: "text-center font-monospace",
             staticStyle: { width: "8%" },
           },
-          [
-            _vm._v(
-              "\n                                                NOMBRES y APELLIDOS"
-            ),
-          ]
+          [_vm._v("NOMBRES y APELLIDOS")]
         ),
         _vm._v(" "),
         _c(
@@ -57055,7 +56141,7 @@ var staticRenderFns = [
             staticClass: "text-center font-monospace",
             staticStyle: { width: "10%" },
           },
-          [_vm._v("\n                                                Estado")]
+          [_vm._v(" Estado")]
         ),
         _vm._v(" "),
         _c(
@@ -57064,7 +56150,7 @@ var staticRenderFns = [
             staticClass: "text-center font-monospace",
             staticStyle: { width: "6%" },
           },
-          [_vm._v("\n                                                Opciones")]
+          [_vm._v("Opciones")]
         ),
       ]),
     ])
@@ -57108,7 +56194,7 @@ var render = function () {
     [
       _c(
         "div",
-        { staticClass: "modal-dialog modal-xl modal-simple modal-enable-otp" },
+        { staticClass: "modal-dialog modal-lg modal-simple modal-enable-otp" },
         [
           _c("div", { staticClass: "modal-content p-3" }, [
             _c("div", { staticClass: "modal-header" }, [
@@ -57340,7 +56426,7 @@ var render = function () {
                         },
                       },
                     },
-                    [_vm._v(" Guardar\n                ")]
+                    [_vm._v(" Guardar ")]
                   )
                 : _c(
                     "button",
@@ -57354,7 +56440,7 @@ var render = function () {
                         },
                       },
                     },
-                    [_vm._v(" Actualizar\n                ")]
+                    [_vm._v(" Actualizar ")]
                   ),
               _vm._v(" "),
               _c(
@@ -57369,7 +56455,7 @@ var render = function () {
                     },
                   },
                 },
-                [_vm._v(" Cerrar\n                ")]
+                [_vm._v(" Cerrar")]
               ),
             ]),
           ]),
@@ -59243,7 +58329,7 @@ var render = function () {
     [
       _c(
         "div",
-        { staticClass: "modal-dialog modal-xl modal-simple modal-enable-otp" },
+        { staticClass: "modal-dialog modal-lg modal-simple modal-enable-otp" },
         [
           _c("div", { staticClass: "modal-content p-3" }, [
             _c("div", { staticClass: "modal-header" }, [
@@ -59258,17 +58344,17 @@ var render = function () {
               _vm._v(" "),
               _vm.option
                 ? _c("h5", { staticClass: "modal-title" }, [
-                    _vm._v(" MESA - DEL PERSONERO"),
+                    _vm._v("Actualizar Mesa con el Personero"),
                   ])
                 : _c("h5", { staticClass: "modal-title" }, [
-                    _vm._v("Agregar MESA "),
+                    _vm._v("Agregar Mesa con el Personero "),
                   ]),
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "modal-body" }, [
               _c("fieldset", [
                 _c("legend", [
-                  _vm._v("Ingresar informacion del MESA - PERSONERO | "),
+                  _vm._v("Ingresar informacion del Mesa - Personero"),
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "row mb-1" }, [
@@ -59481,562 +58567,429 @@ var render = function () {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "row mb-1" }, [
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-md-12" }, [
-                        _c("label", [_vm._v("MESAS: ")]),
-                        _vm._v(" "),
-                        _c(
-                          "select",
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("label", [_vm._v("MESAS: ")]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
                           {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.personero.mesa_id,
-                                expression: "personero.mesa_id",
-                              },
-                            ],
-                            staticClass:
-                              "select2 form-select form-select-sm form-select-lg",
-                            class:
-                              _vm.errors != null && _vm.errors.mesa_id
-                                ? "is-invalid"
-                                : "",
-                            attrs: { id: "personero_id" },
-                            on: {
-                              change: function ($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function (o) {
-                                    return o.selected
-                                  })
-                                  .map(function (o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.personero,
-                                  "mesa_id",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              },
-                            },
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.personero.mesa_id,
+                            expression: "personero.mesa_id",
                           },
-                          [
-                            _c(
-                              "option",
-                              {
-                                attrs: {
-                                  value: "",
-                                  selected: "",
-                                  disabled: "",
-                                },
-                              },
-                              [_vm._v("--seleccionar--")]
-                            ),
-                            _vm._v(" "),
-                            _vm._l(_vm.mesas, function (mesa) {
-                              return _c(
-                                "option",
-                                { key: mesa.id, domProps: { value: mesa.id } },
-                                [
-                                  _vm._v(
-                                    "\n                                                " +
-                                      _vm._s(mesa.nombre)
-                                  ),
-                                ]
-                              )
-                            }),
-                          ],
-                          2
+                        ],
+                        staticClass:
+                          "select2 form-select form-select-sm form-select-lg",
+                        class:
+                          _vm.errors != null && _vm.errors.mesa_id
+                            ? "is-invalid"
+                            : "",
+                        attrs: { id: "personero_id" },
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.personero,
+                              "mesa_id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                        },
+                      },
+                      [
+                        _c(
+                          "option",
+                          { attrs: { value: "", selected: "", disabled: "" } },
+                          [_vm._v("--seleccionar--")]
                         ),
                         _vm._v(" "),
-                        _vm.errors != null && _vm.errors.mesa_id
-                          ? _c("span", { staticClass: "text-danger" }, [
-                              _vm._v(_vm._s(_vm.errors.mesa_id[0])),
-                            ])
-                          : _vm._e(),
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-12 mt-3" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-primary",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function ($event) {
-                                $event.preventDefault()
-                                return _vm.addNewUser()
-                              },
-                            },
+                        _vm._l(_vm.mesas, function (mesa) {
+                          return _c(
+                            "option",
+                            { key: mesa.id, domProps: { value: mesa.id } },
+                            [_vm._v(" " + _vm._s(mesa.nombre))]
+                          )
+                        }),
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _vm.errors != null && _vm.errors.mesa_id
+                      ? _c("span", { staticClass: "text-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.mesa_id[0])),
+                        ])
+                      : _vm._e(),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6 mt-3" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function ($event) {
+                            $event.preventDefault()
+                            return _vm.addPersoneroMesa()
                           },
-                          [
-                            _vm._v(
-                              "\n                                            Agregar Mesa\n                                        "
-                            ),
-                          ]
+                        },
+                      },
+                      [
+                        _vm._v(
+                          "\n                                Agregar Mesa\n                            "
                         ),
-                      ]),
-                    ]),
+                      ]
+                    ),
                   ]),
                 ]),
               ]),
               _vm._v(" "),
               _c("fieldset", [
-                _c("legend", [_vm._v("LISTA DE PERSONEROS EN MESA: ")]),
+                _c("legend", [_vm._v("Listado de mesas por Personero: ")]),
                 _vm._v(" "),
                 _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "card mb-1 p-3" }, [
+                  _c("div", { staticClass: "row mt-2" }, [
                     _c(
                       "div",
-                      {
-                        staticClass:
-                          "d-flex justify-content-between align-items-center row mt-75",
-                      },
+                      { staticClass: "col-md-12 table-responsive text-nowrap" },
                       [
                         _c(
-                          "div",
-                          {
-                            staticClass:
-                              "col-sm-12 col-lg-4 d-flex justify-content-center justify-content-lg-start",
-                          },
+                          "table",
+                          { staticClass: "table table-hover table-sm" },
                           [
+                            _vm._m(0),
+                            _vm._v(" "),
                             _c(
-                              "div",
-                              {
-                                staticClass: "dataTables_length",
-                                attrs: { id: "DataTables_Table_0_length" },
-                              },
-                              [
-                                _c("label", [
-                                  _vm._v(
-                                    "\n                                                Show\n                                                "
-                                  ),
-                                  _c(
-                                    "select",
-                                    {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.pageSize,
-                                          expression: "pageSize",
-                                        },
-                                      ],
-                                      staticClass: "form-select",
-                                      on: {
-                                        change: [
-                                          function ($event) {
-                                            var $$selectedVal =
-                                              Array.prototype.filter
-                                                .call(
-                                                  $event.target.options,
-                                                  function (o) {
-                                                    return o.selected
-                                                  }
-                                                )
-                                                .map(function (o) {
-                                                  var val =
-                                                    "_value" in o
-                                                      ? o._value
-                                                      : o.value
-                                                  return val
-                                                })
-                                            _vm.pageSize = $event.target
-                                              .multiple
-                                              ? $$selectedVal
-                                              : $$selectedVal[0]
-                                          },
-                                          _vm.changePageSize,
-                                        ],
-                                      },
-                                    },
+                              "tbody",
+                              { staticClass: "table-border-bottom-0" },
+                              _vm._l(
+                                _vm.personeros.data,
+                                function (item, index) {
+                                  return _c(
+                                    "tr",
+                                    { key: item.id_mesa_personero },
                                     [
-                                      _c("option", { attrs: { value: "5" } }, [
-                                        _vm._v("5"),
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("option", { attrs: { value: "15" } }, [
-                                        _vm._v("15"),
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("option", { attrs: { value: "25" } }, [
-                                        _vm._v("25"),
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("option", { attrs: { value: "50" } }, [
-                                        _vm._v("50"),
+                                      _c("td", { staticClass: "text-center" }, [
+                                        _vm._v(
+                                          "\n                                                " +
+                                            _vm._s(index + 1) +
+                                            "\n                                            "
+                                        ),
                                       ]),
                                       _vm._v(" "),
                                       _c(
-                                        "option",
-                                        { attrs: { value: "100" } },
-                                        [_vm._v("100")]
+                                        "td",
+                                        {
+                                          staticClass:
+                                            "text-center font-monospace",
+                                        },
+                                        [_vm._v(_vm._s(item.nombre) + "  ")]
                                       ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "td",
+                                        {
+                                          staticClass:
+                                            "text-center font-monospace",
+                                        },
+                                        [
+                                          item.estado_mesa_personero == 1
+                                            ? _c(
+                                                "span",
+                                                {
+                                                  staticClass:
+                                                    "badge bg-label-success me-1",
+                                                },
+                                                [_vm._v("Activo")]
+                                              )
+                                            : _c(
+                                                "span",
+                                                {
+                                                  staticClass:
+                                                    "badge bg-label-danger me-1",
+                                                },
+                                                [_vm._v("Inactivo")]
+                                              ),
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("td", { staticClass: "text-center" }, [
+                                        item.estado_mesa_personero == 1
+                                          ? _c(
+                                              "button",
+                                              {
+                                                staticClass:
+                                                  "btn btn-danger btn-sm",
+                                                on: {
+                                                  click: function ($event) {
+                                                    $event.preventDefault()
+                                                    return _vm.deleteItem(
+                                                      item.id_mesa_personero
+                                                    )
+                                                  },
+                                                },
+                                              },
+                                              [
+                                                _c("i", {
+                                                  staticClass:
+                                                    "fa-solid fa-trash-can",
+                                                }),
+                                              ]
+                                            )
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        item.estado_mesa_personero != 1
+                                          ? _c(
+                                              "button",
+                                              {
+                                                staticClass:
+                                                  "btn btn-success btn-sm",
+                                                on: {
+                                                  click: function ($event) {
+                                                    $event.preventDefault()
+                                                    return _vm.activeItem(
+                                                      item.id_mesa_personero
+                                                    )
+                                                  },
+                                                },
+                                              },
+                                              [
+                                                _c("i", {
+                                                  staticClass:
+                                                    "fa-solid fa-circle-check",
+                                                }),
+                                              ]
+                                            )
+                                          : _vm._e(),
+                                      ]),
                                     ]
-                                  ),
-                                  _vm._v(
-                                    "\n                                                entries\n                                            "
-                                  ),
-                                ]),
-                              ]
+                                  )
+                                }
+                              ),
+                              0
                             ),
                           ]
                         ),
                       ]
                     ),
                     _vm._v(" "),
-                    _c("div", { staticClass: "row mt-2" }, [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "col-md-12 table-responsive text-nowrap",
-                        },
-                        [
-                          _c(
-                            "table",
-                            { staticClass: "table table-hover table-sm" },
-                            [
-                              _vm._m(0),
-                              _vm._v(" "),
-                              _c(
-                                "tbody",
-                                { staticClass: "table-border-bottom-0" },
-                                _vm._l(
-                                  _vm.personeros.data,
-                                  function (item, index) {
-                                    return _c(
-                                      "tr",
-                                      { key: item.id_mesa_personero },
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "col-md-12 mt-1 d-flex justify-content-end align-items-center",
+                      },
+                      [
+                        _vm.personeros.last_page > 1
+                          ? _c(
+                              "nav",
+                              {
+                                attrs: {
+                                  "aria-label": "Page navigation example",
+                                },
+                              },
+                              [
+                                _c(
+                                  "ul",
+                                  {
+                                    staticClass:
+                                      "pagination justify-content-center align-items-center",
+                                  },
+                                  [
+                                    _c(
+                                      "li",
+                                      {
+                                        staticClass: "page-item",
+                                        class: {
+                                          disabled:
+                                            _vm.personeros.current_page === 1,
+                                        },
+                                      },
                                       [
                                         _c(
-                                          "td",
-                                          { staticClass: "text-center" },
-                                          [
-                                            _vm._v(
-                                              "\n                                                        " +
-                                                _vm._s(index + 1) +
-                                                "\n                                                    "
-                                            ),
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "td",
+                                          "a",
                                           {
-                                            staticClass:
-                                              "text-center font-monospace",
-                                          },
-                                          [_vm._v(_vm._s(item.nombre) + "  ")]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "td",
-                                          {
-                                            staticClass:
-                                              "text-center font-monospace",
+                                            staticClass: "page-link",
+                                            on: {
+                                              click: function ($event) {
+                                                $event.preventDefault()
+                                                return _vm.fetchUserList(1)
+                                              },
+                                            },
                                           },
                                           [
-                                            item.estado_mesa_personero == 1
-                                              ? _c(
-                                                  "span",
-                                                  {
-                                                    staticClass:
-                                                      "badge bg-label-success me-1",
-                                                  },
-                                                  [_vm._v("Activo")]
-                                                )
-                                              : _c(
-                                                  "span",
-                                                  {
-                                                    staticClass:
-                                                      "badge bg-label-danger me-1",
-                                                  },
-                                                  [_vm._v("Inactivo")]
-                                                ),
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "td",
-                                          { staticClass: "text-center" },
-                                          [
-                                            item.estado_mesa_personero == 1
-                                              ? _c(
-                                                  "button",
-                                                  {
-                                                    staticClass:
-                                                      "btn btn-danger btn-sm",
-                                                    on: {
-                                                      click: function ($event) {
-                                                        $event.preventDefault()
-                                                        return _vm.deleteItem(
-                                                          item.id_mesa_personero
-                                                        )
-                                                      },
-                                                    },
-                                                  },
-                                                  [
-                                                    _c("i", {
-                                                      staticClass:
-                                                        "fa-solid fa-trash-can",
-                                                    }),
-                                                  ]
-                                                )
-                                              : _vm._e(),
-                                            _vm._v(" "),
-                                            item.estado_mesa_personero != 1
-                                              ? _c(
-                                                  "button",
-                                                  {
-                                                    staticClass:
-                                                      "btn btn-success btn-sm",
-                                                    on: {
-                                                      click: function ($event) {
-                                                        $event.preventDefault()
-                                                        return _vm.activeItem(
-                                                          item.id_mesa_personero
-                                                        )
-                                                      },
-                                                    },
-                                                  },
-                                                  [
-                                                    _c("i", {
-                                                      staticClass:
-                                                        "fa-solid fa-circle-check",
-                                                    }),
-                                                  ]
-                                                )
-                                              : _vm._e(),
+                                            _c("i", {
+                                              staticClass:
+                                                "fa fa-fast-backward font-medium-3",
+                                              attrs: { "aria-hidden": "true" },
+                                            }),
                                           ]
                                         ),
                                       ]
-                                    )
-                                  }
-                                ),
-                                0
-                              ),
-                            ]
-                          ),
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "col-md-12 mt-1 d-flex justify-content-end align-items-center",
-                        },
-                        [
-                          _vm.personeros.last_page > 1
-                            ? _c(
-                                "nav",
-                                {
-                                  attrs: {
-                                    "aria-label": "Page navigation example",
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "ul",
-                                    {
-                                      staticClass:
-                                        "pagination justify-content-center align-items-center",
-                                    },
-                                    [
-                                      _c(
-                                        "li",
-                                        {
-                                          staticClass: "page-item",
-                                          class: {
-                                            disabled:
-                                              _vm.personeros.current_page === 1,
-                                          },
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "li",
+                                      {
+                                        staticClass: "page-item",
+                                        class: {
+                                          disabled:
+                                            _vm.personeros.current_page === 1,
                                         },
-                                        [
-                                          _c(
-                                            "a",
-                                            {
-                                              staticClass: "page-link",
-                                              on: {
-                                                click: function ($event) {
-                                                  $event.preventDefault()
-                                                  return _vm.fetchUserList(1)
-                                                },
+                                      },
+                                      [
+                                        _c(
+                                          "a",
+                                          {
+                                            staticClass: "page-link",
+                                            on: {
+                                              click: function ($event) {
+                                                $event.preventDefault()
+                                                return _vm.fetchUserList(
+                                                  _vm.personeros.current_page -
+                                                    1
+                                                )
                                               },
                                             },
-                                            [
-                                              _c("i", {
-                                                staticClass:
-                                                  "fa fa-fast-backward font-medium-3",
-                                                attrs: {
-                                                  "aria-hidden": "true",
-                                                },
-                                              }),
-                                            ]
-                                          ),
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "li",
-                                        {
-                                          staticClass: "page-item",
-                                          class: {
-                                            disabled:
-                                              _vm.personeros.current_page === 1,
                                           },
-                                        },
-                                        [
-                                          _c(
-                                            "a",
-                                            {
-                                              staticClass: "page-link",
-                                              on: {
-                                                click: function ($event) {
-                                                  $event.preventDefault()
-                                                  return _vm.fetchUserList(
-                                                    _vm.personeros
-                                                      .current_page - 1
-                                                  )
-                                                },
-                                              },
+                                          [
+                                            _c("i", {
+                                              staticClass:
+                                                "fa-solid fa-backward-step",
+                                            }),
+                                          ]
+                                        ),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm._l(
+                                      _vm.displayedPages,
+                                      function (pageNumber) {
+                                        return _c(
+                                          "li",
+                                          {
+                                            key: pageNumber,
+                                            staticClass: "page-item",
+                                            class: {
+                                              active:
+                                                _vm.personeros.current_page ===
+                                                pageNumber,
                                             },
-                                            [
-                                              _c("i", {
-                                                staticClass:
-                                                  "fa-solid fa-backward-step",
-                                              }),
-                                            ]
-                                          ),
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _vm._l(
-                                        _vm.displayedPages,
-                                        function (pageNumber) {
-                                          return _c(
-                                            "li",
-                                            {
-                                              key: pageNumber,
-                                              staticClass: "page-item",
-                                              class: {
-                                                active:
-                                                  _vm.personeros
-                                                    .current_page ===
-                                                  pageNumber,
-                                              },
-                                            },
-                                            [
-                                              _c(
-                                                "a",
-                                                {
-                                                  staticClass: "page-link",
-                                                  attrs: { href: "#" },
-                                                  on: {
-                                                    click: function ($event) {
-                                                      $event.preventDefault()
-                                                      return _vm.fetchUserList(
-                                                        pageNumber
-                                                      )
-                                                    },
+                                          },
+                                          [
+                                            _c(
+                                              "a",
+                                              {
+                                                staticClass: "page-link",
+                                                attrs: { href: "#" },
+                                                on: {
+                                                  click: function ($event) {
+                                                    $event.preventDefault()
+                                                    return _vm.fetchUserList(
+                                                      pageNumber
+                                                    )
                                                   },
                                                 },
-                                                [_vm._v(_vm._s(pageNumber))]
-                                              ),
-                                            ]
-                                          )
-                                        }
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "li",
-                                        {
-                                          staticClass: "page-item",
-                                          class: {
-                                            disabled:
-                                              _vm.personeros.current_page ===
-                                              _vm.personeros.last_page,
-                                          },
+                                              },
+                                              [_vm._v(_vm._s(pageNumber))]
+                                            ),
+                                          ]
+                                        )
+                                      }
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "li",
+                                      {
+                                        staticClass: "page-item",
+                                        class: {
+                                          disabled:
+                                            _vm.personeros.current_page ===
+                                            _vm.personeros.last_page,
                                         },
-                                        [
-                                          _c(
-                                            "a",
-                                            {
-                                              staticClass: "page-link",
-                                              attrs: { href: "#" },
-                                              on: {
-                                                click: function ($event) {
-                                                  $event.preventDefault()
-                                                  return _vm.fetchUserList(
-                                                    _vm.personeros
-                                                      .current_page + 1
-                                                  )
-                                                },
+                                      },
+                                      [
+                                        _c(
+                                          "a",
+                                          {
+                                            staticClass: "page-link",
+                                            attrs: { href: "#" },
+                                            on: {
+                                              click: function ($event) {
+                                                $event.preventDefault()
+                                                return _vm.fetchUserList(
+                                                  _vm.personeros.current_page +
+                                                    1
+                                                )
                                               },
                                             },
-                                            [
-                                              _c("i", {
-                                                staticClass:
-                                                  "fa fa-step-forward font-medium-3",
-                                                attrs: {
-                                                  "aria-hidden": "true",
-                                                },
-                                              }),
-                                            ]
-                                          ),
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "li",
-                                        {
-                                          staticClass: "page-item",
-                                          class: {
-                                            disabled:
-                                              _vm.personeros.current_page ===
-                                              _vm.personeros.last_page,
                                           },
+                                          [
+                                            _c("i", {
+                                              staticClass:
+                                                "fa fa-step-forward font-medium-3",
+                                              attrs: { "aria-hidden": "true" },
+                                            }),
+                                          ]
+                                        ),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "li",
+                                      {
+                                        staticClass: "page-item",
+                                        class: {
+                                          disabled:
+                                            _vm.personeros.current_page ===
+                                            _vm.personeros.last_page,
                                         },
-                                        [
-                                          _c(
-                                            "a",
-                                            {
-                                              staticClass: "page-link",
-                                              attrs: { href: "#" },
-                                              on: {
-                                                click: function ($event) {
-                                                  $event.preventDefault()
-                                                  return _vm.fetchUserList(
-                                                    _vm.personeros.last_page
-                                                  )
-                                                },
+                                      },
+                                      [
+                                        _c(
+                                          "a",
+                                          {
+                                            staticClass: "page-link",
+                                            attrs: { href: "#" },
+                                            on: {
+                                              click: function ($event) {
+                                                $event.preventDefault()
+                                                return _vm.fetchUserList(
+                                                  _vm.personeros.last_page
+                                                )
                                               },
                                             },
-                                            [
-                                              _c("i", {
-                                                staticClass:
-                                                  "fa fa-fast-forward font-medium-3",
-                                                attrs: {
-                                                  "aria-hidden": "true",
-                                                },
-                                              }),
-                                            ]
-                                          ),
-                                        ]
-                                      ),
-                                    ],
-                                    2
-                                  ),
-                                ]
-                              )
-                            : _vm._e(),
-                        ]
-                      ),
-                    ]),
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass:
+                                                "fa fa-fast-forward font-medium-3",
+                                              attrs: { "aria-hidden": "true" },
+                                            }),
+                                          ]
+                                        ),
+                                      ]
+                                    ),
+                                  ],
+                                  2
+                                ),
+                              ]
+                            )
+                          : _vm._e(),
+                      ]
+                    ),
                   ]),
                 ]),
               ]),
@@ -60055,7 +59008,7 @@ var render = function () {
                     },
                   },
                 },
-                [_vm._v(" Cerrar\n                    ")]
+                [_vm._v(" Cerrar\n                ")]
               ),
             ]),
           ]),
@@ -60077,11 +59030,7 @@ var staticRenderFns = [
             staticClass: "text-center font-monospace",
             staticStyle: { width: "5%" },
           },
-          [
-            _vm._v(
-              "Items\n                                                    "
-            ),
-          ]
+          [_vm._v("Items\n                                            ")]
         ),
         _vm._v(" "),
         _c(
@@ -60090,11 +59039,7 @@ var staticRenderFns = [
             staticClass: "text-center font-monospace",
             staticStyle: { width: "8%" },
           },
-          [
-            _vm._v(
-              "\n                                                        NOMBRES y APELLIDOS"
-            ),
-          ]
+          [_vm._v(" NOMBRES y APELLIDOS")]
         ),
         _vm._v(" "),
         _c(
@@ -60103,11 +59048,7 @@ var staticRenderFns = [
             staticClass: "text-center font-monospace",
             staticStyle: { width: "10%" },
           },
-          [
-            _vm._v(
-              "\n                                                        Estado"
-            ),
-          ]
+          [_vm._v(" Estado")]
         ),
         _vm._v(" "),
         _c(
@@ -60116,11 +59057,7 @@ var staticRenderFns = [
             staticClass: "text-center font-monospace",
             staticStyle: { width: "6%" },
           },
-          [
-            _vm._v(
-              "\n                                                        Opciones"
-            ),
-          ]
+          [_vm._v("Opciones")]
         ),
       ]),
     ])
@@ -60553,6 +59490,7 @@ var render = function () {
     "div",
     {
       staticClass: "offcanvas offcanvas-end",
+      staticStyle: { width: "70%" },
       attrs: {
         "data-bs-scroll": "true",
         tabindex: "-1",
@@ -60564,154 +59502,89 @@ var render = function () {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "offcanvas-body mx-0 flex-grow-0" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12 col-12" },
-          [
-            _c("small", { staticClass: "text-light fw-semibold mb-2" }, [
-              _vm._v("Opciones de permiso"),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-6 col-6" }, [
+            _c("small", { staticClass: "text-center fw-semibold mb-2" }, [
+              _vm._v("Opciones"),
             ]),
             _vm._v(" "),
-            _vm._l(_vm.roles, function (rolesItem, index) {
-              return _c(
-                "div",
-                {
-                  key: index,
-                  staticClass: "accordion mt-3",
-                  attrs: { id: "accordionExample" },
-                },
-                [
-                  _c(
-                    "div",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: rolesItem.status_children != 2,
-                          expression: "rolesItem.status_children != 2",
-                        },
-                      ],
-                      staticClass: "card accordion-item active mb-2",
-                    },
-                    [
-                      _c(
-                        "h2",
-                        {
-                          staticClass: "accordion-header",
-                          attrs: { id: "heading" + index },
-                        },
-                        [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "accordion-button collapsed",
-                              attrs: {
-                                type: "button",
-                                "data-bs-toggle": "collapse",
-                                "data-bs-target": "#accordion" + index,
-                                "aria-expanded": "true",
-                                "aria-controls": "accordion" + index,
+            _c(
+              "table",
+              { staticClass: "table table-hover table-sm table-bordered" },
+              [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  { staticClass: "table-border-bottom-0" },
+                  _vm._l(_vm.roles, function (item, index) {
+                    return _c("tr", { key: item.id }, [
+                      _c("td", [_vm._v(_vm._s(index++))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.nombre))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "a",
+                          {
+                            attrs: { href: "#" },
+                            on: {
+                              click: function ($event) {
+                                return _vm.addPermisos(item.id)
                               },
                             },
-                            [
-                              _c(
-                                "label",
-                                { staticClass: "switch switch-success" },
-                                [
-                                  _c("input", {
-                                    staticClass: "switch-input",
-                                    attrs: { type: "checkbox" },
-                                    domProps: { value: rolesItem.id },
-                                    on: {
-                                      click: function ($event) {
-                                        return _vm.changeRole(rolesItem.id)
-                                      },
-                                    },
-                                  }),
-                                  _vm._v(" "),
-                                  _vm._m(1, true),
-                                  _vm._v(" "),
-                                  _c("span", { staticClass: "switch-label" }, [
-                                    _vm._v(_vm._s(rolesItem.name)),
-                                  ]),
-                                ]
-                              ),
-                            ]
-                          ),
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: rolesItem.status_children == 0,
-                              expression: "rolesItem.status_children == 0",
-                            },
-                          ],
-                          staticClass: "accordion-collapse collapse",
-                          attrs: {
-                            id: "accordion" + index,
-                            "aria-labelledby": "heading" + index,
-                            "data-bs-parent": "#accordionExample",
                           },
-                        },
-                        _vm._l(_vm.roles, function (subRole) {
-                          return subRole.status_children == 2 &&
-                            subRole.sub_role == rolesItem.id
-                            ? _c(
-                                "div",
-                                {
-                                  key: subRole.id,
-                                  staticClass:
-                                    "accordion-body d-flex flex-column",
-                                  staticStyle: { "padding-left": "10%" },
-                                },
-                                [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass: "switch switch-success mb-2",
-                                    },
-                                    [
-                                      _c("input", {
-                                        staticClass: "switch-input",
-                                        attrs: { type: "checkbox" },
-                                        domProps: { value: subRole.id },
-                                        on: {
-                                          click: function ($event) {
-                                            return _vm.changeRole(subRole.id)
-                                          },
-                                        },
-                                      }),
-                                      _vm._v(" "),
-                                      _vm._m(2, true),
-                                      _vm._v(" "),
-                                      _c(
-                                        "span",
-                                        { staticClass: "switch-label" },
-                                        [_vm._v(_vm._s(subRole.name))]
-                                      ),
-                                    ]
-                                  ),
-                                ]
-                              )
-                            : _vm._e()
-                        }),
-                        0
-                      ),
-                    ]
-                  ),
-                ]
-              )
-            }),
-          ],
-          2
-        ),
+                          [_c("i", { staticClass: "fa-solid fa-circle-right" })]
+                        ),
+                      ]),
+                    ])
+                  }),
+                  0
+                ),
+              ]
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6 col-6" }, [
+            _c("small", { staticClass: "text-center fw-semibold mb-2" }, [
+              _vm._v("Permisos"),
+            ]),
+            _vm._v(" "),
+            _c(
+              "table",
+              { staticClass: "table table-hove table-sm table-bordered" },
+              [
+                _vm._m(2),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  { staticClass: "table-border-bottom-0" },
+                  _vm._l(_vm.permision, function (item, index) {
+                    return _c("tr", { key: item.id }, [
+                      _c("td", [
+                        _c(
+                          "a",
+                          {
+                            attrs: { href: "#" },
+                            on: {
+                              click: function ($event) {
+                                return _vm.deletePermisos(item.id)
+                              },
+                            },
+                          },
+                          [_c("i", { staticClass: "fa-solid fa-circle-left" })]
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.nombre))]),
+                    ])
+                  }),
+                  0
+                ),
+              ]
+            ),
+          ]),
+        ]),
       ]),
     ]
   )
@@ -60725,7 +59598,7 @@ var staticRenderFns = [
       _c(
         "h5",
         { staticClass: "offcanvas-title", attrs: { id: "offcanvasBothLabel" } },
-        [_vm._v("Permisos")]
+        [_vm._v("Perfiles y Opciones")]
       ),
       _vm._v(" "),
       _c("button", {
@@ -60742,20 +59615,26 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "switch-toggle-slider" }, [
-      _c("span", { staticClass: "switch-on" }),
-      _vm._v(" "),
-      _c("span", { staticClass: "switch-off" }),
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Item")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Opciones")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Permiso")]),
+      ]),
     ])
   },
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "switch-toggle-slider" }, [
-      _c("span", { staticClass: "switch-on" }),
-      _vm._v(" "),
-      _c("span", { staticClass: "switch-off" }),
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Desactivar")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Opciones")]),
+      ]),
     ])
   },
 ]

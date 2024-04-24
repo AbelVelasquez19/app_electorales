@@ -186,7 +186,6 @@ export default {
             this.fetchUserList();
         },
         openModalEdit(id) {
-            console.log(id)
             if (this.$refs.RefPartidoModal) {
                 this.$refs.RefPartidoModal.openPartidoModal(id);
             }

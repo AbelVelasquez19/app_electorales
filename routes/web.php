@@ -160,6 +160,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/tipoCandidatoPersonas', 'tipoCandidatoPersonas');
             Route::post('/delete-personero', 'postDeleteMesaPersonero');
             Route::post('/active-personero', 'postActiveMesaPersonero');
+            Route::post('/delete-mesa', 'postDeleteMesa');
+            Route::post('/active-mesa', 'postActiveMesa');
         });
     });
 
@@ -216,6 +218,9 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('permisos')->group(function () {
         Route::controller(RoleController::class)->group(function () {
             Route::get('/', 'index')->name('permisos.index');
+            Route::get('/list-permisions-asing', 'listPermisionAsing');
+            Route::post('/add-permisions-asing', 'addPermisionAsing');
+            Route::post('/delete-permisions-asing', 'addPermisionAsing');
         });
     });
 });

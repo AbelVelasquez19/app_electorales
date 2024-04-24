@@ -1,44 +1,51 @@
 <template>
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="modalPermission"
-        aria-labelledby="offcanvasBothLabel">
+        aria-labelledby="offcanvasBothLabel" style="width: 70%;">
         <div class="offcanvas-header">
-            <h5 id="offcanvasBothLabel" class="offcanvas-title">Permisos</h5>
+            <h5 id="offcanvasBothLabel" class="offcanvas-title">Perfiles y Opciones</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body mx-0 flex-grow-0">
-            <div class="col-md-12 col-12">
-                <small class="text-light fw-semibold mb-2">Opciones de permiso</small>
-                <div class="accordion mt-3" v-for="(rolesItem, index) in roles" :key="index" id="accordionExample">
-                    <div class="card accordion-item active mb-2" v-show="rolesItem.status_children != 2">
-                        <h2 class="accordion-header" :id="`heading${index}`">
-                            <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
-                                :data-bs-target="`#accordion${index}`" aria-expanded="true"
-                                :aria-controls="`accordion${index}`">
-                                <label class="switch switch-success">
-                                    <input type="checkbox" class="switch-input" :value="rolesItem.id" @click="changeRole(rolesItem.id)"/>
-                                    <span class="switch-toggle-slider">
-                                        <span class="switch-on"></span>
-                                        <span class="switch-off"></span>
-                                    </span>
-                                    <span class="switch-label">{{ rolesItem.name }}</span>
-                                </label>
-                            </button>
-                        </h2>
-                        <div :id="`accordion${index}`" class="accordion-collapse collapse"
-                            :aria-labelledby="`heading${index}`" data-bs-parent="#accordionExample"
-                            v-show="rolesItem.status_children == 0">
-                            <div class="accordion-body d-flex flex-column" style="padding-left: 10%;" v-for="subRole in roles" :key="subRole.id" v-if="subRole.status_children == 2 && subRole.sub_role == rolesItem.id">
-                                <label class="switch switch-success mb-2">
-                                    <input type="checkbox" class="switch-input" :value="subRole.id" @click="changeRole(subRole.id)"/>
-                                    <span class="switch-toggle-slider">
-                                        <span class="switch-on"></span>
-                                        <span class="switch-off"></span>
-                                    </span>
-                                    <span class="switch-label">{{ subRole.name }}</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-md-6 col-6">
+                    <small class="text-center fw-semibold mb-2">Opciones</small>
+                    <table class="table table-hover table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Opciones</th>
+                                <th>Permiso</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                            <tr v-for="(item,index) in roles" :key="item.id">
+                                <td>{{ index++ }}</td>
+                                <td>{{ item.nombre }}</td>
+                                <td>
+                                  <a href="#" @click="addPermisos(item.id)"><i class="fa-solid fa-circle-right"></i></a>  
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6 col-6">
+                    <small class="text-center fw-semibold mb-2">Permisos</small>
+                    <table class="table table-hove table-sm table-bordered">
+                        <thead>
+                            <tr >
+                                <th>Desactivar</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                            <tr v-for="(item,index) in permision" :key="item.id">
+                                <td>
+                                    <a href="#" @click="deletePermisos(item.id)"><i class="fa-solid fa-circle-left"></i></a>  
+                                </td>
+                                <td>{{ item.nombre }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -51,6 +58,7 @@ export default {
         return {
             selectedValues: [],
             roles: {},
+            permision:{},
             idProfile: null,
             role_id:null
         }
@@ -60,6 +68,7 @@ export default {
     },
     methods: {
         async openPermissionsModal(id) {
+            this.openPermisionAsing(id);
             this.idProfile = id;
             $("#modalPermission").offcanvas('show');
             try {
@@ -69,8 +78,34 @@ export default {
                 return error;
             }
         },
-        async changeRole (role_id){
-            console.log(role_id)
+        async openPermisionAsing(id){
+            try {
+                const result = await Services.getId('permisos/list-permisions-asing',{'id':id});
+                this.permision = result;
+            } catch (error) {
+                return error;
+            }
+        },
+
+        async addPermisos(id){
+            try {
+                const result = await Services.addNewInfo('permisos/add-permisions-asing',{'idRole':id,'idProfile':this.idProfile});
+                if(result.status){
+                    this.openPermisionAsing(this.idProfile);
+                }
+            } catch (error) {
+                return error;
+            }
+        },
+        async deletePermisos(id){
+            try {
+                const result = await Services.addNewInfo('permisos/delete-permisions-asing',{'permisosId':id});
+                if(result.status){
+                    this.openPermisionAsing(this.idProfile);
+                }
+            } catch (error) {
+                return error;
+            }
         }
 
     }

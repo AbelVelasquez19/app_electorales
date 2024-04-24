@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleValidateAdd;
 use App\Http\Requests\RoleValidateUpdate;
 use App\Http\Requests\SubMenuValidateAdd;
+use App\Models\Permiso;
 use App\Models\Role;
 use App\Traits\Acces;
 use Illuminate\Http\Request;
@@ -206,6 +207,48 @@ class RoleController extends Controller
                 'status'=>false,
                 'message' => 'La informacíon no se guardó'
             ]);
+            throw $th;
+        }
+    }
+
+    public function listPermisionAsing(Request $request){
+        try {
+            $result = Permiso::join('roles','roles.id','=','permisos.rol_id')
+                                ->select('roles.nombre','permisos.id','permisos.perfil_id')
+                                ->where('permisos.perfil_id',$request->id)
+                                ->get();
+            return  response()->json($result);                                  
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function addPermisionAsing(Request $request){
+        try {
+            $permisos = new Permiso();
+            $permisos->perfil_id = $request->idProfile;
+            $permisos->rol_id = $request->idRole;
+            if($permisos->save()){
+                return response()->json([
+                    'status'=>true,
+                    'message'=>'La informacíon se guardó correctamente'
+                ]);
+            }
+        } catch (\Throwable $th) {
+             throw $th;
+        }
+    }
+
+    public function deletePermisionAsing(Request $request){
+        try {
+            $permisos = Permiso::findOrFail($request->permisosId);
+            if($permisos->delete()){
+                return response()->json([
+                    'status'=>true,
+                    'message'=>'Se elimino correctamente'
+                ]);
+            }
+        } catch (\Throwable $th) {
             throw $th;
         }
     }

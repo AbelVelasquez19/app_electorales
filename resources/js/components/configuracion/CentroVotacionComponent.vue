@@ -50,7 +50,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center font-monospace" style="width: 5%;">Items</th>
-                                    <th class="text-center font-monospace" style="width: 8%;">Nombres</th>
+                                    <th class="font-monospace" style="width: 8%;">Nombres</th>
                                     <th class="font-monospace">Dirección</th>
                                     <th class="font-monospace">Provincia</th>
                                     <th class="font-monospace">Distrito</th>
@@ -64,7 +64,7 @@
                                     <td class="text-center">
                                         {{ index + 1 }} 
                                     </td>
-                                    <td class="text-center font-monospace">{{ item.nombre }}</td>
+                                    <td class="font-monospace">{{ item.nombre }}</td>
                                     <td class="font-monospace">{{ item.direccion }}</td>
                                     <td class="font-monospace"> {{ item.provincia_nombre }} </td>
                                     <td class="font-monospace">{{ item.distrito_nombre }}</td>

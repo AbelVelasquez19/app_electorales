@@ -29,7 +29,6 @@
                             </label>
                         </div>
                     </div>
-
                     <div class="col-sm-12 col-lg-8 ps-xl-75 ps-0">
                         <div
                             class="dt-action-buttons d-flex align-items-center justify-content-center justify-content-lg-end flex-lg-nowrap flex-wrap">
@@ -53,54 +52,29 @@
                                 <tr>
                                     <th class="text-center font-monospace" style="width: 5%;">Items</th>
                                     <th class="text-center font-monospace" style="width: 8%;">NOMBRE</th>
-                                    <th class="font-monospace">NÚMERO</th>
-                                    <th class="font-monospace">CENTRO VOTACIÓN</th>
-                                    <th class="font-monospace">CANTIDAD VOTANTES</th>
-
-
+                                    <th class="font-monospace">Numero</th>
+                                    <th class="font-monospace">Centro votación</th>
+                                    <th class="font-monospace">Cantidad Votantes</th>
                                     <th class="text-center font-monospace" style="width: 10%;">Estado</th>
                                     <th class="text-center font-monospace" style="width: 6%;">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
                                 <tr v-for="(item, index) in centros.data" :key="item.id">
-                                    <td class="text-center">
-                                        {{ index + 1 }}
-                                    </td>
+                                    <td class="text-center"> {{ index + 1 }}</td>
                                     <td class="font-monospace">{{ item.nombre }}</td>
-                                    <td class="font-monospace"> {{ item.numero }}
-                                    </td>
+                                    <td class="font-monospace"> {{ item.numero }}</td>
                                     <td class="text-center font-monospace">{{ item.centro_votacion_nombre }}</td>
                                     <td class="text-center font-monospace">{{ item.cantidad_votantes }}</td>
-
                                     <td class="text-center font-monospace">
                                         <span v-if="item.estado == 1" class="badge bg-label-success me-1">Activo</span>
                                         <span v-else class="badge bg-label-danger me-1">Inactivo</span>
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-primary btn-sm"
-                                            @click.prevent="openModalEdit(item.mesa_id)"><i
-                                                class="fa-solid fa-pen-to-square"></i></button>
-
-
-
-
-
-
-                                                
-                                        <button v-if="item.estado == 1" class="btn btn-danger btn-sm"
-                                            @click.prevent="deleteItem(item.mesa_id)"><i
-                                                class="fa-solid fa-trash-can"></i></button>
-                                        <button v-if="item.estado != 1" class="btn btn-success btn-sm"
-                                            @click.prevent="activeItem(item.mesa_id)"><i
-                                                class="fa-solid fa-circle-check"></i></button>
-
-                                        <!-- <button class="btn btn-primary btn-sm"
-                                            @click.prevent="openRegistrarPersonero(item.mesa_id)"><i
-                                                class="fa-solid fa-bars"></i></button> -->
-
+                                        <button class="btn btn-primary btn-sm" @click.prevent="openModalEdit(item.mesa_id)"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button v-if="item.estado == 1" class="btn btn-danger btn-sm" @click.prevent="deleteItem(item.mesa_id)"><i class="fa-solid fa-trash-can"></i></button>
+                                        <button v-if="item.estado != 1" class="btn btn-success btn-sm" @click.prevent="activeItem(item.mesa_id)"><i class="fa-solid fa-circle-check"></i></button>
                                     </td>
-
                                 </tr>
                             </tbody>
                         </table>
@@ -109,29 +83,19 @@
                         <nav aria-label="Page navigation example" v-if="centros.last_page > 1">
                             <ul class="pagination justify-content-center align-items-center">
                                 <li class="page-item" :class="{ 'disabled': centros.current_page === 1 }">
-                                    <a class="page-link" @click.prevent="fetchUserList(1)"><i
-                                            class="fa fa-fast-backward font-medium-3" aria-hidden="true"></i></a>
+                                    <a class="page-link" @click.prevent="fetchUserList(1)"><i class="fa fa-fast-backward font-medium-3" aria-hidden="true"></i></a>
                                 </li>
                                 <li class="page-item " :class="{ 'disabled': centros.current_page === 1 }">
-                                    <a class="page-link" @click.prevent="fetchUserList(centros.current_page - 1)"><i
-                                            class="fa-solid fa-backward-step"></i></a>
+                                    <a class="page-link" @click.prevent="fetchUserList(centros.current_page - 1)"><i class="fa-solid fa-backward-step"></i></a>
                                 </li>
-                                <li class="page-item" v-for="pageNumber in displayedPages" :key="pageNumber"
-                                    :class="{ 'active': centros.current_page === pageNumber }">
-                                    <a class="page-link" @click.prevent="fetchUserList(pageNumber)" href="#">{{
-                                    pageNumber
-                                }}</a>
+                                <li class="page-item" v-for="pageNumber in displayedPages" :key="pageNumber" :class="{ 'active': centros.current_page === pageNumber }">
+                                    <a class="page-link" @click.prevent="fetchUserList(pageNumber)" href="#">{{ pageNumber }}</a>
                                 </li>
-                                <li class="page-item"
-                                    :class="{ 'disabled': centros.current_page === centros.last_page }">
-                                    <a class="page-link" href="#"
-                                        @click.prevent="fetchUserList(centros.current_page + 1)"><i
-                                            class="fa fa-step-forward font-medium-3" aria-hidden="true"></i></a>
+                                <li class="page-item" :class="{ 'disabled': centros.current_page === centros.last_page }">
+                                    <a class="page-link" href="#" @click.prevent="fetchUserList(centros.current_page + 1)"><i class="fa fa-step-forward font-medium-3" aria-hidden="true"></i></a>
                                 </li>
-                                <li class="page-item"
-                                    :class="{ 'disabled': centros.current_page === centros.last_page }">
-                                    <a class="page-link" href="#" @click.prevent="fetchUserList(centros.last_page)"><i
-                                            class="fa fa-fast-forward font-medium-3" aria-hidden="true"></i></a>
+                                <li class="page-item" :class="{ 'disabled': centros.current_page === centros.last_page }">
+                                    <a class="page-link" href="#" @click.prevent="fetchUserList(centros.last_page)"><i class="fa fa-fast-forward font-medium-3" aria-hidden="true"></i></a>
                                 </li>
                             </ul>
                         </nav>
@@ -140,17 +104,14 @@
             </div>
             <MesaModal ref="RefMesaModal" @data-add="updateTable" />
             <MesaPersoneroModal ref="RefMesaPersoneroModal" @data-add="updateTable" />
-
         </div>
     </div>
 </template>
-
 
 <script>
 import Services from '../../services/services';
 import MesaModal from '../modals/mesas/MesaModalComponent.vue';
 import MesaPersoneroModal from '../modals/mesas/MesaPersoneroModalComponent.vue';
-
 import { debounce } from 'lodash';
 export default {
     props: {
@@ -219,13 +180,11 @@ export default {
             this.fetchUserList();
         },
         openModalEdit(id) {
-            console.log(id)
             if (this.$refs.RefMesaModal) {
                 this.$refs.RefMesaModal.openMesaModal(id);
             }
         },
         openRegistrarPersonero(id) {
-            console.log(id)
             if (this.$refs.RefMesaPersoneroModal) {
                 this.$refs.RefMesaPersoneroModal.openMesaPersoneroModal(id);
             }
@@ -243,7 +202,7 @@ export default {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     try {
-                        const result = await Services.addNewInfo('candidato/delete', { id: id });
+                        const result = await Services.addNewInfo('mesa/delete-mesa', { id: id });
                         if (result.status) {
                             if (result.result[0].status) {
                                 this.fetchUserList();
@@ -264,7 +223,7 @@ export default {
         },
         async activeItem(id) {
             try {
-                const result = await Services.addNewInfo('candidato/active', { id: id });
+                const result = await Services.addNewInfo('mesa/active-mesa', { id: id });
                 if (result.status) {
                     if (result.result[0].status) {
                         this.fetchUserList();

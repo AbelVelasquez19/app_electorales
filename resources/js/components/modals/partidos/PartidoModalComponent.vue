@@ -16,11 +16,8 @@
                                 <div class="me-1">
                                     <div class="dataTables_filter">
                                         <label>Nombre Partido: </label>
-                                        <input type="text" placeholder="Nombre Partido" class="form-control"
-                                            :class="errors != null && errors.numero_documento ? 'is-invalid' : ''"
-                                            v-model="partido.nombre">
-                                        <span v-if="errors != null && errors.numero_documento" class="text-danger">{{
-                        errors.numero_documento[0] }}</span>
+                                        <input type="text" placeholder="Nombre Partido" class="form-control" :class="errors != null && errors.numero_documento ? 'is-invalid' : ''" v-model="partido.nombre">
+                                        <span v-if="errors != null && errors.numero_documento" class="text-danger">{{ errors.numero_documento[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -28,11 +25,8 @@
                                 <div class="me-1">
                                     <div class="dataTables_filter">
                                         <label>LOGO: </label>
-                                        <input type="file" placeholder="LOGO" class="form-control"
-                                            @change="handleFileChange"
-                                            :class="errors != null && errors.logo ? 'is-invalid' : ''" accept="image/*">
-                                        <span v-if="errors != null && errors.logo" class="text-danger">{{ errors.logo[0]
-                                            }}</span>
+                                        <input type="file" placeholder="LOGO" class="form-control" @change="handleFileChange" :class="errors != null && errors.logo ? 'is-invalid' : ''" accept="image/*">
+                                        <span v-if="errors != null && errors.logo" class="text-danger">{{ errors.logo[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -40,15 +34,11 @@
                                 <div class="me-1">
                                     <div class="dataTables_filter">
                                         <label>ORDEN: </label>
-                                        <input type="number" placeholder="orden" v-model="partido.orden"
-                                            class="form-control"
-                                            :class="errors != null && errors.orden ? 'is-invalid' : ''">
-                                        <span v-if="errors != null && errors.orden" class="text-danger">{{
-                        errors.orden[0] }}</span>
+                                        <input type="number" placeholder="orden" v-model="partido.orden" class="form-control" :class="errors != null && errors.orden ? 'is-invalid' : ''">
+                                        <span v-if="errors != null && errors.orden" class="text-danger">{{ errors.orden[0] }}</span>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </fieldset>
                 </div>
@@ -67,9 +57,6 @@
 <script>
 import Services from '../../../services/services';
 export default {
-    components: {
-
-    },
     data() {
         return {
             user: {
@@ -107,15 +94,10 @@ export default {
 
     },
     methods: {
-
         handleFileChange(event) {
-            // Access the selected file through event.target.files
-            // For example, to access the first selected file:
             this.partido.logo = event.target.files[0];
         },
-
         async openPartidoModal(id) {
-            console.log(id)
             $("#partidoModal").modal("show");
             this.getProvinces();
             this.getListCodigoPais();
@@ -123,13 +105,11 @@ export default {
                 this.option = false
                 try {
                     const result = await Services.getShowInfo('partido-politico/show', id);
-                    console.log(result)
                     this.partido = {
                         id: id,
                         nombre: result.nombre,
                         logo: result.logo,
                         orden: result.orden,
-
                     }
                     this.getDistrict(result.provincia_id)
                     this.getCorregiment(result.distrito_id)
@@ -138,7 +118,6 @@ export default {
                 }
             } else {
                 this.option = true;
-
                 this.clearInput();
             }
         },
@@ -157,12 +136,15 @@ export default {
                 return error;
             }
         },
+
         getDistrictItem() {
             this.getDistrict(this.user.provincia_id);
         },
+
         getCorregimientoItem() {
             this.getCorregiment(this.user.distrito_id);
         },
+
         async getProvinces() {
             try {
                 const result = await Services.getAll('ubigeus/province');
@@ -171,6 +153,7 @@ export default {
                 return error;
             }
         },
+
         async getDistrict(province_id) {
             try {
                 const result = await Services.getShowInfo('ubigeus/district', province_id);
@@ -179,6 +162,7 @@ export default {
                 return error;
             }
         },
+
         async getCorregiment(distric_id) {
             try {
                 const result = await Services.getShowInfo('ubigeus/corregimient', distric_id);
@@ -187,6 +171,7 @@ export default {
                 return error;
             }
         },
+
         async getListCodigoPais() {
             try {
                 const codigoPais = await Services.getAll('ubigeus/codigo-pais');
@@ -195,22 +180,14 @@ export default {
                 return error;
             }
         },
+
         async addNewUser() {
             this.errors = null;
             try {
-
-
-
-
-
                 let formData = new FormData();
-
-                // Agregar cada propiedad de applicantDetails al FormData
                 formData.append('nombre', this.partido.nombre);
                 formData.append('logo', this.partido.logo);
                 formData.append('orden', this.partido.orden);
-
-
                 const result = await Services.addNewInfo('partido-politico/add', formData);
                 if (result.status) {
                     if (result.result[0].status) {
@@ -231,15 +208,11 @@ export default {
         async updateUser() {
             this.errors = null;
             try {
-
                 let formDataUpdate = new FormData();
-
-                // Agregar cada propiedad de applicantDetails al FormData
                 formDataUpdate.append('nombre', this.partido.nombre);
                 formDataUpdate.append('logo', this.partido.logo);
                 formDataUpdate.append('orden', this.partido.orden);
                 formDataUpdate.append('id', this.partido.id);
-
                 const result = await Services.addNewInfo('partido-politico/update', formDataUpdate);
                 if (result.status) {
                     if (result.result[0].status) {

@@ -22,6 +22,7 @@ class DashboardController extends Controller
             ->join('acta', 'partido_politico.id', '=', 'acta.partida_politica_id')
             ->orderBy('partido_politico.orden','asc')
             ->groupBy('partido_politico.nombre', 'partido_politico.partido_politico', 'partido_politico.logo', 'partido_politico.orden', 'acta.partida_politica_id','partido_politico.color')
+            ->where('partido_politico.estado',1)
             ->get();
 
         $modifiedResults = $result->map(function ($item) {

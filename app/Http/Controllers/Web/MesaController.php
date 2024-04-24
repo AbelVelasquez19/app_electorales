@@ -41,7 +41,7 @@ class MesaController extends Controller
 
     public function getListCentrosVotacion()
     {
-        $centros_votacion = CentroVotacion::get();
+        $centros_votacion = CentroVotacion::where('estado',1)->get();
         return response()->json($centros_votacion);
     }
 
@@ -222,6 +222,38 @@ class MesaController extends Controller
             $mesa_personero = MesaPersonero::findOrFail($request->id);
             $mesa_personero->estado = 1;
             if ($mesa_personero->save()) {
+                return response()->json([
+                    'status' => true,
+                ]);
+            }
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+
+    public function postDeleteMesa(Request $request)
+    {
+        try {
+            $mesa = Mesa::find($request->id);
+            $mesa->estado = 0;
+            if ($mesa->save()) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'La informacíon se eliminó correctamente'
+                ]);
+            }
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function postActiveMesa(Request $request)
+    {
+        try {
+            $mesa = Mesa::findOrFail($request->id);
+            $mesa->estado = 1;
+            if ($mesa->save()) {
                 return response()->json([
                     'status' => true,
                 ]);
