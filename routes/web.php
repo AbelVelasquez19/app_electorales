@@ -220,7 +220,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/', 'index')->name('permisos.index');
             Route::get('/list-permisions-asing', 'listPermisionAsing');
             Route::post('/add-permisions-asing', 'addPermisionAsing');
-            Route::post('/delete-permisions-asing', 'addPermisionAsing');
+            Route::post('/delete-permisions-asing', 'deletePermisionAsing');
         });
     });
 });

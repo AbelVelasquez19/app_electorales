@@ -12,6 +12,7 @@ use Twilio\Rest\Client;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AutenticacionController extends Controller
 {
@@ -23,8 +24,7 @@ class AutenticacionController extends Controller
     }
 
 
-    public function verifyCode(Request $request){
-
+   /*  public function verifyCode(Request $request){
         $credentials = $request->only('email', 'password');
 
         $code = rand(100000, 999999);
@@ -63,9 +63,42 @@ class AutenticacionController extends Controller
             ],500);
         }
 
+    } */
+
+
+    public function verifyCode(LoginRequest $request){
+        $code = rand(100000, 999999);
+        $sid = getenv("TWILIO_SID");
+        $token = getenv("TWILIO_TOKEN");
+        $senderNumber = getenv("TWILIO_PHONE");
+        $twilio = new Client($sid, $token);
+
+        $email = $request->input('email');
+        $user = User::where('email',$email)->where('isActive',1)->first();
+        if($user){
+            $user->codigo_confirm = $code;
+            if($user->save()){
+                $result = $twilio->messages->create($user->numero_celular, // to
+                    [
+                        "body" => "Su código de confirmación ".$code,
+                        "from" =>  $senderNumber
+                    ]
+                );
+                return response()->json([
+                    'status'=>true,
+                    'mensaje'=>$result
+                ],200);
+            }
+        }else{
+            return response()->json([
+                'status'=>false,
+                'errors'=>[
+                    "message"=>"Correo electrónico no se encuentra registrado"
+                ]
+            ],500);
+        }
+
     }
-
-
 
 
 
@@ -78,12 +111,14 @@ class AutenticacionController extends Controller
             
             $codeVerify = $request->input('codeVerify');
             $user = User::where('email', $email)->where('isActive', 1)->first();
-
             if ($user->codigo_confirm == $codeVerify) {
 
-                if (!$token = auth('api')->attempt($credentials)) {
-                    return response()->json(['error' => 'Credenciales no válidas'], 401);
+                if (! $token = JWTAuth::attempt($credentials)) {
+                    return response()->json(['error' => 'Unauthorized'], 401);
                 }
+                /* if (!$token = auth('api')->attempt($credentials)) {
+                    return response()->json(['error' => 'Credenciales no válidas'], 401);
+                } */
 
                 return $this->respondWithToken($token);
 

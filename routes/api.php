@@ -17,6 +17,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('code-verify', [AutenticacionController::class,'verifyCode']);
+Route::post('login', [AutenticacionController::class, 'login']);
+Route::post('logout', [AutenticacionController::class, 'logout']);
+Route::post('refresh', [AutenticacionController::class, 'refresh']);
+Route::post('me', [AutenticacionController::class, 'me']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -33,6 +39,7 @@ Route::group([
 
 });
 
+/* Route::apiResource('companies',CompanyController::class)->middleware('auth:api'); */
 
 Route::get('lista-mesas', [GeneralController::class, 'listaMesas']);
 
