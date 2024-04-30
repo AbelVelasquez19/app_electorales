@@ -69,8 +69,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('ubigeus')->group(function () {
         Route::controller(UbigeoController::class)->group(function () {
-            Route::get('/department', 'department');
-            Route::get('/province', 'province')->name('province');
+            Route::get('/pais', 'pais');
+            Route::post('/department', 'department');
+            Route::post('/province', 'province')->name('province');
             Route::post('/district', 'district')->name('district');;
             Route::post('/corregimient', 'coregimient')->name('coregimient');;
             Route::get('/codigo-pais', 'codigoPais');
