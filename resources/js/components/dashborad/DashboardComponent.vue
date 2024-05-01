@@ -64,7 +64,22 @@
             <div class="card h-100">
                 <div class="card-body">
                     <div class="row gy-3">
-                        <div class="hello" ref="chartdiv"></div>
+                        <l-map :zoom.sync="zoom" :options="mapOptions" :center="center" :bounds="bounds"
+                            :min-zoom="minZoom" :max-zoom="maxZoom" style="height: 700px; width: 100%">
+                            <l-control-layers :position="layersPosition" :collapsed="false" :sort-layers="true" />
+                            <l-tile-layer v-for="tileProvider in tileProviders" :key="tileProvider.name"
+                                :name="tileProvider.name" :visible="tileProvider.visible" :url="tileProvider.url"
+                                :attribution="tileProvider.attribution" :token="token" layer-type="base" />
+                            <l-control-zoom :position="zoomPosition" />
+                            <l-control-attribution :position="attributionPosition" :prefix="attributionPrefix" />
+                            <l-control-scale :imperial="imperial" />
+                            <l-marker v-for="marker in markers" :key="marker.id" :visible="marker.visible"
+                                :draggable="marker.draggable" :lat-lng.sync="marker.position"
+                                :icon="getMarkerIcon(marker.color)" @click="alert(marker)">
+                                <l-popup :content="marker.tooltip" />
+                                <l-tooltip :content="marker.tooltip" />
+                            </l-marker>
+                        </l-map>
                     </div>
                 </div>
             </div>
@@ -75,16 +90,67 @@
 <script>
 import Services from '../../services/services';
 import Highcharts from 'highcharts';
+import { latLngBounds } from 'leaflet';
+import {
+    LMap,
+    LTileLayer,
+    LMarker,
+    LPolyline,
+    LLayerGroup,
+    LTooltip,
+    LPopup,
+    LControlZoom,
+    LControlAttribution,
+    LControlScale,
+    LControlLayers
+} from 'vue2-leaflet';
 
-import * as am5 from '@amcharts/amcharts5';
-import * as am5xy from '@amcharts/amcharts5/xy';
-import * as am5map from "@amcharts/amcharts5/map";
-import am5geodata_worldLow from "@amcharts/amcharts5-geodata/worldLow";
-import am5geodata_region_usa_congressional2022_worldLow from "@amcharts/amcharts5-geodata/region/usa/congressional2022/flLow";
-import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
+const tileProviders = [
+    {
+        name: 'OpenStreetMap',
+        visible: true,
+        attribution:
+            '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+        url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    },
+    {
+        name: 'OpenTopoMap',
+        visible: false,
+        url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+        attribution:
+            'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+    },
+];
 
 export default {
     name: 'dashboard-component',
+    components: {
+        LMap,
+        LTileLayer,
+        LMarker,
+        LPolyline,
+        LLayerGroup,
+        LTooltip,
+        LPopup,
+        LControlZoom,
+        LControlAttribution,
+        LControlScale,
+        LControlLayers,
+    },
+    props: {
+        imgRed: {
+            type: String,
+            default: ''
+        },
+        imgBlue: {
+            type: String,
+            default: ''
+        },
+        imgYelow: {
+            type: String,
+            default: ''
+        },
+    },
     data() {
         return {
             chartOptions: {
@@ -163,8 +229,32 @@ export default {
             provinces_id: '',
             districts: {},
             districts_id: '',
-            chart: null,
-            yourGeoJSONData: {}
+
+
+            center: [9.367772770859636, -82.86987304687501],
+            opacity: 0.6,
+            token: 'your token if using mapbox',
+            mapOptions: {
+                zoomControl: false,
+                attributionControl: false,
+                zoomSnap: true,
+            },
+            zoom: 3,
+            minZoom: 1,
+            maxZoom: 20,
+            zoomPosition: 'topleft',
+            attributionPosition: 'bottomright',
+            layersPosition: 'topright',
+            attributionPrefix: 'Vue2Leaflet',
+            imperial: false,
+            Positions: ['topleft', 'topright', 'bottomleft', 'bottomright'],
+            tileProviders: tileProviders,
+            markers: [],
+            bounds: latLngBounds(
+                { lat: 9.367772770859636, lng:  -82.86987304687501 },
+                { lat: 8.026594842489562, lng: -78.0413818359375 }
+            ),
+
         }
 
     },
@@ -173,100 +263,7 @@ export default {
     },
     mounted() {
         this.getPais()
-       /*  let root = am5.Root.new(this.$refs.chartdiv);
-
-        root.setThemes([am5themes_Animated.new(root)]);
-
-        let chart = root.container.children.push(
-            am5xy.XYChart.new(root, {
-                panY: false,
-                layout: root.verticalLayout
-            })
-        );
-
-        // Define data
-        let data = [{
-            category: "Research",
-            value1: 1000,
-            value2: 588
-        },
-        {
-            category: "Marketing",
-            value1: 1200,
-            value2: 1800
-        }, {
-            category: "Sales",
-            value1: 850,
-            value2: 1230
-        }
-        ];
-
-        // Create Y-axis
-        let yAxis = chart.yAxes.push(
-            am5xy.ValueAxis.new(root, {
-                renderer: am5xy.AxisRendererY.new(root, {})
-            })
-        );
-
-        // Create X-Axis
-        let xAxis = chart.xAxes.push(
-            am5xy.CategoryAxis.new(root, {
-                renderer: am5xy.AxisRendererX.new(root, {}),
-                categoryField: "category"
-            })
-        );
-        xAxis.data.setAll(data);
-
-        // Create series
-        let series1 = chart.series.push(
-            am5xy.ColumnSeries.new(root, {
-                name: "Series",
-                xAxis: xAxis,
-                yAxis: yAxis,
-                valueYField: "value1",
-                categoryXField: "category"
-            })
-        );
-        series1.data.setAll(data);
-
-        let series2 = chart.series.push(
-            am5xy.ColumnSeries.new(root, {
-                name: "Series",
-                xAxis: xAxis,
-                yAxis: yAxis,
-                valueYField: "value2",
-                categoryXField: "category"
-            })
-        );
-        series2.data.setAll(data);
-
-        // Add legend
-        let legend = chart.children.push(am5.Legend.new(root, {}));
-        legend.data.setAll(chart.series.values);
-
-        // Add cursor
-        chart.set("cursor", am5xy.XYCursor.new(root, {}));
-
-        this.root = root; */
-
-
-
-        let root = am5.Root.new("chartdiv");
-        let chart = root.container.children.push(
-        am5map.MapChart.new(root, {})
-        );
-
-        let polygonSeries = chart.series.push(
-        am5map.MapPolygonSeries.new(root, {
-            geoJSON: am5geodata_worldLow
-        })
-        );
-
-    },
-    beforeDestroy() {
-        if (this.root) {
-        this.root.dispose();
-        }
+        this.getCentroVotacion();
     },
     methods: {
         async reportePartidoPolTotal() {
@@ -337,25 +334,66 @@ export default {
             }
         },
 
-        //mapa
-        createChart() {
-            this.chart = create(this.$refs.chartContainer, am5xy.XYChart);
-            this.chart.xAxes.push(new am5xy.CategoryAxis());
-            this.chart.yAxes.push(new am5xy.ValueAxis());
 
-            // Configura otros aspectos del gráfico según tus necesidades
+        addMarker: function () {
+            const newMarker = {
+                position: { lat: 50.5505, lng: -0.09 },
+                draggable: true,
+                visible: true,
+            };
+            this.markers.push(newMarker);
         },
-        loadData() {
-            // Aquí cargarías tus datos desde alguna fuente, como una API
-            const data = [
-                { category: "Category 1", value: 100 },
-                { category: "Category 2", value: 200 },
-                { category: "Category 3", value: 300 }
-            ];
+        removeMarker: function (index) {
+            this.markers.splice(index, 1);
+        },
+        getMarkerIcon(color) {
+            // Define los iconos personalizados para cada color
+            const iconos = {
+                red: new L.Icon({
+                    iconUrl: this.imgRed, // URL de la imagen del icono rojo
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                }),
+                blue: new L.Icon({
+                    iconUrl: this.imgBlue, // URL de la imagen del icono rojo
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                }),
+                yelaow: new L.Icon({
+                    iconUrl: this.imgYelow, // URL de la imagen del icono rojo
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                }),
+            }
 
-            // Asigna los datos al gráfico
-            this.chart.data = data;
-        }
+            return iconos[color] || iconos.red;
+        },
+
+        async getCentroVotacion() {
+            try {
+                const result = await Services.getAll('mapas/centro-votacion');
+                /* console.lo this.getCentroVotacion(result) */
+                if (result.status) {
+                    // Si la solicitud fue exitosa
+                    this.markers = result.data.map(item => ({
+                        id: item.id.toString(), // Convierte el ID a string si es necesario
+                        position: { lat: parseFloat(item.latitud), lng: parseFloat(item.longitud) },
+                        tooltip: `${item.nombre} ${item.porcentaje_mesa_cerrado}%`,
+                        draggable: false,
+                        visible: true,
+                        color: item.porcentaje_mesa_cerrado == 0 ? 'red' : (item.porcentaje_mesa_cerrado >= 100 ? 'yelaow' : 'blue'), // Define el color de acuerdo a tus requerimientos
+                        title: `${item.porcentaje_mesa_cerrado}%`
+                    }));
+                } else {
+                    console.error('Error obteniendo los datos de los centros de votación:', result);
+                }
+            } catch (error) {
+                return error;
+            }
+        },
 
     }
 }
@@ -363,7 +401,7 @@ export default {
 
 <style scoped>
 .hello {
-  width: 100%;
-  height: 500px;
+    width: 100%;
+    height: 500px;
 }
 </style>

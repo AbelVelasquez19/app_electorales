@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!--  <div>
+         <div>
            
             <h3>List of Markers</h3>
             <button name="button" @click="addMarker">
@@ -39,7 +39,7 @@
                 </tr>
             </table>
             <hr>
-        </div> -->
+        </div>
         <div class="row p-3">
             <label for="">Leyenda</label>
             <div class="col-md-8">
