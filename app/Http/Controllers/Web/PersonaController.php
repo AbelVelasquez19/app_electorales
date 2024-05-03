@@ -86,9 +86,9 @@ class PersonaController extends Controller
             'celular',
             'email',
             'direccion',
+            'departmento_id',
             'provincia_id',
             'distrito_id',
-            'corregimiento_id',
             'estado'
         )
             ->where('id', '=', $query)->first();
@@ -117,9 +117,9 @@ class PersonaController extends Controller
             $person->celular = e(strtoupper(trim($request->celular)));
             $person->email = e(strtoupper(trim($request->email)));
             $person->direccion = e(strtoupper(trim($request->direccion)));
+            $person->departmento_id = e(strtoupper(trim($request->departaments_id)));
             $person->provincia_id = e(strtoupper(trim($request->provincia_id)));
             $person->distrito_id = e(strtoupper(trim($request->distrito_id)));
-            $person->corregimiento_id = e(strtoupper(trim($request->corregimiento_id)));
             $person->user_id = Auth::user()->id;
             if ($person->save()) {
                 $person_id = $person->id;
@@ -166,9 +166,9 @@ class PersonaController extends Controller
                 $person->celular = e(strtoupper(trim($request->celular)));
                 $person->email = e(strtoupper(trim($request->email)));
                 $person->direccion = e(strtoupper(trim($request->direccion)));
+                $person->departmento_id = e(strtoupper(trim($request->departaments_id)));
                 $person->provincia_id = e(strtoupper(trim($request->provincia_id)));
                 $person->distrito_id = e(strtoupper(trim($request->distrito_id)));
-                $person->corregimiento_id = e(strtoupper(trim($request->corregimiento_id)));
                 $person->user_id = Auth::user()->id;
                 if ($person->save()) {
                     $person_id = $person->id;

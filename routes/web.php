@@ -38,6 +38,9 @@ Route::middleware(['auth'])->group(function () {
         Route::controller(DashboardController::class)->group(function () {
             Route::get('/', 'index')->name('dashboard');
             Route::get('/polito-voto-total', 'reportePartidoPolTotal');
+            Route::get('/estado-acta', 'reporteEstadoActa');
+            Route::get('/distribucion-votos', 'reporteDistribucionVotos');
+            Route::get('/total-votos', 'reporteTotalVotos');
         });
     });
 
@@ -69,8 +72,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('ubigeus')->group(function () {
         Route::controller(UbigeoController::class)->group(function () {
-            Route::get('/pais', 'pais');
-            Route::post('/department', 'department');
+            Route::get('/pais', 'pais')->name('pais');
+            Route::post('/department', 'department')->name('departamento');
             Route::post('/province', 'province')->name('province');
             Route::post('/district', 'district')->name('district');;
             Route::post('/corregimient', 'coregimient')->name('coregimient');;

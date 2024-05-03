@@ -35,7 +35,7 @@ class PersonValidateUpdate extends FormRequest
             'apellido_materno' => 'required',
             'provincia_id' => 'required',
             'distrito_id' => 'required',
-            'corregimiento_id' => 'required',
+            'departaments_id' => 'required',
         ];
     }
 }

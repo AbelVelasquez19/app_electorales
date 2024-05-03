@@ -5392,6 +5392,60 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5502,6 +5556,164 @@ var tileProviders = [{
           }
         }
       },
+      chartOptionsEstadoActas: {
+        chart: {
+          type: 'pie'
+        },
+        title: {
+          align: 'left',
+          text: 'Estado de Actas'
+        },
+        subtitle: {
+          align: 'left'
+          /* text: 'Click the columns to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>' */
+        },
+        accessibility: {
+          announceNewData: {
+            enabled: true
+          }
+        },
+        xAxis: {
+          type: 'category'
+        },
+        yAxis: {
+          title: {
+            text: 'Total porcentaje'
+          }
+        },
+        legend: {
+          enabled: true
+        },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+              enabled: false
+            },
+            showInLegend: true
+          },
+          series: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: [{
+              enabled: false,
+              distance: 20
+            }, {
+              enabled: true,
+              distance: -40,
+              format: '{point.percentage:.1f}%',
+              style: {
+                fontSize: '1em',
+                textOutline: 'none',
+                opacity: 0.7
+              },
+              filter: {
+                operator: '>',
+                property: 'percentage',
+                value: 10
+              }
+            }]
+          }
+        },
+        tooltip: {
+          headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+          /*  pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> del total<br/>' */
+          pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> del total<br/>'
+        },
+        colors: ['#FF5733', '#FFD700'],
+        series: [{
+          name: 'Percentage',
+          colorByPoint: true,
+          data: []
+        }],
+        drilldown: {
+          breadcrumbs: {
+            position: {
+              align: 'right'
+            }
+          }
+        }
+      },
+      chartOptionsDistribucionVotos: {
+        chart: {
+          type: 'pie'
+        },
+        title: {
+          align: 'left',
+          text: 'Distribución de Votos'
+        },
+        subtitle: {
+          align: 'left'
+          /* text: 'Click the columns to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>' */
+        },
+        accessibility: {
+          announceNewData: {
+            enabled: true
+          }
+        },
+        xAxis: {
+          type: 'category'
+        },
+        yAxis: {
+          title: {
+            text: 'Total porcentaje'
+          }
+        },
+        legend: {
+          enabled: true
+        },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+              enabled: false
+            },
+            showInLegend: true
+          },
+          series: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: [{
+              enabled: false,
+              distance: 20
+            }, {
+              enabled: true,
+              distance: -40,
+              format: '{point.percentage:.1f}%',
+              style: {
+                fontSize: '1em',
+                textOutline: 'none',
+                opacity: 0.7
+              },
+              filter: {
+                operator: '>',
+                property: 'percentage',
+                value: 10
+              }
+            }]
+          }
+        },
+        tooltip: {
+          headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+          /*  pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> del total<br/>' */
+          pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> del total<br/>'
+        },
+        colors: ['#FF5733', '#FFD700', '#FF69B4'],
+        series: [{
+          name: 'Percentage',
+          colorByPoint: true,
+          data: []
+        }],
+        drilldown: {
+          breadcrumbs: {
+            position: {
+              align: 'right'
+            }
+          }
+        }
+      },
       pais: {},
       pais_id: '',
       departaments: {},
@@ -5510,6 +5722,7 @@ var tileProviders = [{
       provinces_id: '',
       districts: {},
       districts_id: '',
+      totalVotos: {},
       center: [9.367772770859636, -82.86987304687501],
       opacity: 0.6,
       token: 'your token if using mapbox',
@@ -5555,6 +5768,21 @@ var tileProviders = [{
   mounted: function mounted() {
     this.getPais();
     this.getCentroVotacion();
+    this.reporteEstadoActas();
+    this.reporteDistribucionVotos();
+    this.reporteTotalVotos();
+  },
+  computed: {
+    totalSuma: function totalSuma() {
+      var sumaTotal = 0;
+      for (var key in this.totalVotos) {
+        if (this.totalVotos.hasOwnProperty(key)) {
+          console.log(this.totalVotos[key].suma);
+          sumaTotal += parseFloat(this.totalVotos[key].suma);
+        }
+      }
+      return sumaTotal;
+    }
   },
   methods: {
     reportePartidoPolTotal: function reportePartidoPolTotal() {
@@ -5594,67 +5822,73 @@ var tileProviders = [{
         }, _callee2, null, [[0, 10]]);
       }))();
     },
-    //ubigeo
-    getPais: function getPais() {
+    reporteEstadoActas: function reporteEstadoActas() {
       var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var result;
+        var result, seriesData;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
               _context3.prev = 0;
               _context3.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('ubigeus/pais');
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('dashboard/estado-acta');
             case 3:
               result = _context3.sent;
-              _this3.pais = result;
-              _context3.next = 10;
+              seriesData = result.map(function (item) {
+                return {
+                  name: item.nombre,
+                  y: parseInt(item.total)
+                };
+              });
+              _this3.chartOptionsEstadoActas.series[0].data = seriesData;
+              highcharts__WEBPACK_IMPORTED_MODULE_1___default().chart(_this3.$refs.chartEstadoActas, _this3.chartOptionsEstadoActas);
+              _context3.next = 12;
               break;
-            case 7:
-              _context3.prev = 7;
+            case 9:
+              _context3.prev = 9;
               _context3.t0 = _context3["catch"](0);
               return _context3.abrupt("return", _context3.t0);
-            case 10:
+            case 12:
             case "end":
               return _context3.stop();
           }
-        }, _callee3, null, [[0, 7]]);
+        }, _callee3, null, [[0, 9]]);
       }))();
     },
-    getPaisItem: function getPaisItem() {
-      this.getDepartamento(this.pais_id);
-      console.log(this.pais_id);
-    },
-    getDepartamento: function getDepartamento(pais_id) {
+    reporteDistribucionVotos: function reporteDistribucionVotos() {
       var _this4 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var result;
+        var result, seriesData;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
               _context4.prev = 0;
               _context4.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('ubigeus/department', pais_id);
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('dashboard/distribucion-votos');
             case 3:
               result = _context4.sent;
-              _this4.departaments = result;
-              _context4.next = 10;
+              seriesData = result.map(function (item) {
+                return {
+                  name: item.nombre,
+                  y: parseInt(item.total)
+                };
+              });
+              _this4.chartOptionsDistribucionVotos.series[0].data = seriesData;
+              highcharts__WEBPACK_IMPORTED_MODULE_1___default().chart(_this4.$refs.chartDistribucionVotos, _this4.chartOptionsDistribucionVotos);
+              _context4.next = 12;
               break;
-            case 7:
-              _context4.prev = 7;
+            case 9:
+              _context4.prev = 9;
               _context4.t0 = _context4["catch"](0);
               return _context4.abrupt("return", _context4.t0);
-            case 10:
+            case 12:
             case "end":
               return _context4.stop();
           }
-        }, _callee4, null, [[0, 7]]);
+        }, _callee4, null, [[0, 9]]);
       }))();
     },
-    getDepartamentItem: function getDepartamentItem() {
-      this.getProvinces(this.departaments_id);
-    },
-    getProvinces: function getProvinces(departaments_id) {
+    reporteTotalVotos: function reporteTotalVotos() {
       var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         var result;
@@ -5663,10 +5897,10 @@ var tileProviders = [{
             case 0:
               _context5.prev = 0;
               _context5.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('ubigeus/province', departaments_id);
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('dashboard/total-votos');
             case 3:
               result = _context5.sent;
-              _this5.provinces = result;
+              _this5.totalVotos = result;
               _context5.next = 10;
               break;
             case 7:
@@ -5680,10 +5914,8 @@ var tileProviders = [{
         }, _callee5, null, [[0, 7]]);
       }))();
     },
-    getProvincesItem: function getProvincesItem() {
-      this.getDistrict(this.provinces_id);
-    },
-    getDistrict: function getDistrict(province_id) {
+    //ubigeo
+    getPais: function getPais() {
       var _this6 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
         var result;
@@ -5692,10 +5924,10 @@ var tileProviders = [{
             case 0:
               _context6.prev = 0;
               _context6.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('ubigeus/district', province_id);
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('ubigeus/pais');
             case 3:
               result = _context6.sent;
-              _this6.districts = result;
+              _this6.pais = result;
               _context6.next = 10;
               break;
             case 7:
@@ -5707,6 +5939,94 @@ var tileProviders = [{
               return _context6.stop();
           }
         }, _callee6, null, [[0, 7]]);
+      }))();
+    },
+    getPaisItem: function getPaisItem() {
+      this.getDepartamento(this.pais_id);
+      console.log(this.pais_id);
+    },
+    getDepartamento: function getDepartamento(pais_id) {
+      var _this7 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
+        var result;
+        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+          while (1) switch (_context7.prev = _context7.next) {
+            case 0:
+              _context7.prev = 0;
+              _context7.next = 3;
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('ubigeus/department', pais_id);
+            case 3:
+              result = _context7.sent;
+              _this7.departaments = result;
+              _context7.next = 10;
+              break;
+            case 7:
+              _context7.prev = 7;
+              _context7.t0 = _context7["catch"](0);
+              return _context7.abrupt("return", _context7.t0);
+            case 10:
+            case "end":
+              return _context7.stop();
+          }
+        }, _callee7, null, [[0, 7]]);
+      }))();
+    },
+    getDepartamentItem: function getDepartamentItem() {
+      this.getProvinces(this.departaments_id);
+    },
+    getProvinces: function getProvinces(departaments_id) {
+      var _this8 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
+        var result;
+        return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+          while (1) switch (_context8.prev = _context8.next) {
+            case 0:
+              _context8.prev = 0;
+              _context8.next = 3;
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('ubigeus/province', departaments_id);
+            case 3:
+              result = _context8.sent;
+              _this8.provinces = result;
+              _context8.next = 10;
+              break;
+            case 7:
+              _context8.prev = 7;
+              _context8.t0 = _context8["catch"](0);
+              return _context8.abrupt("return", _context8.t0);
+            case 10:
+            case "end":
+              return _context8.stop();
+          }
+        }, _callee8, null, [[0, 7]]);
+      }))();
+    },
+    getProvincesItem: function getProvincesItem() {
+      this.getDistrict(this.provinces_id);
+    },
+    getDistrict: function getDistrict(province_id) {
+      var _this9 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
+        var result;
+        return _regeneratorRuntime().wrap(function _callee9$(_context9) {
+          while (1) switch (_context9.prev = _context9.next) {
+            case 0:
+              _context9.prev = 0;
+              _context9.next = 3;
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('ubigeus/district', province_id);
+            case 3:
+              result = _context9.sent;
+              _this9.districts = result;
+              _context9.next = 10;
+              break;
+            case 7:
+              _context9.prev = 7;
+              _context9.t0 = _context9["catch"](0);
+              return _context9.abrupt("return", _context9.t0);
+            case 10:
+            case "end":
+              return _context9.stop();
+          }
+        }, _callee9, null, [[0, 7]]);
       }))();
     },
     addMarker: function addMarker() {
@@ -5751,21 +6071,21 @@ var tileProviders = [{
       return iconos[color] || iconos.red;
     },
     getCentroVotacion: function getCentroVotacion() {
-      var _this7 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
+      var _this10 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10() {
         var result;
-        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-          while (1) switch (_context7.prev = _context7.next) {
+        return _regeneratorRuntime().wrap(function _callee10$(_context10) {
+          while (1) switch (_context10.prev = _context10.next) {
             case 0:
-              _context7.prev = 0;
-              _context7.next = 3;
+              _context10.prev = 0;
+              _context10.next = 3;
               return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('mapas/centro-votacion');
             case 3:
-              result = _context7.sent;
+              result = _context10.sent;
               /* console.lo this.getCentroVotacion(result) */
               if (result.status) {
                 // Si la solicitud fue exitosa
-                _this7.markers = result.data.map(function (item) {
+                _this10.markers = result.data.map(function (item) {
                   return {
                     id: item.id.toString(),
                     // Convierte el ID a string si es necesario
@@ -5784,17 +6104,17 @@ var tileProviders = [{
               } else {
                 console.error('Error obteniendo los datos de los centros de votación:', result);
               }
-              _context7.next = 10;
+              _context10.next = 10;
               break;
             case 7:
-              _context7.prev = 7;
-              _context7.t0 = _context7["catch"](0);
-              return _context7.abrupt("return", _context7.t0);
+              _context10.prev = 7;
+              _context10.t0 = _context10["catch"](0);
+              return _context10.abrupt("return", _context10.t0);
             case 10:
             case "end":
-              return _context7.stop();
+              return _context10.stop();
           }
-        }, _callee7, null, [[0, 7]]);
+        }, _callee10, null, [[0, 7]]);
       }))();
     }
   }
@@ -6282,7 +6602,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 
 
@@ -6327,7 +6646,11 @@ var tileProviders = [{
       type: String,
       "default": ''
     },
-    urlCoregimient: {
+    urlDepartamento: {
+      type: String,
+      "default": ''
+    },
+    urlPais: {
       type: String,
       "default": ''
     },
@@ -6345,14 +6668,16 @@ var tileProviders = [{
       centroVotacion: {
         nombre: '',
         direccion: '',
+        departamento_id: '',
         provincia_id: '',
-        distrito_id: '',
-        corregimiento_id: ''
+        distrito_id: ''
       },
       errors: null,
+      pais_id: 25,
+      pais: {},
+      departaments: {},
       provinces: {},
       districts: {},
-      corrigement: {},
       //mapa
       center: [0.39550467153201946, -71.10351562500001],
       opacity: 0.6,
@@ -6393,42 +6718,42 @@ var tileProviders = [{
     };
   },
   mounted: function mounted() {
-    this.getProvinces();
+    this.getPais();
   },
   methods: {
-    getDistrictItem: function getDistrictItem() {
-      this.getDistrict(this.centroVotacion.provincia_id);
-    },
-    getCorregimientoItem: function getCorregimientoItem() {
-      this.getCorregiment(this.centroVotacion.distrito_id);
-    },
-    getProvinces: function getProvinces() {
+    //ubigeo
+    getPais: function getPais() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var result;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              _context.prev = 0;
-              _context.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll(_this.urlProvince);
-            case 3:
+              console.log('ok');
+              _context.prev = 1;
+              _context.next = 4;
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll(_this.urlPais);
+            case 4:
               result = _context.sent;
-              _this.provinces = result;
-              _context.next = 10;
+              _this.pais = result;
+              _this.getDepartamento(_this.pais_id);
+              _context.next = 12;
               break;
-            case 7:
-              _context.prev = 7;
-              _context.t0 = _context["catch"](0);
+            case 9:
+              _context.prev = 9;
+              _context.t0 = _context["catch"](1);
               return _context.abrupt("return", _context.t0);
-            case 10:
+            case 12:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[0, 7]]);
+        }, _callee, null, [[1, 9]]);
       }))();
     },
-    getDistrict: function getDistrict(province_id) {
+    getPaisItem: function getPaisItem() {
+      this.getDepartamento(this.pais_id);
+    },
+    getDepartamento: function getDepartamento(pais_id) {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         var result;
@@ -6437,10 +6762,10 @@ var tileProviders = [{
             case 0:
               _context2.prev = 0;
               _context2.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo(_this2.urlDistric, province_id);
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo(_this2.urlDepartamento, pais_id);
             case 3:
               result = _context2.sent;
-              _this2.districts = result;
+              _this2.departaments = result;
               _context2.next = 10;
               break;
             case 7:
@@ -6454,7 +6779,10 @@ var tileProviders = [{
         }, _callee2, null, [[0, 7]]);
       }))();
     },
-    getCorregiment: function getCorregiment(distric_id) {
+    getDepartamentItem: function getDepartamentItem() {
+      this.getProvinces(this.centroVotacion.departamento_id);
+    },
+    getProvinces: function getProvinces(departaments_id) {
       var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var result;
@@ -6463,10 +6791,10 @@ var tileProviders = [{
             case 0:
               _context3.prev = 0;
               _context3.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo(_this3.urlCoregimient, distric_id);
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo(_this3.urlProvince, departaments_id);
             case 3:
               result = _context3.sent;
-              _this3.corrigement = result;
+              _this3.provinces = result;
               _context3.next = 10;
               break;
             case 7:
@@ -6480,35 +6808,64 @@ var tileProviders = [{
         }, _callee3, null, [[0, 7]]);
       }))();
     },
+    getProvincesItem: function getProvincesItem() {
+      this.getDistrict(this.centroVotacion.provincia_id);
+    },
+    getDistrict: function getDistrict(province_id) {
+      var _this4 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        var result;
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.prev = 0;
+              _context4.next = 3;
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo(_this4.urlDistric, province_id);
+            case 3:
+              result = _context4.sent;
+              _this4.districts = result;
+              _context4.next = 10;
+              break;
+            case 7:
+              _context4.prev = 7;
+              _context4.t0 = _context4["catch"](0);
+              return _context4.abrupt("return", _context4.t0);
+            case 10:
+            case "end":
+              return _context4.stop();
+          }
+        }, _callee4, null, [[0, 7]]);
+      }))();
+    },
     cancelarCentVotacion: function cancelarCentVotacion() {
       window.location.href = this.urlMaps;
     },
     guardarCentroVotacion: function guardarCentroVotacion() {
-      var _this4 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+      var _this5 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         var obj, result, dataError;
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-          while (1) switch (_context4.prev = _context4.next) {
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) switch (_context5.prev = _context5.next) {
             case 0:
-              _this4.errors = null;
+              _this5.errors = null;
               obj = {
-                centroVotacion: _this4.centroVotacion,
-                latitud: _this4.markers[0].position.lat,
-                longitud: _this4.markers[0].position.lng
+                centroVotacion: _this5.centroVotacion,
+                latitud: _this5.markers[0].position.lat,
+                longitud: _this5.markers[0].position.lng
               };
-              _context4.prev = 2;
-              _context4.next = 5;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo(_this4.urlGuardar, obj);
+              _context5.prev = 2;
+              _context5.next = 5;
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo(_this5.urlGuardar, obj);
             case 5:
-              result = _context4.sent;
+              result = _context5.sent;
               console.log(result);
               if (result.status) {
                 if (result.result[0].status) {
-                  _this4.clearInput();
-                  window.location.href = _this4.urlMaps;
-                  _this4.$toast.success(result.result[0].message);
+                  _this5.clearInput();
+                  window.location.href = _this5.urlMaps;
+                  _this5.$toast.success(result.result[0].message);
                 } else {
-                  _this4.$toast.error(result.result[0].message);
+                  _this5.$toast.error(result.result[0].message);
                 }
               } else {
                 dataError = {
@@ -6516,21 +6873,21 @@ var tileProviders = [{
                   direccion: result.result['centroVotacion.direccion'],
                   provincia_id: result.result['centroVotacion.provincia_id'],
                   distrito_id: result.result['centroVotacion.distrito_id'],
-                  corregimiento_id: result.result['centroVotacion.corregimiento_id']
+                  corregimiento_id: result.result['centroVotacion.departamento_id']
                 };
-                _this4.errors = dataError;
+                _this5.errors = dataError;
               }
-              _context4.next = 13;
+              _context5.next = 13;
               break;
             case 10:
-              _context4.prev = 10;
-              _context4.t0 = _context4["catch"](2);
-              return _context4.abrupt("return", _context4.t0);
+              _context5.prev = 10;
+              _context5.t0 = _context5["catch"](2);
+              return _context5.abrupt("return", _context5.t0);
             case 13:
             case "end":
-              return _context4.stop();
+              return _context5.stop();
           }
-        }, _callee4, null, [[2, 10]]);
+        }, _callee5, null, [[2, 10]]);
       }))();
     },
     clearInput: function clearInput() {
@@ -6539,7 +6896,7 @@ var tileProviders = [{
         direccion: '',
         provincia_id: '',
         distrito_id: '',
-        corregimiento_id: ''
+        departamento_id: ''
       };
     }
   }
@@ -10065,6 +10422,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   components: {},
   data: function data() {
     return {
+      pais_id: 25,
       user: {
         id: 0,
         numero_documento: '',
@@ -10076,17 +10434,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         celular: '',
         email: '',
         direccion: '',
+        departaments_id: '',
         provincia_id: '',
-        distrito_id: '',
-        corregimiento_id: ''
+        distrito_id: ''
       },
       errors: null,
       loading: false,
       option: true,
       profiles: {},
+      pais: {},
+      departaments: {},
       provinces: {},
       districts: {},
-      corrigement: {},
       codigoPais: {}
     };
   },
@@ -10099,19 +10458,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              console.log(id);
               $("#personaModal").modal("show");
-              _this.getProvinces();
+              _this.getPais();
               _this.getListCodigoPais();
               if (!(id != 0)) {
-                _context.next = 22;
+                _context.next = 21;
                 break;
               }
               _this.option = false;
-              _context.prev = 6;
-              _context.next = 9;
+              _context.prev = 5;
+              _context.next = 8;
               return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('persona/show', id);
-            case 9:
+            case 8:
               result = _context.sent;
               console.log(result);
               codigoPais = result.codigo_pais.split('+');
@@ -10126,28 +10484,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 celular: result.celular,
                 email: result.email,
                 direccion: result.direccion,
+                departaments_id: result.departmento_id,
                 provincia_id: result.provincia_id,
-                distrito_id: result.distrito_id,
-                corregimiento_id: result.corregimiento_id
+                distrito_id: result.distrito_id
               };
+              _this.getProvinces(result.departmento_id);
               _this.getDistrict(result.provincia_id);
-              _this.getCorregiment(result.distrito_id);
-              _context.next = 20;
+              _context.next = 19;
               break;
-            case 17:
-              _context.prev = 17;
-              _context.t0 = _context["catch"](6);
+            case 16:
+              _context.prev = 16;
+              _context.t0 = _context["catch"](5);
               return _context.abrupt("return", _context.t0);
-            case 20:
-              _context.next = 23;
+            case 19:
+              _context.next = 22;
               break;
-            case 22:
+            case 21:
               _this.option = true;
-            case 23:
+            case 22:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[6, 17]]);
+        }, _callee, null, [[5, 16]]);
       }))();
     },
     closepersonaModal: function closepersonaModal() {
@@ -10156,7 +10514,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.clearInput();
       this.errors = null;
     },
-    getDepartments: function getDepartments() {
+    //ubigeo
+    getPais: function getPais() {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         var result;
@@ -10165,30 +10524,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               _context2.prev = 0;
               _context2.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('ubigeus/department');
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('ubigeus/pais');
             case 3:
               result = _context2.sent;
-              _this2.departments = result;
-              _context2.next = 10;
+              _this2.pais = result;
+              _this2.getDepartamento(_this2.pais_id);
+              _context2.next = 11;
               break;
-            case 7:
-              _context2.prev = 7;
+            case 8:
+              _context2.prev = 8;
               _context2.t0 = _context2["catch"](0);
               return _context2.abrupt("return", _context2.t0);
-            case 10:
+            case 11:
             case "end":
               return _context2.stop();
           }
-        }, _callee2, null, [[0, 7]]);
+        }, _callee2, null, [[0, 8]]);
       }))();
     },
-    getDistrictItem: function getDistrictItem() {
-      this.getDistrict(this.user.provincia_id);
+    getPaisItem: function getPaisItem() {
+      this.getDepartamento(this.pais_id);
     },
-    getCorregimientoItem: function getCorregimientoItem() {
-      this.getCorregiment(this.user.distrito_id);
-    },
-    getProvinces: function getProvinces() {
+    getDepartamento: function getDepartamento(pais_id) {
       var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var result;
@@ -10197,10 +10554,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               _context3.prev = 0;
               _context3.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('ubigeus/province');
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('ubigeus/department', pais_id);
             case 3:
               result = _context3.sent;
-              _this3.provinces = result;
+              _this3.departaments = result;
               _context3.next = 10;
               break;
             case 7:
@@ -10214,7 +10571,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3, null, [[0, 7]]);
       }))();
     },
-    getDistrict: function getDistrict(province_id) {
+    getDepartamentItem: function getDepartamentItem() {
+      this.getProvinces(this.user.departaments_id);
+    },
+    getProvinces: function getProvinces(departaments_id) {
       var _this4 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         var result;
@@ -10223,10 +10583,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               _context4.prev = 0;
               _context4.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('ubigeus/district', province_id);
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('ubigeus/province', departaments_id);
             case 3:
               result = _context4.sent;
-              _this4.districts = result;
+              _this4.provinces = result;
               _context4.next = 10;
               break;
             case 7:
@@ -10240,7 +10600,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4, null, [[0, 7]]);
       }))();
     },
-    getCorregiment: function getCorregiment(distric_id) {
+    getProvincesItem: function getProvincesItem() {
+      this.getDistrict(this.user.provincia_id);
+    },
+    getDistrict: function getDistrict(province_id) {
       var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         var result;
@@ -10249,10 +10612,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               _context5.prev = 0;
               _context5.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('ubigeus/corregimient', distric_id);
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('ubigeus/district', province_id);
             case 3:
               result = _context5.sent;
-              _this5.corrigement = result;
+              _this5.districts = result;
               _context5.next = 10;
               break;
             case 7:
@@ -10382,7 +10745,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         direccion: '',
         provincia_id: '',
         distrito_id: '',
-        corregimiento_id: ''
+        departaments_id: ''
       };
     }
   }
@@ -10533,6 +10896,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -10549,9 +10920,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         personero_id: '',
         nombre: '',
         direccion: '',
+        departamento_id: '',
         provincia_id: '',
         distrito_id: '',
-        corregimiento_id: '',
         latitud: '',
         longitud: ''
       },
@@ -10574,6 +10945,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       loading: false,
       option: true,
       profiles: {},
+      departments: {},
       provinces: {},
       districts: {},
       corrigement: {},
@@ -10588,7 +10960,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       error: null,
       displayedPages: [],
       mesas: [],
-      centros: {}
+      centros: {},
+      pais_id: 25
     };
   },
   mounted: function mounted() {
@@ -10603,7 +10976,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) switch (_context.prev = _context.next) {
             case 0:
               $("#mesaPersoneroSaveModal").modal("show");
-              _this.getProvinces();
+              _this.getDepartments();
               _this.getListCodigoPais();
               _this.getTipoDocumentos();
               _this.getMesas(id);
@@ -10667,6 +11040,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2, null, [[0, 7]]);
       }))();
     },
+    getDepartamentoItem: function getDepartamentoItem() {
+      this.getProvinces(this.centro.departamento_id);
+    },
     getDepartments: function getDepartments() {
       var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
@@ -10676,7 +11052,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               _context3.prev = 0;
               _context3.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('ubigeus/department');
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('ubigeus/department', _this3.pais_id);
             case 3:
               result = _context3.sent;
               _this3.departments = result;
@@ -10728,7 +11104,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getCorregimientoItem: function getCorregimientoItem() {
       this.getCorregiment(this.centro.distrito_id);
     },
-    getProvinces: function getProvinces() {
+    getProvinces: function getProvinces(id_deparamento) {
       var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         var result;
@@ -10737,7 +11113,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               _context5.prev = 0;
               _context5.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('ubigeus/province');
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('ubigeus/province', id_deparamento);
             case 3:
               result = _context5.sent;
               _this5.provinces = result;
@@ -10783,7 +11159,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getDistrict: function getDistrict(province_id) {
       var _this7 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
-        var result, result_centros, result_mesas;
+        var result;
         return _regeneratorRuntime().wrap(function _callee7$(_context7) {
           while (1) switch (_context7.prev = _context7.next) {
             case 0:
@@ -10793,58 +11169,41 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 3:
               result = _context7.sent;
               _this7.districts = result;
-              _context7.next = 7;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll("personero/list-centros-votacion?persona_id=" + _this7.personero.id + '&provincia_id=' + province_id);
-            case 7:
-              result_centros = _context7.sent;
-              _this7.centros = result_centros;
-              _context7.next = 11;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll("personero/list-mesas-personero?persona_id=" + _this7.personero.id + '&provincia_id=' + province_id);
-            case 11:
-              result_mesas = _context7.sent;
-              _this7.mesas = result_mesas;
-              _context7.next = 18;
+              _context7.next = 10;
               break;
-            case 15:
-              _context7.prev = 15;
+            case 7:
+              _context7.prev = 7;
               _context7.t0 = _context7["catch"](0);
               return _context7.abrupt("return", _context7.t0);
-            case 18:
+            case 10:
             case "end":
               return _context7.stop();
           }
-        }, _callee7, null, [[0, 15]]);
+        }, _callee7, null, [[0, 7]]);
       }))();
     },
-    getCorregiment: function getCorregiment(distric_id) {
+    getListCentroVotacion: function getListCentroVotacion() {
       var _this8 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
-        var result_centros, result_mesas_dis;
+        var result_centros, result_mesas;
         return _regeneratorRuntime().wrap(function _callee8$(_context8) {
           while (1) switch (_context8.prev = _context8.next) {
             case 0:
-              _context8.prev = 0;
-              _context8.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll("personero/list-centros-votacion?persona_id=" + _this8.personero.id + '&distrito_id=' + province_id);
-            case 3:
+              _context8.next = 2;
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll("personero/list-centros-votacion?persona_id=" + _this8.personero.id + '&provincia_id=' + province_id);
+            case 2:
               result_centros = _context8.sent;
               _this8.centros = result_centros;
-              _context8.next = 7;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll("personero/list-mesas-personero?persona_id=" + _this8.personero.id + '&distrito_id=' + distric_id);
-            case 7:
-              result_mesas_dis = _context8.sent;
-              _this8.mesas = result_mesas_dis;
-              _context8.next = 14;
-              break;
-            case 11:
-              _context8.prev = 11;
-              _context8.t0 = _context8["catch"](0);
-              return _context8.abrupt("return", _context8.t0);
-            case 14:
+              _context8.next = 6;
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll("personero/list-mesas-personero?persona_id=" + _this8.personero.id + '&provincia_id=' + province_id);
+            case 6:
+              result_mesas = _context8.sent;
+              _this8.mesas = result_mesas;
+            case 8:
             case "end":
               return _context8.stop();
           }
-        }, _callee8, null, [[0, 11]]);
+        }, _callee8);
       }))();
     },
     getMesasCentro: function getMesasCentro(centro_id) {
@@ -54121,250 +54480,250 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-12 mb-3" }, [
+    _c("div", { staticClass: "col-md-8" }, [
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-3" }, [
+        _c("div", { staticClass: "col-md-12 mb-3" }, [
           _c("div", { staticClass: "card h-100" }, [
             _c("div", { staticClass: "card-body" }, [
-              _c("label", [_vm._v("Seleccionar Pais")]),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.pais_id,
-                      expression: "pais_id",
-                    },
-                  ],
-                  staticClass: "form-select",
-                  on: {
-                    change: [
-                      function ($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function (o) {
-                            return o.selected
-                          })
-                          .map(function (o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.pais_id = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      },
-                      _vm.getPaisItem,
-                    ],
-                  },
-                },
-                [
-                  _c("option", { attrs: { value: "" } }, [
-                    _vm._v("--seleccionar--"),
-                  ]),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("label", [_vm._v("Seleccionar Pais")]),
                   _vm._v(" "),
-                  _vm._l(_vm.pais, function (item) {
-                    return _c(
-                      "option",
-                      { key: item.id, domProps: { value: item.id } },
-                      [_vm._v(_vm._s(item.nombre))]
-                    )
-                  }),
-                ],
-                2
-              ),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.pais_id,
+                          expression: "pais_id",
+                        },
+                      ],
+                      staticClass: "form-select",
+                      on: {
+                        change: [
+                          function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.pais_id = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          },
+                          _vm.getPaisItem,
+                        ],
+                      },
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }, [
+                        _vm._v("--seleccionar--"),
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.pais, function (item) {
+                        return _c(
+                          "option",
+                          { key: item.id, domProps: { value: item.id } },
+                          [
+                            _vm._v(
+                              _vm._s(item.nombre) +
+                                "\n                                    "
+                            ),
+                          ]
+                        )
+                      }),
+                    ],
+                    2
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("label", [_vm._v("Seleccionar Provincia")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.departaments_id,
+                          expression: "departaments_id",
+                        },
+                      ],
+                      staticClass: "form-select",
+                      on: {
+                        change: [
+                          function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.departaments_id = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          },
+                          _vm.getDepartamentItem,
+                        ],
+                      },
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }, [
+                        _vm._v("--seleccionar--"),
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.departaments, function (item) {
+                        return _c(
+                          "option",
+                          { key: item.id, domProps: { value: item.id } },
+                          [
+                            _vm._v(
+                              _vm._s(item.nombre) +
+                                "\n                                    "
+                            ),
+                          ]
+                        )
+                      }),
+                    ],
+                    2
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("label", [_vm._v("Seleccionar Distrito")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.provinces_id,
+                          expression: "provinces_id",
+                        },
+                      ],
+                      staticClass: "form-select",
+                      on: {
+                        change: [
+                          function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.provinces_id = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          },
+                          _vm.getProvincesItem,
+                        ],
+                      },
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }, [
+                        _vm._v("--seleccionar--"),
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.provinces, function (item) {
+                        return _c(
+                          "option",
+                          { key: item.id, domProps: { value: item.id } },
+                          [
+                            _vm._v(
+                              _vm._s(item.nombre) +
+                                "\n                                    "
+                            ),
+                          ]
+                        )
+                      }),
+                    ],
+                    2
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("label", [_vm._v("Seleccionar Corregimiento")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.districts_id,
+                          expression: "districts_id",
+                        },
+                      ],
+                      staticClass: "form-select",
+                      on: {
+                        change: function ($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function (o) {
+                              return o.selected
+                            })
+                            .map(function (o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.districts_id = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        },
+                      },
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }, [
+                        _vm._v("--seleccionar--"),
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.districts, function (item) {
+                        return _c(
+                          "option",
+                          { key: item.id, domProps: { value: item.id } },
+                          [
+                            _vm._v(
+                              _vm._s(item.nombre) +
+                                "\n                                    "
+                            ),
+                          ]
+                        )
+                      }),
+                    ],
+                    2
+                  ),
+                ]),
+              ]),
             ]),
           ]),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-md-3" }, [
+        _c("div", { staticClass: "col-xl-12 mb-4 col-lg-12 col-12" }, [
           _c("div", { staticClass: "card h-100" }, [
             _c("div", { staticClass: "card-body" }, [
-              _c("label", [_vm._v("Seleccionar Provincia")]),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.departaments_id,
-                      expression: "departaments_id",
-                    },
-                  ],
-                  staticClass: "form-select",
-                  on: {
-                    change: [
-                      function ($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function (o) {
-                            return o.selected
-                          })
-                          .map(function (o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.departaments_id = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      },
-                      _vm.getDepartamentItem,
-                    ],
-                  },
-                },
-                [
-                  _c("option", { attrs: { value: "" } }, [
-                    _vm._v("--seleccionar--"),
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.departaments, function (item) {
-                    return _c(
-                      "option",
-                      { key: item.id, domProps: { value: item.id } },
-                      [
-                        _vm._v(
-                          _vm._s(item.nombre) + "\n                            "
-                        ),
-                      ]
-                    )
-                  }),
-                ],
-                2
-              ),
-            ]),
-          ]),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-3" }, [
-          _c("div", { staticClass: "card h-100" }, [
-            _c("div", { staticClass: "card-body" }, [
-              _c("label", [_vm._v("Seleccionar Distrito")]),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.provinces_id,
-                      expression: "provinces_id",
-                    },
-                  ],
-                  staticClass: "form-select",
-                  on: {
-                    change: [
-                      function ($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function (o) {
-                            return o.selected
-                          })
-                          .map(function (o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.provinces_id = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      },
-                      _vm.getProvincesItem,
-                    ],
-                  },
-                },
-                [
-                  _c("option", { attrs: { value: "" } }, [
-                    _vm._v("--seleccionar--"),
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.provinces, function (item) {
-                    return _c(
-                      "option",
-                      { key: item.id, domProps: { value: item.id } },
-                      [
-                        _vm._v(
-                          _vm._s(item.nombre) + "\n                            "
-                        ),
-                      ]
-                    )
-                  }),
-                ],
-                2
-              ),
-            ]),
-          ]),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-3" }, [
-          _c("div", { staticClass: "card h-100" }, [
-            _c("div", { staticClass: "card-body" }, [
-              _c("label", [_vm._v("Seleccionar Corregimiento")]),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.districts_id,
-                      expression: "districts_id",
-                    },
-                  ],
-                  staticClass: "form-select",
-                  on: {
-                    change: function ($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function (o) {
-                          return o.selected
-                        })
-                        .map(function (o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.districts_id = $event.target.multiple
-                        ? $$selectedVal
-                        : $$selectedVal[0]
-                    },
-                  },
-                },
-                [
-                  _c("option", { attrs: { value: "" } }, [
-                    _vm._v("--seleccionar--"),
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.districts, function (item) {
-                    return _c(
-                      "option",
-                      { key: item.id, domProps: { value: item.id } },
-                      [
-                        _vm._v(
-                          _vm._s(item.nombre) + "\n                            "
-                        ),
-                      ]
-                    )
-                  }),
-                ],
-                2
-              ),
+              _c("div", { staticClass: "row gy-3" }, [
+                _c("div", { ref: "chart", staticStyle: { height: "500px" } }),
+              ]),
             ]),
           ]),
         ]),
       ]),
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "col-xl-7 mb-4 col-lg-7 col-12" }, [
-      _c("div", { staticClass: "card h-100" }, [
-        _c("div", { staticClass: "card-body" }, [
-          _c("div", { staticClass: "row gy-3" }, [
-            _c("div", { ref: "chart", staticStyle: { height: "500px" } }),
-          ]),
-        ]),
-      ]),
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "col-xl-5 mb-4 col-lg-7 col-12" }, [
+    _c("div", { staticClass: "col-xl-4 mb-4 col-lg-4 col-12" }, [
       _c("div", { staticClass: "card h-100" }, [
         _c("div", { staticClass: "card-body" }, [
           _c(
@@ -54374,7 +54733,7 @@ var render = function () {
               _c(
                 "l-map",
                 {
-                  staticStyle: { height: "700px", width: "100%" },
+                  staticStyle: { width: "100%", height: "620px" },
                   attrs: {
                     zoom: _vm.zoom,
                     options: _vm.mapOptions,
@@ -54465,9 +54824,111 @@ var render = function () {
         ]),
       ]),
     ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-md-12" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-8" }, [
+          _c("div", { staticClass: "card h-100" }, [
+            _c("div", { staticClass: "card-body text-center" }, [
+              _c("h5", [_vm._v("Total de Votos")]),
+              _vm._v(" "),
+              _c("table", { staticClass: "table-bordered table" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  { staticClass: "table-border-bottom-0" },
+                  [
+                    _vm._l(_vm.totalVotos, function (item, index) {
+                      return _c("tr", { key: index }, [
+                        _c("td", [
+                          _c("img", {
+                            attrs: {
+                              src: item.logo,
+                              width: "30px",
+                              height: "30px",
+                            },
+                          }),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.nombre))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.suma))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v("12%")]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v("122%")]),
+                      ])
+                    }),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", { attrs: { colspan: "2" } }, [
+                        _vm._v("Total votos emitidos"),
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.totalSuma))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v("562")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v("562")]),
+                    ]),
+                  ],
+                  2
+                ),
+              ]),
+            ]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-4" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12" }, [
+              _c("div", { staticClass: "card h-100" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", {
+                    ref: "chartEstadoActas",
+                    staticStyle: { height: "250px" },
+                  }),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-12 mt-2" }, [
+              _c("div", { staticClass: "card h-100" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", {
+                    ref: "chartDistribucionVotos",
+                    staticStyle: { height: "250px" },
+                  }),
+                ]),
+              ]),
+            ]),
+          ]),
+        ]),
+      ]),
+    ]),
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { colspan: "2" } }, [
+          _vm._v("Organizaciones Políticas"),
+        ]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Total")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("%Validos")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("%Emitidos")]),
+      ]),
+    ])
+  },
+]
 render._withStripped = true
 
 
@@ -54493,218 +54954,10 @@ var render = function () {
   return _c(
     "div",
     [
-      _c("div", [
-        _c("h3", [_vm._v("List of Markers")]),
-        _vm._v(" "),
-        _c(
-          "button",
-          { attrs: { name: "button" }, on: { click: _vm.addMarker } },
-          [_vm._v("\n            Add a marker\n        ")]
-        ),
-        _vm._v(" "),
-        _c(
-          "table",
-          [
-            _vm._m(0),
-            _vm._v(" "),
-            _vm._l(_vm.markers, function (item, index) {
-              return _c("tr", { key: index }, [
-                _c("td", [_vm._v(_vm._s("Marker " + (index + 1)))]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model.number",
-                        value: item.position.lat,
-                        expression: "item.position.lat",
-                        modifiers: { number: true },
-                      },
-                    ],
-                    attrs: { type: "number" },
-                    domProps: { value: item.position.lat },
-                    on: {
-                      input: function ($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          item.position,
-                          "lat",
-                          _vm._n($event.target.value)
-                        )
-                      },
-                      blur: function ($event) {
-                        return _vm.$forceUpdate()
-                      },
-                    },
-                  }),
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model.number",
-                        value: item.position.lng,
-                        expression: "item.position.lng",
-                        modifiers: { number: true },
-                      },
-                    ],
-                    attrs: { type: "number" },
-                    domProps: { value: item.position.lng },
-                    on: {
-                      input: function ($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          item.position,
-                          "lng",
-                          _vm._n($event.target.value)
-                        )
-                      },
-                      blur: function ($event) {
-                        return _vm.$forceUpdate()
-                      },
-                    },
-                  }),
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: item.tooltip,
-                        expression: "item.tooltip",
-                      },
-                    ],
-                    attrs: { type: "text" },
-                    domProps: { value: item.tooltip },
-                    on: {
-                      input: function ($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(item, "tooltip", $event.target.value)
-                      },
-                    },
-                  }),
-                ]),
-                _vm._v(" "),
-                _c("td", { staticStyle: { "text-align": "center" } }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: item.draggable,
-                        expression: "item.draggable",
-                      },
-                    ],
-                    attrs: { type: "checkbox" },
-                    domProps: {
-                      checked: Array.isArray(item.draggable)
-                        ? _vm._i(item.draggable, null) > -1
-                        : item.draggable,
-                    },
-                    on: {
-                      change: function ($event) {
-                        var $$a = item.draggable,
-                          $$el = $event.target,
-                          $$c = $$el.checked ? true : false
-                        if (Array.isArray($$a)) {
-                          var $$v = null,
-                            $$i = _vm._i($$a, $$v)
-                          if ($$el.checked) {
-                            $$i < 0 &&
-                              _vm.$set(item, "draggable", $$a.concat([$$v]))
-                          } else {
-                            $$i > -1 &&
-                              _vm.$set(
-                                item,
-                                "draggable",
-                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                              )
-                          }
-                        } else {
-                          _vm.$set(item, "draggable", $$c)
-                        }
-                      },
-                    },
-                  }),
-                ]),
-                _vm._v(" "),
-                _c("td", { staticStyle: { "text-align": "center" } }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: item.visible,
-                        expression: "item.visible",
-                      },
-                    ],
-                    attrs: { type: "checkbox" },
-                    domProps: {
-                      checked: Array.isArray(item.visible)
-                        ? _vm._i(item.visible, null) > -1
-                        : item.visible,
-                    },
-                    on: {
-                      change: function ($event) {
-                        var $$a = item.visible,
-                          $$el = $event.target,
-                          $$c = $$el.checked ? true : false
-                        if (Array.isArray($$a)) {
-                          var $$v = null,
-                            $$i = _vm._i($$a, $$v)
-                          if ($$el.checked) {
-                            $$i < 0 &&
-                              _vm.$set(item, "visible", $$a.concat([$$v]))
-                          } else {
-                            $$i > -1 &&
-                              _vm.$set(
-                                item,
-                                "visible",
-                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                              )
-                          }
-                        } else {
-                          _vm.$set(item, "visible", $$c)
-                        }
-                      },
-                    },
-                  }),
-                ]),
-                _vm._v(" "),
-                _c("td", { staticStyle: { "text-align": "center" } }, [
-                  _c("input", {
-                    attrs: { type: "button", value: "X" },
-                    on: {
-                      click: function ($event) {
-                        return _vm.removeMarker(index)
-                      },
-                    },
-                  }),
-                ]),
-              ])
-            }),
-          ],
-          2
-        ),
-        _vm._v(" "),
-        _c("hr"),
-      ]),
-      _vm._v(" "),
       _c("div", { staticClass: "row p-3" }, [
         _c("label", { attrs: { for: "" } }, [_vm._v("Leyenda")]),
         _vm._v(" "),
-        _vm._m(1),
+        _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "col-md-4 text-end" }, [
           _c(
@@ -54813,26 +55066,6 @@ var render = function () {
   )
 }
 var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", [_vm._v("Marker")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Latitude")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Longitude")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Tooltip")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Is Draggable ?")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Is Visible ?")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Remove")]),
-    ])
-  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -54975,6 +55208,73 @@ var render = function () {
               _vm._v(" "),
               _c("div", { staticClass: "row mb-1" }, [
                 _c("div", { staticClass: "col-md-4" }, [
+                  _c("label", [_vm._v("Departamento: ")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.centroVotacion.departamento_id,
+                          expression: "centroVotacion.departamento_id",
+                        },
+                      ],
+                      staticClass: "form-select",
+                      class:
+                        _vm.errors != null && _vm.errors.departamento_id
+                          ? "is-invalid"
+                          : "",
+                      on: {
+                        change: [
+                          function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.centroVotacion,
+                              "departamento_id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                          _vm.getDepartamentItem,
+                        ],
+                      },
+                    },
+                    [
+                      _c(
+                        "option",
+                        { attrs: { value: "", selected: "", disabled: "" } },
+                        [_vm._v("--seleccionar--")]
+                      ),
+                      _vm._v(" "),
+                      _vm._l(_vm.departaments, function (iten) {
+                        return _c(
+                          "option",
+                          { key: iten.id, domProps: { value: iten.id } },
+                          [_vm._v(_vm._s(iten.nombre))]
+                        )
+                      }),
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _vm.errors != null && _vm.errors.departamento_id
+                    ? _c("span", { staticClass: "text-danger" }, [
+                        _vm._v(_vm._s(_vm.errors.departamento_id[0])),
+                      ])
+                    : _vm._e(),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4" }, [
                   _c("label", [_vm._v("Provincia: ")]),
                   _vm._v(" "),
                   _c(
@@ -55012,7 +55312,7 @@ var render = function () {
                                 : $$selectedVal[0]
                             )
                           },
-                          _vm.getDistrictItem,
+                          _vm.getProvincesItem,
                         ],
                       },
                     },
@@ -55064,26 +55364,23 @@ var render = function () {
                           ? "is-invalid"
                           : "",
                       on: {
-                        change: [
-                          function ($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function (o) {
-                                return o.selected
-                              })
-                              .map(function (o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.centroVotacion,
-                              "distrito_id",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          },
-                          _vm.getCorregimientoItem,
-                        ],
+                        change: function ($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function (o) {
+                              return o.selected
+                            })
+                            .map(function (o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.centroVotacion,
+                            "distrito_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
                       },
                     },
                     [
@@ -55110,70 +55407,6 @@ var render = function () {
                   _vm.errors != null && _vm.errors.distrito_id
                     ? _c("span", { staticClass: "text-danger" }, [
                         _vm._v(_vm._s(_vm.errors.distrito_id[0])),
-                      ])
-                    : _vm._e(),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-4" }, [
-                  _c("label", [_vm._v("Corregimientos: ")]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.centroVotacion.corregimiento_id,
-                          expression: "centroVotacion.corregimiento_id",
-                        },
-                      ],
-                      staticClass: "form-select",
-                      class:
-                        _vm.errors != null && _vm.errors.corregimiento_id
-                          ? "is-invalid"
-                          : "",
-                      on: {
-                        change: function ($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function (o) {
-                              return o.selected
-                            })
-                            .map(function (o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.centroVotacion,
-                            "corregimiento_id",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        },
-                      },
-                    },
-                    [
-                      _c(
-                        "option",
-                        { attrs: { value: "", selected: "", disabled: "" } },
-                        [_vm._v("--seleccionar--")]
-                      ),
-                      _vm._v(" "),
-                      _vm._l(_vm.corrigement, function (corregt) {
-                        return _c(
-                          "option",
-                          { key: corregt.id, domProps: { value: corregt.id } },
-                          [_vm._v(_vm._s(corregt.nombre))]
-                        )
-                      }),
-                    ],
-                    2
-                  ),
-                  _vm._v(" "),
-                  _vm.errors != null && _vm.errors.corregimiento_id
-                    ? _c("span", { staticClass: "text-danger" }, [
-                        _vm._v(_vm._s(_vm.errors.corregimiento_id[0])),
                       ])
                     : _vm._e(),
                 ]),
@@ -59026,6 +59259,73 @@ var render = function () {
                 _vm._v(" "),
                 _c("div", { staticClass: "row mb-1" }, [
                   _c("div", { staticClass: "col-md-4" }, [
+                    _c("label", [_vm._v("Departamento: ")]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.user.departaments_id,
+                            expression: "user.departaments_id",
+                          },
+                        ],
+                        staticClass: "form-select",
+                        class:
+                          _vm.errors != null && _vm.errors.departaments_id
+                            ? "is-invalid"
+                            : "",
+                        on: {
+                          change: [
+                            function ($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function (o) {
+                                  return o.selected
+                                })
+                                .map(function (o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.user,
+                                "departaments_id",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
+                            _vm.getDepartamentItem,
+                          ],
+                        },
+                      },
+                      [
+                        _c(
+                          "option",
+                          { attrs: { value: "", selected: "", disabled: "" } },
+                          [_vm._v("--seleccionar--")]
+                        ),
+                        _vm._v(" "),
+                        _vm._l(_vm.departaments, function (item) {
+                          return _c(
+                            "option",
+                            { key: item.id, domProps: { value: item.id } },
+                            [_vm._v(_vm._s(item.nombre))]
+                          )
+                        }),
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _vm.errors != null && _vm.errors.departaments_id
+                      ? _c("span", { staticClass: "text-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.departaments_id[0])),
+                        ])
+                      : _vm._e(),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4" }, [
                     _c("label", [_vm._v("Provincia: ")]),
                     _vm._v(" "),
                     _c(
@@ -59063,7 +59363,7 @@ var render = function () {
                                   : $$selectedVal[0]
                               )
                             },
-                            _vm.getDistrictItem,
+                            _vm.getProvincesItem,
                           ],
                         },
                       },
@@ -59115,26 +59415,23 @@ var render = function () {
                             ? "is-invalid"
                             : "",
                         on: {
-                          change: [
-                            function ($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function (o) {
-                                  return o.selected
-                                })
-                                .map(function (o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.user,
-                                "distrito_id",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            },
-                            _vm.getCorregimientoItem,
-                          ],
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.user,
+                              "distrito_id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
                         },
                       },
                       [
@@ -59161,73 +59458,6 @@ var render = function () {
                     _vm.errors != null && _vm.errors.distrito_id
                       ? _c("span", { staticClass: "text-danger" }, [
                           _vm._v(_vm._s(_vm.errors.distrito_id[0])),
-                        ])
-                      : _vm._e(),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c("label", [_vm._v("Corregimientos: ")]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.user.corregimiento_id,
-                            expression: "user.corregimiento_id",
-                          },
-                        ],
-                        staticClass: "form-select",
-                        class:
-                          _vm.errors != null && _vm.errors.corregimiento_id
-                            ? "is-invalid"
-                            : "",
-                        on: {
-                          change: function ($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function (o) {
-                                return o.selected
-                              })
-                              .map(function (o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.user,
-                              "corregimiento_id",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          },
-                        },
-                      },
-                      [
-                        _c(
-                          "option",
-                          { attrs: { value: "", selected: "", disabled: "" } },
-                          [_vm._v("--seleccionar--")]
-                        ),
-                        _vm._v(" "),
-                        _vm._l(_vm.corrigement, function (corregt) {
-                          return _c(
-                            "option",
-                            {
-                              key: corregt.id,
-                              domProps: { value: corregt.id },
-                            },
-                            [_vm._v(_vm._s(corregt.nombre))]
-                          )
-                        }),
-                      ],
-                      2
-                    ),
-                    _vm._v(" "),
-                    _vm.errors != null && _vm.errors.corregimiento_id
-                      ? _c("span", { staticClass: "text-danger" }, [
-                          _vm._v(_vm._s(_vm.errors.corregimiento_id[0])),
                         ])
                       : _vm._e(),
                   ]),
@@ -59356,6 +59586,73 @@ var render = function () {
                 _vm._v(" "),
                 _c("div", { staticClass: "row mb-1" }, [
                   _c("div", { staticClass: "col-md-4" }, [
+                    _c("label", [_vm._v("Departamento: ")]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.centro.departamento_id,
+                            expression: "centro.departamento_id",
+                          },
+                        ],
+                        staticClass: "form-select",
+                        class:
+                          _vm.errors != null && _vm.errors.departamento_id
+                            ? "is-invalid"
+                            : "",
+                        on: {
+                          change: [
+                            function ($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function (o) {
+                                  return o.selected
+                                })
+                                .map(function (o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.centro,
+                                "departamento_id",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
+                            _vm.getDepartamentoItem,
+                          ],
+                        },
+                      },
+                      [
+                        _c(
+                          "option",
+                          { attrs: { value: "", selected: "", disabled: "" } },
+                          [_vm._v("--seleccionar--")]
+                        ),
+                        _vm._v(" "),
+                        _vm._l(_vm.departments, function (item) {
+                          return _c(
+                            "option",
+                            { key: item.id, domProps: { value: item.id } },
+                            [_vm._v(_vm._s(item.nombre))]
+                          )
+                        }),
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _vm.errors != null && _vm.errors.departamento_id
+                      ? _c("span", { staticClass: "text-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.departamento_id[0])),
+                        ])
+                      : _vm._e(),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4" }, [
                     _c("label", [_vm._v("Provincia: ")]),
                     _vm._v(" "),
                     _c(
@@ -59463,7 +59760,7 @@ var render = function () {
                                   : $$selectedVal[0]
                               )
                             },
-                            _vm.getCorregimientoItem,
+                            _vm.getListCentroVotacion,
                           ],
                         },
                       },
@@ -59494,7 +59791,9 @@ var render = function () {
                         ])
                       : _vm._e(),
                   ]),
-                  _vm._v(" "),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row mb-1" }, [
                   _c("div", { staticClass: "col-md-4" }, [
                     _c("label", [_vm._v("Centros de votación: ")]),
                     _vm._v(" "),
@@ -59561,11 +59860,9 @@ var render = function () {
                         ])
                       : _vm._e(),
                   ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row mb-1" }, [
-                  _c("div", { staticClass: "col-md-6" }, [
-                    _c("label", [_vm._v("MESAS: ")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-5" }, [
+                    _c("label", [_vm._v("Mesas: ")]),
                     _vm._v(" "),
                     _c(
                       "select",
@@ -59630,7 +59927,7 @@ var render = function () {
                       : _vm._e(),
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-6 mt-3" }, [
+                  _c("div", { staticClass: "col-md-3 mt-3" }, [
                     _c(
                       "button",
                       {

@@ -106,8 +106,16 @@
                         </div>
                         <div class="row mb-1">
                             <div class="col-md-4">
+                                <label>Departamento: </label>
+                                <select class="form-select" v-model="user.departaments_id" :class="errors!=null  && errors.departaments_id ? 'is-invalid' : '' " @change="getDepartamentItem">
+                                    <option value="" selected disabled>--seleccionar--</option>
+                                    <option v-for="item in departaments" :key="item.id" :value="item.id">{{ item.nombre }}</option>
+                                </select>
+                                <span v-if="errors!=null  && errors.departaments_id" class="text-danger">{{ errors.departaments_id[0] }}</span>
+                            </div>
+                            <div class="col-md-4">
                                 <label>Provincia: </label>
-                                <select class="form-select" v-model="user.provincia_id" :class="errors!=null  && errors.provincia_id ? 'is-invalid' : '' " @change="getDistrictItem">
+                                <select class="form-select" v-model="user.provincia_id" :class="errors!=null  && errors.provincia_id ? 'is-invalid' : '' " @change="getProvincesItem">
                                     <option value="" selected disabled>--seleccionar--</option>
                                     <option v-for="province in provinces" :key="province.id" :value="province.id">{{ province.nombre }}</option>
                                 </select>
@@ -115,19 +123,11 @@
                             </div>
                             <div class="col-md-4">
                                 <label>Distrito: </label>
-                                <select class="form-select" v-model="user.distrito_id" :class="errors!=null  && errors.distrito_id ? 'is-invalid' : '' " @change="getCorregimientoItem">
+                                <select class="form-select" v-model="user.distrito_id" :class="errors!=null  && errors.distrito_id ? 'is-invalid' : '' ">
                                     <option value="" selected disabled>--seleccionar--</option>
                                     <option v-for="distrito in districts" :key="distrito.id" :value="distrito.id">{{ distrito.nombre }}</option>
                                 </select>
                                 <span v-if="errors!=null  && errors.distrito_id" class="text-danger">{{ errors.distrito_id[0] }}</span>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Corregimientos: </label>
-                                <select class="form-select" v-model="user.corregimiento_id" :class="errors!=null  && errors.corregimiento_id ? 'is-invalid' : '' ">
-                                    <option value="" selected disabled>--seleccionar--</option>
-                                    <option v-for="corregt in corrigement" :key="corregt.id" :value="corregt.id">{{ corregt.nombre }}</option>
-                                </select>
-                                <span v-if="errors!=null  && errors.corregimiento_id" class="text-danger">{{ errors.corregimiento_id[0] }}</span>
                             </div>
                         </div>
                      </fieldset>
@@ -149,6 +149,7 @@ export default {
     },
     data() {
         return {
+            pais_id:25,
             user:{  
                 id:0,
                 numero_documento:'',
@@ -160,17 +161,18 @@ export default {
                 celular:'',
                 email:'',
                 direccion:'',
+                departaments_id:'',
                 provincia_id : '',
                 distrito_id : '',
-                corregimiento_id:'',
             },
             errors: null,
             loading:false,
             option:true,
             profiles:{},
+            pais:{},
+            departaments:{},
             provinces:{},
             districts:{},
-            corrigement:{},
             codigoPais:{}
         }
     },
@@ -179,9 +181,8 @@ export default {
     },
     methods: {
         async openpersonaModal(id){
-            console.log(id)
             $("#personaModal").modal("show");
-            this.getProvinces();
+            this.getPais();
             this.getListCodigoPais();
             if(id!=0){
                 this.option=false
@@ -200,12 +201,12 @@ export default {
                         celular:result.celular,
                         email:result.email,
                         direccion:result.direccion,
+                        departaments_id:result.departmento_id,
                         provincia_id : result.provincia_id,
                         distrito_id : result.distrito_id,
-                        corregimiento_id:result.corregimiento_id,
                     }
+                    this.getProvinces(result.departmento_id)
                     this.getDistrict(result.provincia_id)
-                    this.getCorregiment(result.distrito_id)
                 } catch (error) {
                     return error;
                 }
@@ -220,40 +221,51 @@ export default {
             this.errors=null;
         },
 
-        async getDepartments() {
+       //ubigeo
+       async getPais() {
             try {
-                const result = await Services.getAll('ubigeus/department');
-                this.departments = result
+                const result = await Services.getAll('ubigeus/pais');
+                this.pais = result
+                this.getDepartamento(this.pais_id);
             } catch (error) {
                 return error;
             }
         },
-        getDistrictItem(){
-            this.getDistrict(this.user.provincia_id);
+
+        getPaisItem() {
+            this.getDepartamento(this.pais_id);
         },
-        getCorregimientoItem(){
-            this.getCorregiment(this.user.distrito_id);
-        },
-        async getProvinces() {
+
+        async getDepartamento(pais_id) {
             try {
-                const result = await Services.getAll('ubigeus/province');
+                const result = await Services.getShowInfo('ubigeus/department', pais_id);
+                this.departaments = result
+            } catch (error) {
+                return error;
+            }
+        },
+
+        getDepartamentItem() {
+            this.getProvinces(this.user.departaments_id);
+        },
+
+        async getProvinces(departaments_id) {
+            try {
+                const result = await Services.getShowInfo('ubigeus/province', departaments_id);
                 this.provinces = result
             } catch (error) {
                 return error;
             }
         },
+
+        getProvincesItem() {
+            this.getDistrict(this.user.provincia_id);
+        },
+
         async getDistrict(province_id) {
             try {
                 const result = await Services.getShowInfo('ubigeus/district', province_id);
                 this.districts = result
-            } catch (error) {
-                return error;
-            }
-        },
-        async getCorregiment(distric_id) {
-            try {
-                const result = await Services.getShowInfo('ubigeus/corregimient',distric_id);
-                this.corrigement = result
             } catch (error) {
                 return error;
             }
@@ -320,7 +332,7 @@ export default {
                 direccion:'',
                 provincia_id : '',
                 distrito_id : '',
-                corregimiento_id:'',
+                departaments_id:'',
             }
         }
     },

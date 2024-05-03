@@ -33,7 +33,7 @@ class CentroVotacionRegister extends FormRequest
             'centroVotacion.direccion' => 'required',
             'centroVotacion.provincia_id' => 'required',
             'centroVotacion.distrito_id' => 'required',
-            'centroVotacion.corregimiento_id' => 'required',
+            'centroVotacion.departamento_id' => 'required',
         ];
     }
 
@@ -44,7 +44,7 @@ class CentroVotacionRegister extends FormRequest
             'centroVotacion.direccion.required' => 'El campo dirección es requerido.',
             'centroVotacion.provincia_id.required' => 'El campo provincia es requerido.',
             'centroVotacion.distrito_id.required' => 'El campo distrito es requerido.',
-            'centroVotacion.corregimiento_id.required' => 'El campo corigimiento es requerido.',
+            'centroVotacion.departamento_id.required' => 'El campo corigimiento es requerido.',
         ];
     }
 }

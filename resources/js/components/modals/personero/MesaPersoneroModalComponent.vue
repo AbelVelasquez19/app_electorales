@@ -13,6 +13,14 @@
                         <legend>Ingresar informacion del Mesa - Personero</legend>
                         <div class="row mb-1">
                             <div class="col-md-4">
+                                <label>Departamento: </label>
+                                <select class="form-select" v-model="centro.departamento_id" :class="errors != null && errors.departamento_id ? 'is-invalid' : ''" @change="getDepartamentoItem">
+                                    <option value="" selected disabled>--seleccionar--</option>
+                                    <option v-for="item in departments" :key="item.id" :value="item.id">{{ item.nombre }}</option>
+                                </select>
+                                <span v-if="errors != null && errors.departamento_id" class="text-danger">{{ errors.departamento_id[0] }}</span>
+                            </div>
+                            <div class="col-md-4">
                                 <label>Provincia: </label>
                                 <select class="form-select" v-model="centro.provincia_id" :class="errors != null && errors.provincia_id ? 'is-invalid' : ''" @change="getDistrictItem">
                                     <option value="" selected disabled>--seleccionar--</option>
@@ -22,12 +30,14 @@
                             </div>
                             <div class="col-md-4">
                                 <label>Distrito: </label>
-                                <select class="form-select" v-model="centro.distrito_id" :class="errors != null && errors.distrito_id ? 'is-invalid' : ''" @change="getCorregimientoItem">
+                                <select class="form-select" v-model="centro.distrito_id" :class="errors != null && errors.distrito_id ? 'is-invalid' : ''" @change="getListCentroVotacion">
                                     <option value="" selected disabled>--seleccionar--</option>
                                     <option v-for="distrito in districts" :key="distrito.id" :value="distrito.id">{{ distrito.nombre }}</option>
                                 </select>
                                 <span v-if="errors != null && errors.distrito_id" class="text-danger">{{ errors.distrito_id[0] }}</span>
                             </div>
+                        </div>
+                        <div class="row mb-1">
                             <div class="col-md-4">
                                 <label>Centros de votación: </label>
                                 <select class="form-select" v-model="centro.id" :class="errors != null && errors.corregimiento_id ? 'is-invalid' : ''" @change="getMesaCentroItem">
@@ -36,17 +46,15 @@
                                 </select>
                                 <span v-if="errors != null && errors.centro_votacion_id" class="text-danger">{{ errors.centro_votacion_id[0] }}</span>
                             </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="col-md-6">
-                                <label>MESAS: </label>
+                            <div class="col-md-5">
+                                <label>Mesas: </label>
                                 <select id="personero_id" class="select2 form-select form-select-sm form-select-lg" v-model="personero.mesa_id" :class="errors != null && errors.mesa_id ? 'is-invalid' : ''">
                                     <option value="" selected disabled>--seleccionar--</option>
                                     <option v-for="mesa in mesas" :key="mesa.id" :value="mesa.id"> {{ mesa.nombre }}</option>
                                 </select>
                                 <span v-if="errors != null && errors.mesa_id" class="text-danger">{{ errors.mesa_id[0] }}</span>
                             </div>
-                            <div class="col-md-6 mt-3">
+                            <div class="col-md-3 mt-3">
                                 <button type="button" class="btn btn-primary" @click.prevent="addPersoneroMesa()">
                                     Agregar Mesa
                                 </button>
@@ -136,9 +144,9 @@ export default {
                 personero_id: '',
                 nombre: '',
                 direccion: '',
+                departamento_id: '',
                 provincia_id: '',
                 distrito_id: '',
-                corregimiento_id: '',
                 latitud: '',
                 longitud: '',
             },
@@ -162,6 +170,7 @@ export default {
             loading: false,
             option: true,
             profiles: {},
+            departments:{},
             provinces: {},
             districts: {},
             corrigement: {},
@@ -176,7 +185,8 @@ export default {
             error: null,
             displayedPages: [],
             mesas: [],
-            centros: {}
+            centros: {},
+            pais_id:25,
         }
     },
     mounted() {
@@ -186,7 +196,7 @@ export default {
     methods: {
         async openMesaPersoneroModal(id) {
             $("#mesaPersoneroSaveModal").modal("show");
-            this.getProvinces();
+            this.getDepartments();
             this.getListCodigoPais();
             this.getTipoDocumentos();
             this.getMesas(id);
@@ -221,10 +231,12 @@ export default {
                 return error;
             }
         },
-
+        getDepartamentoItem(){
+            this.getProvinces(this.centro.departamento_id);
+        },
         async getDepartments() {
             try {
-                const result = await Services.getAll('ubigeus/department');
+                const result = await Services.getShowInfo('ubigeus/department',this.pais_id);
                 this.departments = result
             } catch (error) {
                 return error;
@@ -251,9 +263,9 @@ export default {
             this.getCorregiment(this.centro.distrito_id);
         },
 
-        async getProvinces() {
+        async getProvinces(id_deparamento) {
             try {
-                const result = await Services.getAll('ubigeus/province');
+                const result = await Services.getShowInfo('ubigeus/province',id_deparamento);
                 this.provinces = result
             } catch (error) {
                 return error;
@@ -273,26 +285,17 @@ export default {
             try {
                 const result = await Services.getShowInfo('ubigeus/district', province_id);
                 this.districts = result
-
-                const result_centros = await Services.getAll(`personero/list-centros-votacion?persona_id=` + this.personero.id + '&provincia_id=' + province_id);
-                this.centros = result_centros
-
-                const result_mesas = await Services.getAll(`personero/list-mesas-personero?persona_id=` + this.personero.id + '&provincia_id=' + province_id);
-                this.mesas = result_mesas
             } catch (error) {
                 return error;
             }
         },
-        async getCorregiment(distric_id) {
-            try {
-                const result_centros = await Services.getAll(`personero/list-centros-votacion?persona_id=` + this.personero.id + '&distrito_id=' + province_id);
-                this.centros = result_centros
 
-                const result_mesas_dis = await Services.getAll(`personero/list-mesas-personero?persona_id=` + this.personero.id + '&distrito_id=' + distric_id);
-                this.mesas = result_mesas_dis
-            } catch (error) {
-                return error;
-            }
+        async getListCentroVotacion(){
+            const result_centros = await Services.getAll(`personero/list-centros-votacion?persona_id=` + this.personero.id + '&provincia_id=' + province_id);
+            this.centros = result_centros
+
+            const result_mesas = await Services.getAll(`personero/list-mesas-personero?persona_id=` + this.personero.id + '&provincia_id=' + province_id);
+            this.mesas = result_mesas
         },
 
         async getMesasCentro(centro_id) {

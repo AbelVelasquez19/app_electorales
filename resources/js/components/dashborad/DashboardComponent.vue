@@ -1,71 +1,70 @@
 <template>
     <div class="row">
-        <div class="col-md-12 mb-3">
+        <div class="col-md-8">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-12 mb-3">
                     <div class="card h-100">
                         <div class="card-body">
-                            <label>Seleccionar Pais</label>
-                            <select class="form-select" v-model="pais_id" @change="getPaisItem">
-                                <option value="">--seleccionar--</option>
-                                <option v-for="item in pais" :key="item.id" :value="item.id">{{ item.nombre }}</option>
-                            </select>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Seleccionar Pais</label>
+                                    <select class="form-select" v-model="pais_id" @change="getPaisItem">
+                                        <option value="">--seleccionar--</option>
+                                        <option v-for="item in pais" :key="item.id" :value="item.id">{{ item.nombre }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Seleccionar Provincia</label>
+                                    <select class="form-select" v-model="departaments_id" @change="getDepartamentItem">
+                                        <option value="">--seleccionar--</option>
+                                        <option v-for="item in departaments" :key="item.id" :value="item.id">{{
+                                        item.nombre }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Seleccionar Distrito</label>
+                                    <select class="form-select" v-model="provinces_id" @change="getProvincesItem">
+                                        <option value="">--seleccionar--</option>
+                                        <option v-for="item in provinces" :key="item.id" :value="item.id">{{ item.nombre
+                                            }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Seleccionar Corregimiento</label>
+                                    <select class="form-select" v-model="districts_id">
+                                        <option value="">--seleccionar--</option>
+                                        <option v-for="item in districts" :key="item.id" :value="item.id">{{ item.nombre
+                                            }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-xl-12 mb-4 col-lg-12 col-12">
                     <div class="card h-100">
                         <div class="card-body">
-                            <label>Seleccionar Provincia</label>
-                            <select class="form-select" v-model="departaments_id" @change="getDepartamentItem">
-                                <option value="">--seleccionar--</option>
-                                <option v-for="item in departaments" :key="item.id" :value="item.id">{{ item.nombre }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <label>Seleccionar Distrito</label>
-                            <select class="form-select" v-model="provinces_id" @change="getProvincesItem">
-                                <option value="">--seleccionar--</option>
-                                <option v-for="item in provinces" :key="item.id" :value="item.id">{{ item.nombre }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <label>Seleccionar Corregimiento</label>
-                            <select class="form-select" v-model="districts_id">
-                                <option value="">--seleccionar--</option>
-                                <option v-for="item in districts" :key="item.id" :value="item.id">{{ item.nombre }}
-                                </option>
-                            </select>
+                            <div class="row gy-3">
+                                <div ref="chart" style="height: 500px;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-7 mb-4 col-lg-7 col-12">
-            <div class="card h-100">
-                <div class="card-body">
-                    <div class="row gy-3">
-                        <div ref="chart" style="height: 500px;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-5 mb-4 col-lg-7 col-12">
+        <div class="col-xl-4 mb-4 col-lg-4 col-12">
             <div class="card h-100">
                 <div class="card-body">
                     <div class="row gy-3">
                         <l-map :zoom.sync="zoom" :options="mapOptions" :center="center" :bounds="bounds"
-                            :min-zoom="minZoom" :max-zoom="maxZoom" style="height: 700px; width: 100%">
+                            :min-zoom="minZoom" :max-zoom="maxZoom" style="width: 100%; height: 620px">
                             <l-control-layers :position="layersPosition" :collapsed="false" :sort-layers="true" />
                             <l-tile-layer v-for="tileProvider in tileProviders" :key="tileProvider.name"
                                 :name="tileProvider.name" :visible="tileProvider.visible" :url="tileProvider.url"
@@ -80,6 +79,61 @@
                                 <l-tooltip :content="marker.tooltip" />
                             </l-marker>
                         </l-map>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h5>Total de Votos</h5>
+                            <table class="table-bordered table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Organizaciones Políticas</th>
+                                        <th>Total</th>
+                                        <th>%Validos</th>
+                                        <th>%Emitidos</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                    <tr v-for="(item, index) in totalVotos" :key="index">
+                                        <td><img :src="item.logo" width="30px" height="30px"></td>
+                                        <td>{{ item.nombre }}</td>
+                                        <td>{{ item.suma }}</td>
+                                        <td>12%</td>
+                                        <td>122%</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Total votos emitidos</td>
+                                        <td>{{ totalSuma }}</td>
+                                        <td>562</td>
+                                        <td>562</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div ref="chartEstadoActas" style="height: 250px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-2">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div ref="chartDistribucionVotos" style="height: 250px;"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -221,6 +275,182 @@ export default {
 
                 }
             },
+            chartOptionsEstadoActas: {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    align: 'left',
+                    text: 'Estado de Actas'
+                },
+                subtitle: {
+                    align: 'left',
+                    /* text: 'Click the columns to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>' */
+                },
+                accessibility: {
+                    announceNewData: {
+                        enabled: true
+                    }
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+
+                    title: {
+                        text: 'Total porcentaje'
+                    }
+
+                },
+                legend: {
+                    enabled: true
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true
+                    },
+                    series: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: [{
+                            enabled: false,
+                            distance: 20
+                        },
+                        {
+                            enabled: true,
+                            distance: -40,
+                            format: '{point.percentage:.1f}%',
+                            style: {
+                                fontSize: '1em',
+                                textOutline: 'none',
+                                opacity: 0.7
+                            },
+                            filter: {
+                                operator: '>',
+                                property: 'percentage',
+                                value: 10
+                            }
+                        }]
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    /*  pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> del total<br/>' */
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> del total<br/>'
+                },
+                colors: ['#FF5733', '#FFD700'],
+                series: [
+                    {
+                        name: 'Percentage',
+                        colorByPoint: true,
+                        data: [
+
+                        ]
+                    }
+                ],
+                drilldown: {
+                    breadcrumbs: {
+                        position: {
+                            align: 'right'
+                        }
+                    },
+
+                }
+            },
+            chartOptionsDistribucionVotos: {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    align: 'left',
+                    text: 'Distribución de Votos'
+                },
+                subtitle: {
+                    align: 'left',
+                    /* text: 'Click the columns to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>' */
+                },
+                accessibility: {
+                    announceNewData: {
+                        enabled: true
+                    }
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+
+                    title: {
+                        text: 'Total porcentaje'
+                    }
+
+                },
+                legend: {
+                    enabled: true
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true
+                    },
+                    series: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: [{
+                            enabled: false,
+                            distance: 20
+                        },
+                        {
+                            enabled: true,
+                            distance: -40,
+                            format: '{point.percentage:.1f}%',
+                            style: {
+                                fontSize: '1em',
+                                textOutline: 'none',
+                                opacity: 0.7
+                            },
+                            filter: {
+                                operator: '>',
+                                property: 'percentage',
+                                value: 10
+                            }
+                        }]
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    /*  pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> del total<br/>' */
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> del total<br/>'
+                },
+                colors: ['#FF5733', '#FFD700', '#FF69B4'],
+                series: [
+                    {
+                        name: 'Percentage',
+                        colorByPoint: true,
+                        data: [
+
+                        ]
+                    }
+                ],
+                drilldown: {
+                    breadcrumbs: {
+                        position: {
+                            align: 'right'
+                        }
+                    },
+
+                }
+            },
             pais: {},
             pais_id: '',
             departaments: {},
@@ -229,7 +459,7 @@ export default {
             provinces_id: '',
             districts: {},
             districts_id: '',
-
+            totalVotos: {},
 
             center: [9.367772770859636, -82.86987304687501],
             opacity: 0.6,
@@ -251,7 +481,7 @@ export default {
             tileProviders: tileProviders,
             markers: [],
             bounds: latLngBounds(
-                { lat: 9.367772770859636, lng:  -82.86987304687501 },
+                { lat: 9.367772770859636, lng: -82.86987304687501 },
                 { lat: 8.026594842489562, lng: -78.0413818359375 }
             ),
 
@@ -264,6 +494,21 @@ export default {
     mounted() {
         this.getPais()
         this.getCentroVotacion();
+        this.reporteEstadoActas();
+        this.reporteDistribucionVotos();
+        this.reporteTotalVotos();
+    },
+    computed: {
+        totalSuma: function () {
+            let sumaTotal = 0;
+            for (let key in this.totalVotos) {
+                if (this.totalVotos.hasOwnProperty(key)) {
+                    console.log(this.totalVotos[key].suma)
+                    sumaTotal += parseFloat(this.totalVotos[key].suma);
+                }
+            }
+            return  sumaTotal;
+        }
     },
     methods: {
         async reportePartidoPolTotal() {
@@ -279,6 +524,40 @@ export default {
                 }));
                 this.chartOptions.series[0].data = seriesData;
                 Highcharts.chart(this.$refs.chart, this.chartOptions);
+            } catch (error) {
+                return error;
+            }
+        },
+        async reporteEstadoActas() {
+            try {
+                const result = await Services.getAll('dashboard/estado-acta');
+                const seriesData = result.map(item => ({
+                    name: item.nombre,
+                    y: parseInt(item.total),
+                }));
+                this.chartOptionsEstadoActas.series[0].data = seriesData;
+                Highcharts.chart(this.$refs.chartEstadoActas, this.chartOptionsEstadoActas);
+            } catch (error) {
+                return error;
+            }
+        },
+        async reporteDistribucionVotos() {
+            try {
+                const result = await Services.getAll('dashboard/distribucion-votos');
+                const seriesData = result.map(item => ({
+                    name: item.nombre,
+                    y: parseInt(item.total),
+                }));
+                this.chartOptionsDistribucionVotos.series[0].data = seriesData;
+                Highcharts.chart(this.$refs.chartDistribucionVotos, this.chartOptionsDistribucionVotos);
+            } catch (error) {
+                return error;
+            }
+        },
+        async reporteTotalVotos() {
+            try {
+                const result = await Services.getAll('dashboard/total-votos');
+                this.totalVotos = result;
             } catch (error) {
                 return error;
             }
@@ -333,7 +612,6 @@ export default {
                 return error;
             }
         },
-
 
         addMarker: function () {
             const newMarker = {

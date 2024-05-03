@@ -29,23 +29,23 @@ class CentroVotacionController extends Controller
             'centro_votacion.direccion',
             'centro_votacion.provincia_id',
             'distrito.nombre as distrito',
-            'centro_votacion.corregimiento_id',
+            'centro_votacion.departamento_id',
             'centro_votacion.latitud',
             'centro_votacion.longitud',
             'centro_votacion.estado',
             'provincia.nombre as provincia_nombre',
             'distrito.nombre as distrito_nombre',
-            'corregimiento.nombre as corregimiento_nombre'
+            'departamento.nombre as corregimiento_nombre'
         )
         ->join('provincia', 'centro_votacion.provincia_id', '=', 'provincia.id')
         ->join('distrito', 'centro_votacion.distrito', '=', 'distrito.id')
-        ->join('corregimiento', 'centro_votacion.corregimiento_id', '=', 'corregimiento.id');
+        ->join('departamento', 'centro_votacion.departamento_id', '=', 'departamento.id');
 
       
         if (!empty($query)) {
             $centro->where('provincia.nombre', 'like', '%' . $query . '%')
                    ->orWhere('distrito.nombre', 'like', '%' . $query . '%')
-                   ->orWhere('corregimiento.nombre', 'like', '%' . $query . '%')
+                   ->orWhere('departamento.nombre', 'like', '%' . $query . '%')
                    ->orWhere('centro_votacion.nombre', 'like', '%' . $query . '%');
         }
         
@@ -62,19 +62,19 @@ class CentroVotacionController extends Controller
             'centro_votacion.nombre',
             'centro_votacion.direccion',
             'centro_votacion.provincia_id',
-            'distrito',
-            'corregimiento_id',
-            'latitud',
-            'longitud',
+            'centro_votacion.distrito',
+            'centro_votacion.departamento_id',
+            'centro_votacion.latitud',
+            'centro_votacion.longitud',
             'centro_votacion.estado',
             'provincia.nombre as provincia_nombre',
             'distrito.nombre as distrito_nombre',
-            'corregimiento.nombre as corregimiento_nombre',
+            'departamento.nombre as corregimiento_nombre',
         )
             // ->where('persona_id', 'like', "%$query%")
             ->leftjoin('provincia', 'centro_votacion.provincia_id', '=', 'provincia.id')
             ->leftjoin('distrito', 'centro_votacion.distrito', '=', 'distrito.id')
-            ->leftjoin('corregimiento', 'centro_votacion.corregimiento_id', '=', 'corregimiento.id')
+            ->leftjoin('departamento', 'centro_votacion.departamento_id', '=', 'departamento.id')
             ->where('centro_votacion.id', '=', $query)->first();
         // Modificar el logo si está definido
 
@@ -106,10 +106,13 @@ class CentroVotacionController extends Controller
 
     public function getListSupervisores(Request $request)
     {
-        /*$supervisores =  User::join('personas', 'personas.id', '=', 'users.persona_id')
+        $centro_id = $request->input('centro_id'); // Cambia esto al ID del centro de votación deseado
+        $supervisores = User::join('personas', 'personas.id', '=', 'users.persona_id')
             ->join('perfiles', 'perfiles.id', '=', 'users.perfil_id')
-            ->leftJoin('centro_votacion_supervisor', 'users.id', '=', 'centro_votacion_supervisor.supervisor_id')
-
+            ->leftJoin('centro_votacion_supervisor', function ($join) use ($centro_id) {
+                $join->on('users.id', '=', 'centro_votacion_supervisor.supervisor_id')
+                        ->where('centro_votacion_supervisor.centro_votacion_id', '=', $centro_id);
+            })
             ->select(
                 'users.id',
                 'users.isActive',
@@ -122,37 +125,10 @@ class CentroVotacionController extends Controller
                 'personas.apellido_materno',
                 'perfiles.id as perfiles_id',
                 'perfiles.nombre as perfiles_nombre',
-            )->where('users.perfil_id', 2)->whereNull('centro_votacion_supervisor.user_id')
-
-            
-            ->get();*/
-            $centro_id = $request->input('centro_id'); // Cambia esto al ID del centro de votación deseado
-
-            $supervisores = User::join('personas', 'personas.id', '=', 'users.persona_id')
-                ->join('perfiles', 'perfiles.id', '=', 'users.perfil_id')
-                ->leftJoin('centro_votacion_supervisor', function ($join) use ($centro_id) {
-                    $join->on('users.id', '=', 'centro_votacion_supervisor.supervisor_id')
-                         ->where('centro_votacion_supervisor.centro_votacion_id', '=', $centro_id);
-                })
-                ->select(
-                    'users.id',
-                    'users.isActive',
-                    'users.email',
-                    'users.numero_celular',
-                    'personas.id as persona_id',
-                    'personas.numero_documento',
-                    'personas.nombre as persona_nombre',
-                    'personas.apellido_paterno',
-                    'personas.apellido_materno',
-                    'perfiles.id as perfiles_id',
-                    'perfiles.nombre as perfiles_nombre',
-                )
-                ->where('users.perfil_id', 2)
-                ->whereNull('centro_votacion_supervisor.supervisor_id')
-                ->get();
-            
-
-
+            )
+            ->where('users.perfil_id', 2)
+            ->whereNull('centro_votacion_supervisor.supervisor_id')
+            ->get();
         return response()->json($supervisores);
     }
 
@@ -164,7 +140,7 @@ class CentroVotacionController extends Controller
             $direccion_input = $request->input('direccion');
             $provincia_id_input = $request->input('provincia_id');
             $distrito_id_input = $request->input('distrito_id');
-            $corregimiento_id_input = $request->input('corregimiento_id');
+            $corregimiento_id_input = $request->input('departamento_id');
             $latitud_input = $request->input('latitud');
             $longitud_input = $request->input('longitud');
 
@@ -173,7 +149,7 @@ class CentroVotacionController extends Controller
             $centro->direccion = $direccion_input;
             $centro->provincia_id = $provincia_id_input;
             $centro->distrito = $distrito_id_input;
-            $centro->corregimiento_id = $corregimiento_id_input;
+            $centro->departamento_id = $corregimiento_id_input;
             $centro->latitud = $latitud_input;
             $centro->longitud = $longitud_input;
 
@@ -203,7 +179,7 @@ class CentroVotacionController extends Controller
             $direccion_input = $request->input('direccion');
             $provincia_id_input = $request->input('provincia_id');
             $distrito_id_input = $request->input('distrito_id');
-            $corregimiento_id_input = $request->input('corregimiento_id');
+            $corregimiento_id_input = $request->input('departamento_id');
             $latitud_input = $request->input('latitud');
             $longitud_input = $request->input('longitud');
             $centro = new CentroVotacion();
@@ -211,7 +187,7 @@ class CentroVotacionController extends Controller
             $centro->direccion = $direccion_input;
             $centro->provincia_id = $provincia_id_input;
             $centro->distrito = $distrito_id_input;
-            $centro->corregimiento_id = $corregimiento_id_input;
+            $centro->departamento_id = $corregimiento_id_input;
             $centro->latitud = $latitud_input;
             $centro->longitud = $longitud_input;
 

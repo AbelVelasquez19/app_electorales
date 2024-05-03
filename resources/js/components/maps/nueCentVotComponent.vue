@@ -27,10 +27,21 @@
                         </div>
                         <div class="row mb-1">
                             <div class="col-md-4">
+                                <label>Departamento: </label>
+                                <select class="form-select" v-model="centroVotacion.departamento_id"
+                                    :class="errors != null && errors.departamento_id ? 'is-invalid' : ''" @change="getDepartamentItem">
+                                    <option value="" selected disabled>--seleccionar--</option>
+                                    <option v-for="iten in departaments" :key="iten.id" :value="iten.id">{{
+                                    iten.nombre }}</option>
+                                </select>
+                                <span v-if="errors != null && errors.departamento_id" class="text-danger">{{
+                                    errors.departamento_id[0] }}</span>
+                            </div>
+                            <div class="col-md-4">
                                 <label>Provincia: </label>
                                 <select class="form-select" v-model="centroVotacion.provincia_id"
                                     :class="errors != null && errors.provincia_id ? 'is-invalid' : ''"
-                                    @change="getDistrictItem">
+                                    @change="getProvincesItem">
                                     <option value="" selected disabled>--seleccionar--</option>
                                     <option v-for="province in provinces" :key="province.id" :value="province.id">{{
                                     province.nombre }}</option>
@@ -41,25 +52,13 @@
                             <div class="col-md-4">
                                 <label>Distrito: </label>
                                 <select class="form-select" v-model="centroVotacion.distrito_id"
-                                    :class="errors != null && errors.distrito_id ? 'is-invalid' : ''"
-                                    @change="getCorregimientoItem">
+                                    :class="errors != null && errors.distrito_id ? 'is-invalid' : ''">
                                     <option value="" selected disabled>--seleccionar--</option>
                                     <option v-for="distrito in districts" :key="distrito.id" :value="distrito.id">{{
                                     distrito.nombre }}</option>
                                 </select>
                                 <span v-if="errors != null && errors.distrito_id" class="text-danger">{{
                                     errors.distrito_id[0] }}</span>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Corregimientos: </label>
-                                <select class="form-select" v-model="centroVotacion.corregimiento_id"
-                                    :class="errors != null && errors.corregimiento_id ? 'is-invalid' : ''">
-                                    <option value="" selected disabled>--seleccionar--</option>
-                                    <option v-for="corregt in corrigement" :key="corregt.id" :value="corregt.id">{{
-                                    corregt.nombre }}</option>
-                                </select>
-                                <span v-if="errors != null && errors.corregimiento_id" class="text-danger">{{
-                                    errors.corregimiento_id[0] }}</span>
                             </div>
                         </div>
                         <div class="row mb-1" v-for="(item, index) in markers" :key="index">
@@ -185,7 +184,11 @@ export default {
             type: String,
             default: ''
         },
-        urlCoregimient: {
+        urlDepartamento: {
+            type: String,
+            default: ''
+        },
+        urlPais: {
             type: String,
             default: ''
         },
@@ -203,14 +206,16 @@ export default {
             centroVotacion: {
                 nombre:'',
                 direccion:'',
+                departamento_id: '',
                 provincia_id: '',
                 distrito_id: '',
-                corregimiento_id: ''
             },
             errors: null,
-            provinces: {},
-            districts: {},
-            corrigement: {},
+            pais_id:25,
+            pais:{},
+            departaments:{},
+            provinces:{},
+            districts:{},
 
             //mapa
             center: [0.39550467153201946, -71.10351562500001],
@@ -248,35 +253,55 @@ export default {
         }
     },
     mounted() {
-        this.getProvinces();
+        this.getPais();
     },
     methods: {
-        getDistrictItem() {
-            this.getDistrict(this.centroVotacion.provincia_id);
-        },
-        getCorregimientoItem() {
-            this.getCorregiment(this.centroVotacion.distrito_id);
-        },
-        async getProvinces() {
+        //ubigeo
+       async getPais() {
+           console.log('ok')
             try {
-                const result = await Services.getAll(this.urlProvince);
+                const result = await Services.getAll(this.urlPais);
+                this.pais = result
+                this.getDepartamento(this.pais_id);
+            } catch (error) {
+                return error;
+            }
+        },
+
+        getPaisItem() {
+            this.getDepartamento(this.pais_id);
+        },
+
+        async getDepartamento(pais_id) {
+            try {
+                const result = await Services.getShowInfo(this.urlDepartamento, pais_id);
+                this.departaments = result
+            } catch (error) {
+                return error;
+            }
+        },
+
+        getDepartamentItem() {
+            this.getProvinces(this.centroVotacion.departamento_id);
+        },
+
+        async getProvinces(departaments_id) {
+            try {
+                const result = await Services.getShowInfo(this.urlProvince, departaments_id);
                 this.provinces = result
             } catch (error) {
                 return error;
             }
         },
+
+        getProvincesItem() {
+            this.getDistrict(this.centroVotacion.provincia_id);
+        },
+
         async getDistrict(province_id) {
             try {
                 const result = await Services.getShowInfo(this.urlDistric, province_id);
                 this.districts = result
-            } catch (error) {
-                return error;
-            }
-        },
-        async getCorregiment(distric_id) {
-            try {
-                const result = await Services.getShowInfo(this.urlCoregimient, distric_id);
-                this.corrigement = result
             } catch (error) {
                 return error;
             }
@@ -308,7 +333,7 @@ export default {
                         direccion: result.result['centroVotacion.direccion'],
                         provincia_id: result.result['centroVotacion.provincia_id'],
                         distrito_id: result.result['centroVotacion.distrito_id'],
-                        corregimiento_id: result.result['centroVotacion.corregimiento_id'],
+                        corregimiento_id: result.result['centroVotacion.departamento_id'],
                     }
                      this.errors = dataError;
                 }
@@ -322,7 +347,7 @@ export default {
                 direccion:'',
                 provincia_id: '',
                 distrito_id: '',
-                corregimiento_id: ''
+                departamento_id: ''
             }
         }
     }

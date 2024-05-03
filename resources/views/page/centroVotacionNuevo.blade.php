@@ -4,7 +4,8 @@
 @section('content')
     <nue-cent-vot-component :url-province="'{{route('province')}}'"
                             :url-distric="'{{route('district')}}'"
-                            :url-coregimient="'{{route('coregimient')}}'"
+                            :url-departamento="'{{route('departamento')}}'"
+                            :url-pais="'{{route('pais')}}'"
                             :url-maps="'{{route('maps')}}'"
                             :url-guardar="'{{route('guardarCentroCosto')}}'"
                             >

@@ -54,8 +54,7 @@ class MapsController extends Controller
             $centroVotacion->direccion = $request->centroVotacion['direccion'];
             $centroVotacion->provincia_id = $request->centroVotacion['provincia_id'];
             $centroVotacion->distrito = $request->centroVotacion['distrito_id'];
-            $centroVotacion->corregimiento_id = $request->centroVotacion['corregimiento_id'];
-            $centroVotacion->corregimiento_id = $request->centroVotacion['corregimiento_id'];
+            $centroVotacion->departamento_id = $request->centroVotacion['departamento_id'];
             $centroVotacion->latitud = $request->latitud;
             $centroVotacion->longitud = $request->longitud;
             if($centroVotacion->save()){
