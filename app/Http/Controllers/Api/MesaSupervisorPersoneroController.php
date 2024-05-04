@@ -77,6 +77,9 @@ class MesaSupervisorPersoneroController extends Controller
             DB::commit();
             return response()->json([
                 'status' => true,
+                'data_mesa'=> $mesa_personero_id,
+                'data_users'=> $users,
+
                 'message' => 'La informac on se guardo correctamente'
             ]);
         }
@@ -88,8 +91,8 @@ class MesaSupervisorPersoneroController extends Controller
         // $user = auth('api')->user();
         // $usuario_id = $user->id;
         $usuario_id = $request->input('usuario_id'); //personero id usuario logeado
-        $mesas_personero = MesaPersonero::join('mesa', 'mesa.id', '=', 'personero_mesa.mesa_id')
-            ->join('centro_votacion', 'centro_votacion.id', '=', 'mesa.centro_votacion_id')
+        $mesas_personero = MesaPersonero::leftjoin('mesa', 'mesa.id', '=', 'personero_mesa.mesa_id')
+            ->leftjoin('centro_votacion', 'centro_votacion.id', '=', 'mesa.centro_votacion_id')
             ->select(
                 'personero_mesa.id',
                 'mesa.id as mesa_id',
