@@ -19,7 +19,7 @@
         "vue-template-compiler": "^2.7.16"
     },
     "dependencies": {
-        "@amcharts/amcharts5": "^5.9.4",
+        "@amcharts/amcharts5": "^5.9.5",
         "@amcharts/amcharts5-geodata": "^5.1.2",
         "apexcharts": "^3.48.0",
         "highcharts": "^11.4.1",

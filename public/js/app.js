@@ -5446,6 +5446,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -5715,13 +5716,13 @@ var tileProviders = [{
         }
       },
       pais: {},
-      pais_id: '',
+      pais_id: 25,
       departaments: {},
-      departaments_id: '',
+      departaments_id: null,
       provinces: {},
-      provinces_id: '',
+      provinces_id: null,
       districts: {},
-      districts_id: '',
+      districts_id: null,
       totalVotos: {},
       center: [9.367772770859636, -82.86987304687501],
       opacity: 0.6,
@@ -5767,6 +5768,7 @@ var tileProviders = [{
   },
   mounted: function mounted() {
     this.getPais();
+    this.getPaisItem();
     this.getCentroVotacion();
     this.reporteEstadoActas();
     this.reporteDistribucionVotos();
@@ -5777,7 +5779,6 @@ var tileProviders = [{
       var sumaTotal = 0;
       for (var key in this.totalVotos) {
         if (this.totalVotos.hasOwnProperty(key)) {
-          console.log(this.totalVotos[key].suma);
           sumaTotal += parseFloat(this.totalVotos[key].suma);
         }
       }
@@ -5788,17 +5789,22 @@ var tileProviders = [{
     reportePartidoPolTotal: function reportePartidoPolTotal() {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var result, seriesData;
+        var obj, result, seriesData;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.prev = 0;
-              _context2.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('dashboard/polito-voto-total');
-            case 3:
+              obj = {
+                departaments_id: _this2.departaments_id,
+                provinces_id: _this2.provinces_id,
+                districts_id: _this2.districts_id
+              };
+              _context2.prev = 1;
+              _context2.next = 4;
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('dashboard/polito-voto-total', obj);
+            case 4:
               result = _context2.sent;
-              console.log(result);
-              seriesData = result.map(function (item) {
+              console.log(result.result[0]);
+              seriesData = result.result[0].map(function (item) {
                 return {
                   name: item.nombre,
                   y: parseInt(item.suma),
@@ -5809,32 +5815,38 @@ var tileProviders = [{
               });
               _this2.chartOptions.series[0].data = seriesData;
               highcharts__WEBPACK_IMPORTED_MODULE_1___default().chart(_this2.$refs.chart, _this2.chartOptions);
-              _context2.next = 13;
+              _context2.next = 14;
               break;
-            case 10:
-              _context2.prev = 10;
-              _context2.t0 = _context2["catch"](0);
+            case 11:
+              _context2.prev = 11;
+              _context2.t0 = _context2["catch"](1);
               return _context2.abrupt("return", _context2.t0);
-            case 13:
+            case 14:
             case "end":
               return _context2.stop();
           }
-        }, _callee2, null, [[0, 10]]);
+        }, _callee2, null, [[1, 11]]);
       }))();
     },
     reporteEstadoActas: function reporteEstadoActas() {
       var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var result, seriesData;
+        var obj, result, seriesData;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
-              _context3.prev = 0;
-              _context3.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('dashboard/estado-acta');
-            case 3:
+              obj = {
+                departaments_id: _this3.departaments_id,
+                provinces_id: _this3.provinces_id,
+                districts_id: _this3.districts_id
+              };
+              _context3.prev = 1;
+              _context3.next = 4;
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('dashboard/estado-acta', obj);
+            case 4:
               result = _context3.sent;
-              seriesData = result.map(function (item) {
+              console.log(result);
+              seriesData = result.result[0].map(function (item) {
                 return {
                   name: item.nombre,
                   y: parseInt(item.total)
@@ -5842,32 +5854,37 @@ var tileProviders = [{
               });
               _this3.chartOptionsEstadoActas.series[0].data = seriesData;
               highcharts__WEBPACK_IMPORTED_MODULE_1___default().chart(_this3.$refs.chartEstadoActas, _this3.chartOptionsEstadoActas);
-              _context3.next = 12;
+              _context3.next = 14;
               break;
-            case 9:
-              _context3.prev = 9;
-              _context3.t0 = _context3["catch"](0);
+            case 11:
+              _context3.prev = 11;
+              _context3.t0 = _context3["catch"](1);
               return _context3.abrupt("return", _context3.t0);
-            case 12:
+            case 14:
             case "end":
               return _context3.stop();
           }
-        }, _callee3, null, [[0, 9]]);
+        }, _callee3, null, [[1, 11]]);
       }))();
     },
     reporteDistribucionVotos: function reporteDistribucionVotos() {
       var _this4 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var result, seriesData;
+        var obj, result, seriesData;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              _context4.prev = 0;
-              _context4.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('dashboard/distribucion-votos');
-            case 3:
+              obj = {
+                departaments_id: _this4.departaments_id,
+                provinces_id: _this4.provinces_id,
+                districts_id: _this4.districts_id
+              };
+              _context4.prev = 1;
+              _context4.next = 4;
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('dashboard/distribucion-votos', obj);
+            case 4:
               result = _context4.sent;
-              seriesData = result.map(function (item) {
+              seriesData = result.result[0].map(function (item) {
                 return {
                   name: item.nombre,
                   y: parseInt(item.total)
@@ -5875,43 +5892,48 @@ var tileProviders = [{
               });
               _this4.chartOptionsDistribucionVotos.series[0].data = seriesData;
               highcharts__WEBPACK_IMPORTED_MODULE_1___default().chart(_this4.$refs.chartDistribucionVotos, _this4.chartOptionsDistribucionVotos);
-              _context4.next = 12;
+              _context4.next = 13;
               break;
-            case 9:
-              _context4.prev = 9;
-              _context4.t0 = _context4["catch"](0);
+            case 10:
+              _context4.prev = 10;
+              _context4.t0 = _context4["catch"](1);
               return _context4.abrupt("return", _context4.t0);
-            case 12:
+            case 13:
             case "end":
               return _context4.stop();
           }
-        }, _callee4, null, [[0, 9]]);
+        }, _callee4, null, [[1, 10]]);
       }))();
     },
     reporteTotalVotos: function reporteTotalVotos() {
       var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        var result;
+        var obj, result;
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
-              _context5.prev = 0;
-              _context5.next = 3;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll('dashboard/total-votos');
-            case 3:
+              obj = {
+                departaments_id: _this5.departaments_id,
+                provinces_id: _this5.provinces_id,
+                districts_id: _this5.districts_id
+              };
+              _context5.prev = 1;
+              _context5.next = 4;
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo('dashboard/total-votos', obj);
+            case 4:
               result = _context5.sent;
-              _this5.totalVotos = result;
-              _context5.next = 10;
+              _this5.totalVotos = result.result[0];
+              _context5.next = 11;
               break;
-            case 7:
-              _context5.prev = 7;
-              _context5.t0 = _context5["catch"](0);
+            case 8:
+              _context5.prev = 8;
+              _context5.t0 = _context5["catch"](1);
               return _context5.abrupt("return", _context5.t0);
-            case 10:
+            case 11:
             case "end":
               return _context5.stop();
           }
-        }, _callee5, null, [[0, 7]]);
+        }, _callee5, null, [[1, 8]]);
       }))();
     },
     //ubigeo
@@ -5943,7 +5965,6 @@ var tileProviders = [{
     },
     getPaisItem: function getPaisItem() {
       this.getDepartamento(this.pais_id);
-      console.log(this.pais_id);
     },
     getDepartamento: function getDepartamento(pais_id) {
       var _this7 = this;
@@ -5973,6 +5994,10 @@ var tileProviders = [{
     },
     getDepartamentItem: function getDepartamentItem() {
       this.getProvinces(this.departaments_id);
+      this.reportePartidoPolTotal();
+      this.reporteEstadoActas();
+      this.reporteDistribucionVotos();
+      this.reporteTotalVotos();
     },
     getProvinces: function getProvinces(departaments_id) {
       var _this8 = this;
@@ -6002,6 +6027,16 @@ var tileProviders = [{
     },
     getProvincesItem: function getProvincesItem() {
       this.getDistrict(this.provinces_id);
+      this.reportePartidoPolTotal();
+      this.reporteEstadoActas();
+      this.reporteDistribucionVotos();
+      this.reporteTotalVotos();
+    },
+    getDistrictItems: function getDistrictItems() {
+      this.reportePartidoPolTotal();
+      this.reporteEstadoActas();
+      this.reporteDistribucionVotos();
+      this.reporteTotalVotos();
     },
     getDistrict: function getDistrict(province_id) {
       var _this9 = this;
@@ -13824,24 +13859,23 @@ var addNewInfo = /*#__PURE__*/function () {
           return axios__WEBPACK_IMPORTED_MODULE_0___default().post(url, obj);
         case 4:
           response = _context5.sent;
-          console.log(response.data);
           result.push(response.data);
           return _context5.abrupt("return", {
             status: true,
             result: result
           });
-        case 10:
-          _context5.prev = 10;
+        case 9:
+          _context5.prev = 9;
           _context5.t0 = _context5["catch"](0);
           return _context5.abrupt("return", {
             status: false,
             result: _context5.t0.response.data.errors
           });
-        case 13:
+        case 12:
         case "end":
           return _context5.stop();
       }
-    }, _callee5, null, [[0, 10]]);
+    }, _callee5, null, [[0, 9]]);
   }));
   return function addNewInfo(_x9, _x10) {
     return _ref5.apply(this, arguments);
@@ -54501,6 +54535,7 @@ var render = function () {
                         },
                       ],
                       staticClass: "form-select",
+                      attrs: { disabled: "" },
                       on: {
                         change: [
                           function ($event) {
@@ -54577,20 +54612,21 @@ var render = function () {
                       },
                     },
                     [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("--seleccionar--"),
-                      ]),
+                      _c(
+                        "option",
+                        {
+                          attrs: { value: "null", disabled: "", selected: "" },
+                        },
+                        [_vm._v("--seleccionar--")]
+                      ),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "0" } }, [_vm._v("Todo")]),
                       _vm._v(" "),
                       _vm._l(_vm.departaments, function (item) {
                         return _c(
                           "option",
                           { key: item.id, domProps: { value: item.id } },
-                          [
-                            _vm._v(
-                              _vm._s(item.nombre) +
-                                "\n                                    "
-                            ),
-                          ]
+                          [_vm._v(_vm._s(item.nombre))]
                         )
                       }),
                     ],
@@ -54633,9 +54669,15 @@ var render = function () {
                       },
                     },
                     [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("--seleccionar--"),
-                      ]),
+                      _c(
+                        "option",
+                        {
+                          attrs: { value: "null", disabled: "", selected: "" },
+                        },
+                        [_vm._v("--seleccionar--")]
+                      ),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "0" } }, [_vm._v("Todo")]),
                       _vm._v(" "),
                       _vm._l(_vm.provinces, function (item) {
                         return _c(
@@ -54670,25 +54712,36 @@ var render = function () {
                       ],
                       staticClass: "form-select",
                       on: {
-                        change: function ($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function (o) {
-                              return o.selected
-                            })
-                            .map(function (o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.districts_id = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        },
+                        change: [
+                          function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.districts_id = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          },
+                          function ($event) {
+                            return _vm.getDistrictItems()
+                          },
+                        ],
                       },
                     },
                     [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("--seleccionar--"),
-                      ]),
+                      _c(
+                        "option",
+                        {
+                          attrs: { value: "null", disabled: "", selected: "" },
+                        },
+                        [_vm._v("--seleccionar--")]
+                      ),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "0" } }, [_vm._v("Todo")]),
                       _vm._v(" "),
                       _vm._l(_vm.districts, function (item) {
                         return _c(

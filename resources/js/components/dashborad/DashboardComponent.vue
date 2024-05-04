@@ -8,7 +8,7 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <label>Seleccionar Pais</label>
-                                    <select class="form-select" v-model="pais_id" @change="getPaisItem">
+                                    <select class="form-select" v-model="pais_id" @change="getPaisItem" disabled>
                                         <option value="">--seleccionar--</option>
                                         <option v-for="item in pais" :key="item.id" :value="item.id">{{ item.nombre }}
                                         </option>
@@ -18,17 +18,17 @@
                                 <div class="col-md-3">
                                     <label>Seleccionar Provincia</label>
                                     <select class="form-select" v-model="departaments_id" @change="getDepartamentItem">
-                                        <option value="">--seleccionar--</option>
-                                        <option v-for="item in departaments" :key="item.id" :value="item.id">{{
-                                        item.nombre }}
-                                        </option>
+                                        <option value="null" disabled selected >--seleccionar--</option>
+                                        <option value="0">Todo</option>
+                                        <option v-for="item in departaments" :key="item.id" :value="item.id">{{item.nombre }}</option>
                                     </select>
                                 </div>
 
                                 <div class="col-md-3">
                                     <label>Seleccionar Distrito</label>
                                     <select class="form-select" v-model="provinces_id" @change="getProvincesItem">
-                                        <option value="">--seleccionar--</option>
+                                        <option value="null" disabled selected >--seleccionar--</option>
+                                        <option value="0">Todo</option>
                                         <option v-for="item in provinces" :key="item.id" :value="item.id">{{ item.nombre
                                             }}
                                         </option>
@@ -37,8 +37,9 @@
 
                                 <div class="col-md-3">
                                     <label>Seleccionar Corregimiento</label>
-                                    <select class="form-select" v-model="districts_id">
-                                        <option value="">--seleccionar--</option>
+                                    <select class="form-select" v-model="districts_id" @change="getDistrictItems()">
+                                        <option value="null" disabled selected >--seleccionar--</option>
+                                        <option value="0">Todo</option>
                                         <option v-for="item in districts" :key="item.id" :value="item.id">{{ item.nombre
                                             }}
                                         </option>
@@ -452,13 +453,13 @@ export default {
                 }
             },
             pais: {},
-            pais_id: '',
+            pais_id: 25,
             departaments: {},
-            departaments_id: '',
+            departaments_id: null,
             provinces: {},
-            provinces_id: '',
+            provinces_id: null,
             districts: {},
-            districts_id: '',
+            districts_id: null,
             totalVotos: {},
 
             center: [9.367772770859636, -82.86987304687501],
@@ -493,6 +494,7 @@ export default {
     },
     mounted() {
         this.getPais()
+        this.getPaisItem();
         this.getCentroVotacion();
         this.reporteEstadoActas();
         this.reporteDistribucionVotos();
@@ -503,7 +505,6 @@ export default {
             let sumaTotal = 0;
             for (let key in this.totalVotos) {
                 if (this.totalVotos.hasOwnProperty(key)) {
-                    console.log(this.totalVotos[key].suma)
                     sumaTotal += parseFloat(this.totalVotos[key].suma);
                 }
             }
@@ -512,10 +513,15 @@ export default {
     },
     methods: {
         async reportePartidoPolTotal() {
+            let obj = {
+                departaments_id:this.departaments_id,
+                provinces_id:this.provinces_id,
+                districts_id:this.districts_id,
+            }
             try {
-                const result = await Services.getAll('dashboard/polito-voto-total');
-                console.log(result)
-                const seriesData = result.map(item => ({
+                const result = await Services.addNewInfo('dashboard/polito-voto-total',obj);
+                console.log(result.result[0])
+                const seriesData = result.result[0].map(item => ({
                     name: item.nombre,
                     y: parseInt(item.suma),
                     color: item.color,
@@ -529,9 +535,15 @@ export default {
             }
         },
         async reporteEstadoActas() {
+            let obj = {
+                departaments_id:this.departaments_id,
+                provinces_id:this.provinces_id,
+                districts_id:this.districts_id,
+            }
             try {
-                const result = await Services.getAll('dashboard/estado-acta');
-                const seriesData = result.map(item => ({
+                const result = await Services.addNewInfo('dashboard/estado-acta',obj);
+                console.log(result)
+                const seriesData = result.result[0].map(item => ({
                     name: item.nombre,
                     y: parseInt(item.total),
                 }));
@@ -542,9 +554,14 @@ export default {
             }
         },
         async reporteDistribucionVotos() {
+            let obj = {
+                departaments_id:this.departaments_id,
+                provinces_id:this.provinces_id,
+                districts_id:this.districts_id,
+            }
             try {
-                const result = await Services.getAll('dashboard/distribucion-votos');
-                const seriesData = result.map(item => ({
+                const result = await Services.addNewInfo('dashboard/distribucion-votos',obj);
+                const seriesData = result.result[0].map(item => ({
                     name: item.nombre,
                     y: parseInt(item.total),
                 }));
@@ -555,9 +572,14 @@ export default {
             }
         },
         async reporteTotalVotos() {
+            let obj = {
+                departaments_id:this.departaments_id,
+                provinces_id:this.provinces_id,
+                districts_id:this.districts_id,
+            }
             try {
-                const result = await Services.getAll('dashboard/total-votos');
-                this.totalVotos = result;
+                const result = await Services.addNewInfo('dashboard/total-votos',obj);
+                this.totalVotos = result.result[0];
             } catch (error) {
                 return error;
             }
@@ -575,7 +597,6 @@ export default {
 
         getPaisItem() {
             this.getDepartamento(this.pais_id);
-            console.log(this.pais_id)
         },
 
         async getDepartamento(pais_id) {
@@ -589,6 +610,10 @@ export default {
 
         getDepartamentItem() {
             this.getProvinces(this.departaments_id);
+            this.reportePartidoPolTotal();
+            this.reporteEstadoActas();
+            this.reporteDistribucionVotos();
+            this.reporteTotalVotos();
         },
 
         async getProvinces(departaments_id) {
@@ -602,8 +627,18 @@ export default {
 
         getProvincesItem() {
             this.getDistrict(this.provinces_id);
+            this.reportePartidoPolTotal();
+            this.reporteEstadoActas();
+            this.reporteDistribucionVotos();
+            this.reporteTotalVotos();
         },
 
+        getDistrictItems(){
+            this.reportePartidoPolTotal();
+            this.reporteEstadoActas();
+            this.reporteDistribucionVotos();
+            this.reporteTotalVotos();
+        },
         async getDistrict(province_id) {
             try {
                 const result = await Services.getShowInfo('ubigeus/district', province_id);

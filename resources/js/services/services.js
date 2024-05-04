@@ -55,7 +55,6 @@ const addNewInfo = async(url,obj) => {
     try {
         let result = [];
         const response = await axios.post(url,obj);
-        console.log(response.data);
         result.push(response.data);
         return {
             status:true,
