@@ -10,4 +10,6 @@ class Mesa extends Model
     use HasFactory;
     protected $table = "mesa";
     protected $primaryKey = 'id';
+    protected $guarded = ['id'];
+
 }
