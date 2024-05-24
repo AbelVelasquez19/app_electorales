@@ -210,4 +210,9 @@ class DashboardController extends Controller
         });
         return response()->json($modifiedResults);
     }
+
+    public function reporteVivo(){
+        $menusPrin = $this->getMenus();
+        return view('page/dashboard.reporteVivo',compact('menusPrin'));
+    }
 }

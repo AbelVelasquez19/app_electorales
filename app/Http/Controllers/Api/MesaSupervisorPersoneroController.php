@@ -183,7 +183,7 @@ class MesaSupervisorPersoneroController extends Controller
         return response()->json(
             [
                 'respuesta' => true,
-                'mensaje' => '!Se guardo los datos de exitosamente¡',
+                'mensaje' => 'Se guardo los datos de exitosamente',
                 'data' => $mesa,
                 'codigo' => 003 // CODIGO - SE PROCESO EXITOSAMENTE A SOLICITUD
             ]
