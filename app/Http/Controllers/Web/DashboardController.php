@@ -212,6 +212,7 @@ class DashboardController extends Controller
     }
 
     public function reporteVivo(){
+        //[)G=T3,nm6M*
         $menusPrin = $this->getMenus();
         return view('page/dashboard.reporteVivo',compact('menusPrin'));
     }

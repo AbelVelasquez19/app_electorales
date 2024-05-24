@@ -37,6 +37,7 @@ import MesaComponent from './components/configuracion/MesaComponent.vue';
 import PerfilesComponent from './components/configuracion/PerfilesComponent.vue';
 import RolesComponent from './components/configuracion/RolesComponent.vue';
 import PermisosComponent from './components/configuracion/PermisosComponent.vue';
+import DashboardVivoComponent from './components/dashborad/DashboardVivoComponent.vue';
 
 Vue.component('login-component', LoginComponent);
 Vue.component('dashboard-component', DashboardComponent);
@@ -54,6 +55,7 @@ Vue.component("v-select", vSelect);
 Vue.component('perfiles-component', PerfilesComponent);
 Vue.component('roles-component', RolesComponent);
 Vue.component('permisos-component', PermisosComponent);
+Vue.component('dashboard-vivo-component', DashboardVivoComponent);
 
 const app = new Vue({
     el: '#app',

@@ -37,11 +37,11 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::controller(DashboardController::class)->group(function () {
             Route::get('/', 'index')->name('dashboard');
-            Route::post('/polito-voto-total', 'reportePartidoPolTotal');
+            Route::post('/polito-voto-total', 'reportePartidoPolTotal')->name('polito.voto.total');
             Route::post('/estado-acta', 'reporteEstadoActa');
             Route::post('/distribucion-votos', 'reporteDistribucionVotos');
             Route::post('/total-votos', 'reporteTotalVotos');
-            Route::get('/reporte-vivo', 'reporteVivo')->name('reporte_vivo');
+            Route::get('/reporte-en-vivo', 'reporteVivo')->name('reporte_vivo');
         });
     });
 
