@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Events\ReporteStatusChangedEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Acta;
 use App\Models\Mesa;
@@ -15,6 +16,7 @@ use App\Models\User;
 use App\Models\Persona;
 use App\Traits\Acces;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use PhpParser\Node\Stmt\TryCatch;
 
 class ActasController extends Controller
@@ -105,6 +107,50 @@ class ActasController extends Controller
         ]);
     }
 
+    public function updateReporteVotacion(){
+        $query = PartidoPolitico::select(
+            'partido_politico.nombre',
+            'partido_politico.partido_politico',
+            'partido_politico.logo',
+            'partido_politico.orden',
+            'partido_politico.color',
+            DB::raw('SUM(acta.total_acta) as suma')
+        )
+        ->join('acta', 'partido_politico.id', '=', 'acta.partida_politica_id')
+        ->join('centro_votacion', 'acta.centro_votacion_id', '=', 'centro_votacion.id')
+        ->where('partido_politico.estado', 1);
+        $result = $query->groupBy('partido_politico.nombre', 
+                                    'partido_politico.partido_politico',
+                                    'partido_politico.logo', 
+                                    'partido_politico.orden', 
+                                    'acta.partida_politica_id', 
+                                    'partido_politico.color')
+            ->orderBy('partido_politico.orden', 'ASC')
+            ->get();
+
+        $modifiedResults = $result->map(function ($item) {
+            if (isset($item->logo)) {
+                $item->logo = Storage::url($item->logo);
+            }
+            return $item;
+        });
+        return $modifiedResults->toArray();
+    }
+
+    public function prueba(Request $request){
+       /* $data = $this->updateReporteVotacion(); */
+        // Verifica los datos antes de emitir el evento
+
+        /* if ($data->isEmpty()) {
+            Log::warning('No se encontraron datos para el reporte de votación.');
+        } else {
+            Log::info('Datos del reporte de votación:', $data->toArray());
+        } */
+        /* $data = [2,34,4]; */
+        // Emite el evento con los datos obtenidos
+        /* event(new ReporteStatusChangedEvent($data));
+        return $data; */
+    }
     public function addActas(Request $request){
        try {
             DB::beginTransaction();
@@ -121,6 +167,8 @@ class ActasController extends Controller
                 $acta->centro_votacion_id = $request->centro_votacion_id;
                 $acta->save(); 
             }
+            $data = $this->updateReporteVotacion();
+            event(new ReporteStatusChangedEvent($data));
             DB::commit();
             return response()->json([
                 'status'=>true,

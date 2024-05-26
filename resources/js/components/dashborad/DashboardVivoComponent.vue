@@ -7,7 +7,7 @@
                         <div class="col-md-3 d-flex justify-content-center align-items-center">
                             <img :src="imgLogo" alt="" style="width: 50%;">
                         </div>
-                        <div class="col-md-3 col-right-blue">
+                        <div class="col-md-2 col-right-blue">
                             ELECCIÓN GENERAL 2024
                         </div>
                         <div class="col-md-2 col-right-blue" style="font-size: 1.5rem;">
@@ -16,8 +16,8 @@
                         <div class="col-md-2 col-right-blue text-center">
                             RESULTADOS EXTRAOFICIALES
                         </div>
-                        <div class="col-md-2 color-blue text-center">
-                            06:00PM
+                        <div class="col-md-3 color-blue text-center">
+                            {{ formattedTime }}
                         </div>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                 <div class="card-body card-body-pers card-pers-two">
                     <div class="row gy-3">
                         <div class="col-md-7 text-center">
-                            05 DE MAYO DE 2024
+                            {{ formattedDate }}
                         </div>
                         <div class="col-md-5 text-end">
                             Despues de 2 Horas y 0 minutos del cierre de votación
@@ -89,6 +89,7 @@
 <script>
 import Services from '../../services/services';
 import Highcharts from 'highcharts';
+import Echo from "laravel-echo";
 export default {
     props: {
         imgLogo: {
@@ -170,20 +171,67 @@ export default {
 
                 }
             },
+            currentTime: new Date(),
+            currentDate: new Date()
         }
     },
-    mounted(){
+    computed: {
+        formattedTime() {
+            let hours = this.currentTime.getHours();
+            let minutes = this.currentTime.getMinutes();
+            let seconds = this.currentTime.getSeconds();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            return `${hours}:${minutes}:${seconds} ${ampm}`;
+        },
+        formattedDate() {
+            const days = ['DOMINGO', 'LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO'];
+            const months = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'];
+            const day = this.currentDate.getDate();
+            const month = months[this.currentDate.getMonth()];
+            const year = this.currentDate.getFullYear();
+            return `${day < 10 ? '0' + day : day} DE ${month} DE ${year}`;
+        }
+    },
+    mounted() {
         this.reportePartidoPolTotal();
+        window.Echo.channel('reporte-columna')
+            .listen('ReporteStatusChangedEvent', (e) => {
+                console.log("OMG realtieme");
+                console.log(e);
+                console.log('new-balance', e);
+
+                const seriesData = e.data.map(item => ({
+                    name: item.nombre,
+                    y: parseInt(item.suma),
+                    color: item.color,
+                    drilldown: item.nombre,
+                    logo: item.logo
+                }));
+                this.chartOptions.series[0].data = seriesData;
+                Highcharts.chart(this.$refs.chart, this.chartOptions);
+            }
+            );
+
+        this.updateTime();
+        this.interval = setInterval(this.updateTime, 1000);
+        this.currentDate = new Date();
     },
     methods: {
+        updateTime() {
+            this.currentTime = new Date();
+        },
         async reportePartidoPolTotal() {
             let obj = {
-                departaments_id:this.departaments_id,
-                provinces_id:this.provinces_id,
-                districts_id:this.districts_id,
+                departaments_id: this.departaments_id,
+                provinces_id: this.provinces_id,
+                districts_id: this.districts_id,
             }
             try {
-                const result = await Services.addNewInfo(this.rutaReporte,obj);
+                const result = await Services.addNewInfo(this.rutaReporte, obj);
                 console.log(result.result[0])
                 const seriesData = result.result[0].map(item => ({
                     name: item.nombre,
@@ -198,6 +246,9 @@ export default {
                 return error;
             }
         },
+    },
+    beforeDestroy() {
+        clearInterval(this.interval);
     }
 }
 </script>

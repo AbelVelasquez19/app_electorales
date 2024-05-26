@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\ReporteStatusChangedEvent;
 use App\Http\Controllers\Web\ActasController;
 use App\Http\Controllers\Web\CandidatoController;
 use App\Http\Controllers\Web\CentroVotacionController;
@@ -228,5 +229,16 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/delete-permisions-asing', 'deletePermisionAsing');
         });
     });
+
+    Route::prefix('fire')->group(function () {
+        Route::controller(ActasController::class)->group(function () {
+            Route::get('/', 'prueba')->name('permisos.index');
+        });
+    });
 });
 
+/* route::get('fire', function(){
+    $data = [1,2,3];
+    event( new ReporteStatusChangedEvent($data));
+    return 'fire';
+}); */
