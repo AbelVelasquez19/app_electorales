@@ -7,7 +7,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label>Seleccionar Pais</label>
+                                    <label>Pais</label>
                                     <select class="form-select" v-model="pais_id" @change="getPaisItem" disabled>
                                         <option value="">--seleccionar--</option>
                                         <option v-for="item in pais" :key="item.id" :value="item.id">{{ item.nombre }}
@@ -16,7 +16,7 @@
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label>Seleccionar Provincia</label>
+                                    <label>Provincia</label>
                                     <select class="form-select" v-model="departaments_id" @change="getDepartamentItem">
                                         <option value="null" disabled selected >--seleccionar--</option>
                                         <option value="0">Todo</option>
@@ -25,7 +25,7 @@
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label>Seleccionar Distrito</label>
+                                    <label>Distrito</label>
                                     <select class="form-select" v-model="provinces_id" @change="getProvincesItem">
                                         <option value="null" disabled selected >--seleccionar--</option>
                                         <option value="0">Todo</option>
@@ -36,7 +36,7 @@
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label>Seleccionar Corregimiento</label>
+                                    <label>Corregimiento</label>
                                     <select class="form-select" v-model="districts_id" @change="getDistrictItems()">
                                         <option value="null" disabled selected >--seleccionar--</option>
                                         <option value="0">Todo</option>
@@ -51,9 +51,31 @@
                 </div>
                 <div class="col-xl-12 mb-4 col-lg-12 col-12">
                     <div class="card h-100">
-                        <div class="card-body">
-                            <div class="row gy-3">
-                                <div ref="chart" style="height: 500px;"></div>
+                        <div class="card-body" >
+                            <div class="row" style="position: relative;">
+                                <img :src="imgFondoTodo" alt="Fondo del reporte total resumen" style="height: 300px !important;">
+                                <div class="card-text row">
+                                    <div class="col-md-3 d-flex justify-content-center align-items-center flex-column page-link">
+                                        <strong>TODOS</strong><br>
+                                        <span>Fórmula Presidencial</span>
+                                    </div>
+                                    <div class="col-md-3 d-flex justify-content-center align-items-center flex-column page-link">
+                                        <strong>25,287,954</strong> <br>
+                                        <span>Electorales Hábiles</span>
+                                    </div>
+                                    <div class="col-md-2 d-flex justify-content-center align-items-center flex-column page-link">
+                                        <strong>18,856,802</strong> <br>
+                                        <span>Participación Ciudadana</span>
+                                    </div>
+                                    <div class="col-md-2 d-flex justify-content-center align-items-center flex-column page-link">
+                                        <strong>74,568%</strong> <br>
+                                        <span>(%) Participacion Ciudadana</span>
+                                    </div>
+                                    <div class="col-md-2 d-flex justify-content-center align-items-center flex-column page-link" style="background: rgb(13 100 175);">
+                                         <strong>100.0000%</strong> <br>
+                                        <span>Actas Procesadas</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -65,7 +87,7 @@
                 <div class="card-body">
                     <div class="row gy-3">
                         <l-map :zoom.sync="zoom" :options="mapOptions" :center="center" :bounds="bounds"
-                            :min-zoom="minZoom" :max-zoom="maxZoom" style="width: 100%; height: 620px">
+                            :min-zoom="minZoom" :max-zoom="maxZoom" style="width: 100%; height: 424px">
                             <l-control-layers :position="layersPosition" :collapsed="false" :sort-layers="true" />
                             <l-tile-layer v-for="tileProvider in tileProviders" :key="tileProvider.name"
                                 :name="tileProvider.name" :visible="tileProvider.visible" :url="tileProvider.url"
@@ -85,6 +107,15 @@
             </div>
         </div>
 
+        <div class="col-md-12 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row gy-3">
+                        <div ref="chart" style="height: 500px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-8">
@@ -205,6 +236,10 @@ export default {
             type: String,
             default: ''
         },
+        imgFondoTodo:{
+            type: String,
+            default: ''
+        }
     },
     data() {
         return {
@@ -461,7 +496,7 @@ export default {
             districts: {},
             districts_id: null,
             totalVotos: {},
-
+            electoralesHbailes:25287954,
             center: [9.367772770859636, -82.86987304687501],
             opacity: 0.6,
             token: 'your token if using mapbox',
@@ -716,5 +751,15 @@ export default {
 .hello {
     width: 100%;
     height: 500px;
+}
+.card-text{
+    position: absolute;
+    background: rgba(17, 16, 16, 0.7);
+    bottom: 5px;
+    color: #fff;
+    left: 37px;
+    width: 94%;
+    text-align: center;
+    padding: 5px 0px;
 }
 </style>
