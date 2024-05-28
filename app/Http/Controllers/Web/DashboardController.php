@@ -152,11 +152,11 @@ class DashboardController extends Controller
             'partido_politico.color',
             DB::raw('sum(acta.total_acta) as suma')
         )
-            ->join('acta', 'partido_politico.id', '=', 'acta.partida_politica_id')
-            ->orderBy('partido_politico.orden', 'asc')
-            ->groupBy('partido_politico.nombre', 'partido_politico.partido_politico', 'partido_politico.logo', 'partido_politico.orden', 'acta.partida_politica_id', 'partido_politico.color')
-            ->where('partido_politico.estado', 1)
-            ->get();
+        ->join('acta', 'partido_politico.id', '=', 'acta.partida_politica_id')
+        ->orderBy('partido_politico.orden', 'asc')
+        ->groupBy('partido_politico.nombre', 'partido_politico.partido_politico', 'partido_politico.logo', 'partido_politico.orden', 'acta.partida_politica_id', 'partido_politico.color')
+        ->where('partido_politico.estado', 1)
+        ->get();
 
         $modifiedResults = $result->map(function ($item) {
             if (isset($item->logo)) {
@@ -166,8 +166,6 @@ class DashboardController extends Controller
         });
 
         return response()->json($modifiedResults); */
-
-
 
         $departamento_id = empty($request->departaments_id) ? null : $request->departaments_id;
         $provincia_id = empty($request->provinces_id) ? null : $request->provinces_id;
@@ -208,6 +206,7 @@ class DashboardController extends Controller
             }
             return $item;
         });
+        
         return response()->json($modifiedResults);
     }
 

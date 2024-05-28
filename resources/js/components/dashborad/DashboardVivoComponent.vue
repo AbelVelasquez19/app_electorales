@@ -45,7 +45,7 @@
                 <div class="col-md-4">
                     <div class="targeta">
                         <span>Padrón Electoral</span>
-                        <span>3.004.08</span>
+                        <span>{{ formatNumber(electoralesHbailes) }}</span>
                     </div>
                     <div class="targeta">
                         <span>Electorales en Mesas Escrutadas</span>
@@ -172,7 +172,8 @@ export default {
                 }
             },
             currentTime: new Date(),
-            currentDate: new Date()
+            currentDate: new Date(),
+            electoralesHbailes: 25287954,
         }
     },
     computed: {
@@ -246,10 +247,18 @@ export default {
                 return error;
             }
         },
+        formatNumber(value) {
+            let number = Number(value);
+            let formattedNumber = number.toLocaleString('en-US');
+            if (number % 1 !== 0) {
+                formattedNumber = number.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+            }
+            return formattedNumber;
+        }
     },
     beforeDestroy() {
         clearInterval(this.interval);
-    }
+    },
 }
 </script>
 

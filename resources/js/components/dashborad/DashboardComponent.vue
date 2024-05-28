@@ -18,16 +18,17 @@
                                 <div class="col-md-3">
                                     <label>Provincia</label>
                                     <select class="form-select" v-model="departaments_id" @change="getDepartamentItem">
-                                        <option value="null" disabled selected >--seleccionar--</option>
+                                        <option value="null" disabled selected>--seleccionar--</option>
                                         <option value="0">Todo</option>
-                                        <option v-for="item in departaments" :key="item.id" :value="item.id">{{item.nombre }}</option>
+                                        <option v-for="item in departaments" :key="item.id" :value="item.id">
+                                            {{ item.nombre }}</option>
                                     </select>
                                 </div>
 
                                 <div class="col-md-3">
                                     <label>Distrito</label>
                                     <select class="form-select" v-model="provinces_id" @change="getProvincesItem">
-                                        <option value="null" disabled selected >--seleccionar--</option>
+                                        <option value="null" disabled selected>--seleccionar--</option>
                                         <option value="0">Todo</option>
                                         <option v-for="item in provinces" :key="item.id" :value="item.id">{{ item.nombre
                                             }}
@@ -38,7 +39,7 @@
                                 <div class="col-md-3">
                                     <label>Corregimiento</label>
                                     <select class="form-select" v-model="districts_id" @change="getDistrictItems()">
-                                        <option value="null" disabled selected >--seleccionar--</option>
+                                        <option value="null" disabled selected>--seleccionar--</option>
                                         <option value="0">Todo</option>
                                         <option v-for="item in districts" :key="item.id" :value="item.id">{{ item.nombre
                                             }}
@@ -51,28 +52,34 @@
                 </div>
                 <div class="col-xl-12 mb-4 col-lg-12 col-12">
                     <div class="card h-100">
-                        <div class="card-body" >
+                        <div class="card-body">
                             <div class="row" style="position: relative;">
-                                <img :src="imgFondoTodo" alt="Fondo del reporte total resumen" style="height: 300px !important;">
+                                <img :src="imgFondoTodo" alt="Fondo del reporte total resumen"
+                                    style="height: 300px !important;">
                                 <div class="card-text row">
-                                    <div class="col-md-3 d-flex justify-content-center align-items-center flex-column page-link">
+                                    <div
+                                        class="col-md-3 d-flex justify-content-center align-items-center flex-column page-link">
                                         <strong>TODOS</strong><br>
                                         <span>Fórmula Presidencial</span>
                                     </div>
-                                    <div class="col-md-3 d-flex justify-content-center align-items-center flex-column page-link">
-                                        <strong>25,287,954</strong> <br>
+                                    <div
+                                        class="col-md-3 d-flex justify-content-center align-items-center flex-column page-link">
+                                        <strong>{{ formatNumber(electoralesHbailes) }}</strong> <br>
                                         <span>Electorales Hábiles</span>
                                     </div>
-                                    <div class="col-md-2 d-flex justify-content-center align-items-center flex-column page-link">
+                                    <div
+                                        class="col-md-2 d-flex justify-content-center align-items-center flex-column page-link">
                                         <strong>18,856,802</strong> <br>
                                         <span>Participación Ciudadana</span>
                                     </div>
-                                    <div class="col-md-2 d-flex justify-content-center align-items-center flex-column page-link">
+                                    <div
+                                        class="col-md-2 d-flex justify-content-center align-items-center flex-column page-link">
                                         <strong>74,568%</strong> <br>
                                         <span>(%) Participacion Ciudadana</span>
                                     </div>
-                                    <div class="col-md-2 d-flex justify-content-center align-items-center flex-column page-link" style="background: rgb(13 100 175);">
-                                         <strong>100.0000%</strong> <br>
+                                    <div class="col-md-2 d-flex justify-content-center align-items-center flex-column page-link"
+                                        style="background: rgb(13 100 175);">
+                                        <strong>100.0000%</strong> <br>
                                         <span>Actas Procesadas</span>
                                     </div>
                                 </div>
@@ -236,7 +243,7 @@ export default {
             type: String,
             default: ''
         },
-        imgFondoTodo:{
+        imgFondoTodo: {
             type: String,
             default: ''
         }
@@ -496,7 +503,7 @@ export default {
             districts: {},
             districts_id: null,
             totalVotos: {},
-            electoralesHbailes:25287954,
+            electoralesHbailes: 25287954,
             center: [9.367772770859636, -82.86987304687501],
             opacity: 0.6,
             token: 'your token if using mapbox',
@@ -543,18 +550,18 @@ export default {
                     sumaTotal += parseFloat(this.totalVotos[key].suma);
                 }
             }
-            return  sumaTotal;
+            return sumaTotal;
         }
     },
     methods: {
         async reportePartidoPolTotal() {
             let obj = {
-                departaments_id:this.departaments_id,
-                provinces_id:this.provinces_id,
-                districts_id:this.districts_id,
+                departaments_id: this.departaments_id,
+                provinces_id: this.provinces_id,
+                districts_id: this.districts_id,
             }
             try {
-                const result = await Services.addNewInfo('dashboard/polito-voto-total',obj);
+                const result = await Services.addNewInfo('dashboard/polito-voto-total', obj);
                 console.log(result.result[0])
                 const seriesData = result.result[0].map(item => ({
                     name: item.nombre,
@@ -571,12 +578,12 @@ export default {
         },
         async reporteEstadoActas() {
             let obj = {
-                departaments_id:this.departaments_id,
-                provinces_id:this.provinces_id,
-                districts_id:this.districts_id,
+                departaments_id: this.departaments_id,
+                provinces_id: this.provinces_id,
+                districts_id: this.districts_id,
             }
             try {
-                const result = await Services.addNewInfo('dashboard/estado-acta',obj);
+                const result = await Services.addNewInfo('dashboard/estado-acta', obj);
                 console.log(result)
                 const seriesData = result.result[0].map(item => ({
                     name: item.nombre,
@@ -590,12 +597,12 @@ export default {
         },
         async reporteDistribucionVotos() {
             let obj = {
-                departaments_id:this.departaments_id,
-                provinces_id:this.provinces_id,
-                districts_id:this.districts_id,
+                departaments_id: this.departaments_id,
+                provinces_id: this.provinces_id,
+                districts_id: this.districts_id,
             }
             try {
-                const result = await Services.addNewInfo('dashboard/distribucion-votos',obj);
+                const result = await Services.addNewInfo('dashboard/distribucion-votos', obj);
                 const seriesData = result.result[0].map(item => ({
                     name: item.nombre,
                     y: parseInt(item.total),
@@ -608,12 +615,12 @@ export default {
         },
         async reporteTotalVotos() {
             let obj = {
-                departaments_id:this.departaments_id,
-                provinces_id:this.provinces_id,
-                districts_id:this.districts_id,
+                departaments_id: this.departaments_id,
+                provinces_id: this.provinces_id,
+                districts_id: this.districts_id,
             }
             try {
-                const result = await Services.addNewInfo('dashboard/total-votos',obj);
+                const result = await Services.addNewInfo('dashboard/total-votos', obj);
                 this.totalVotos = result.result[0];
             } catch (error) {
                 return error;
@@ -668,7 +675,7 @@ export default {
             this.reporteTotalVotos();
         },
 
-        getDistrictItems(){
+        getDistrictItems() {
             this.reportePartidoPolTotal();
             this.reporteEstadoActas();
             this.reporteDistribucionVotos();
@@ -743,6 +750,15 @@ export default {
             }
         },
 
+        formatNumber(value) {
+            let number = Number(value);
+            let formattedNumber = number.toLocaleString('en-US');
+            if (number % 1 !== 0) {
+                formattedNumber = number.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+            }
+            return formattedNumber;
+        }
+
     }
 }
 </script>
@@ -752,7 +768,8 @@ export default {
     width: 100%;
     height: 500px;
 }
-.card-text{
+
+.card-text {
     position: absolute;
     background: rgba(17, 16, 16, 0.7);
     bottom: 5px;
