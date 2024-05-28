@@ -18,16 +18,17 @@
                                 <div class="col-md-3">
                                     <label>Provincia</label>
                                     <select class="form-select" v-model="departaments_id" @change="getDepartamentItem">
-                                        <option value="null" disabled selected >--seleccionar--</option>
+                                        <option value="null" disabled selected>--seleccionar--</option>
                                         <option value="0">Todo</option>
-                                        <option v-for="item in departaments" :key="item.id" :value="item.id">{{item.nombre }}</option>
+                                        <option v-for="item in departaments" :key="item.id" :value="item.id">
+                                            {{ item.nombre }}</option>
                                     </select>
                                 </div>
 
                                 <div class="col-md-3">
                                     <label>Distrito</label>
                                     <select class="form-select" v-model="provinces_id" @change="getProvincesItem">
-                                        <option value="null" disabled selected >--seleccionar--</option>
+                                        <option value="null" disabled selected>--seleccionar--</option>
                                         <option value="0">Todo</option>
                                         <option v-for="item in provinces" :key="item.id" :value="item.id">{{ item.nombre
                                             }}
@@ -38,7 +39,7 @@
                                 <div class="col-md-3">
                                     <label>Corregimiento</label>
                                     <select class="form-select" v-model="districts_id" @change="getDistrictItems()">
-                                        <option value="null" disabled selected >--seleccionar--</option>
+                                        <option value="null" disabled selected>--seleccionar--</option>
                                         <option value="0">Todo</option>
                                         <option v-for="item in districts" :key="item.id" :value="item.id">{{ item.nombre
                                             }}
@@ -51,28 +52,34 @@
                 </div>
                 <div class="col-xl-12 mb-4 col-lg-12 col-12">
                     <div class="card h-100">
-                        <div class="card-body" >
+                        <div class="card-body">
                             <div class="row" style="position: relative;">
-                                <img :src="imgFondoTodo" alt="Fondo del reporte total resumen" style="height: 300px !important;">
+                                <img :src="imgFondoTodo" alt="Fondo del reporte total resumen"
+                                    style="height: 300px !important;">
                                 <div class="card-text row">
-                                    <div class="col-md-3 d-flex justify-content-center align-items-center flex-column page-link">
+                                    <div
+                                        class="col-md-3 d-flex justify-content-center align-items-center flex-column page-link">
                                         <strong>TODOS</strong><br>
                                         <span>Fórmula Presidencial</span>
                                     </div>
-                                    <div class="col-md-3 d-flex justify-content-center align-items-center flex-column page-link">
-                                        <strong>25,287,954</strong> <br>
+                                    <div
+                                        class="col-md-3 d-flex justify-content-center align-items-center flex-column page-link">
+                                        <strong>{{ totalElectoralHabiles }}</strong> <br>
                                         <span>Electorales Hábiles</span>
                                     </div>
-                                    <div class="col-md-2 d-flex justify-content-center align-items-center flex-column page-link">
-                                        <strong>18,856,802</strong> <br>
+                                    <div
+                                        class="col-md-2 d-flex justify-content-center align-items-center flex-column page-link">
+                                        <strong>{{ totalParticipacionCiudadana }}</strong> <br>
                                         <span>Participación Ciudadana</span>
                                     </div>
-                                    <div class="col-md-2 d-flex justify-content-center align-items-center flex-column page-link">
-                                        <strong>74,568%</strong> <br>
+                                    <div
+                                        class="col-md-2 d-flex justify-content-center align-items-center flex-column page-link">
+                                        <strong>{{ porcentajeParticipacionCiudadana }}%</strong> <br>
                                         <span>(%) Participacion Ciudadana</span>
                                     </div>
-                                    <div class="col-md-2 d-flex justify-content-center align-items-center flex-column page-link" style="background: rgb(13 100 175);">
-                                         <strong>100.0000%</strong> <br>
+                                    <div class="col-md-2 d-flex justify-content-center align-items-center flex-column page-link"
+                                        style="background: rgb(13 100 175);">
+                                        <strong>{{ porcentajeActasProcesada }}%</strong> <br>
                                         <span>Actas Procesadas</span>
                                     </div>
                                 </div>
@@ -136,14 +143,28 @@
                                         <td><img :src="item.logo" width="30px" height="30px"></td>
                                         <td>{{ item.nombre }}</td>
                                         <td>{{ item.suma }}</td>
-                                        <td>12%</td>
-                                        <td>122%</td>
+                                        <td>
+                                            <span v-if="item.id == 4 || item.id == 5">
+                                                0 %
+                                            </span>
+
+                                            <span v-else>
+                                                {{ calcularValidos(item.suma, item.suma_excluyendo_4_5) }}%
+
+                                            </span>
+
+                                        </td>
+                                        <td>{{ calcularEmitido(item.suma, item.suma_total) }}%</td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">Total votos emitidos</td>
                                         <td>{{ totalSuma }}</td>
-                                        <td>562</td>
-                                        <td>562</td>
+                                        <td>{{ calcularTotalPorcentajeValidos() }} %</td>
+                                        <td>{{ calcularTotalPorcentajeEmitido() }} %</td>
+                                        <!-- <td>{{ calcularTotalPorcentajeValidos }}</td>
+                                        <td>{{ calcularTotalPorcentajeEmitido }}</td> -->
+
+
                                     </tr>
                                 </tbody>
                             </table>
@@ -236,7 +257,7 @@ export default {
             type: String,
             default: ''
         },
-        imgFondoTodo:{
+        imgFondoTodo: {
             type: String,
             default: ''
         }
@@ -495,8 +516,8 @@ export default {
             provinces_id: null,
             districts: {},
             districts_id: null,
-            totalVotos: {},
-            electoralesHbailes:25287954,
+            totalVotos: [],
+            electoralesHbailes: 25287954,
             center: [9.367772770859636, -82.86987304687501],
             opacity: 0.6,
             token: 'your token if using mapbox',
@@ -521,6 +542,11 @@ export default {
                 { lat: 8.026594842489562, lng: -78.0413818359375 }
             ),
 
+            totalElectoralHabiles: 25287.954,
+            totalParticipacionCiudadana: 0,
+            porcentajeParticipacionCiudadana: 0,
+            porcentajeActasProcesada: 0
+
         }
 
     },
@@ -534,6 +560,7 @@ export default {
         this.reporteEstadoActas();
         this.reporteDistribucionVotos();
         this.reporteTotalVotos();
+        // this.getTotalSumaPanelHabiles();
     },
     computed: {
         totalSuma: function () {
@@ -543,18 +570,38 @@ export default {
                     sumaTotal += parseFloat(this.totalVotos[key].suma);
                 }
             }
-            return  sumaTotal;
+            return sumaTotal;
         }
+
+
+
+
     },
     methods: {
+
+        calcularValidos(suma, suma_excluyendo_4_5) {
+            const porcentaje_validos = (suma / suma_excluyendo_4_5) * 100;
+            const porcentaje_valido = porcentaje_validos.toFixed(2);
+
+            return porcentaje_valido;
+        },
+
+        calcularEmitido(suma, suma_total) {
+            const porcentaje_emitidos = (suma / suma_total) * 100;
+            const porcentaje_emitido = porcentaje_emitidos.toFixed(2);
+
+            return porcentaje_emitido;
+        },
+
         async reportePartidoPolTotal() {
             let obj = {
-                departaments_id:this.departaments_id,
-                provinces_id:this.provinces_id,
-                districts_id:this.districts_id,
+                departaments_id: this.departaments_id,
+                provinces_id: this.provinces_id,
+                districts_id: this.districts_id,
             }
             try {
-                const result = await Services.addNewInfo('dashboard/polito-voto-total',obj);
+                const result = await Services.addNewInfo('dashboard/polito-voto-total', obj);
+
                 console.log(result.result[0])
                 const seriesData = result.result[0].map(item => ({
                     name: item.nombre,
@@ -571,12 +618,12 @@ export default {
         },
         async reporteEstadoActas() {
             let obj = {
-                departaments_id:this.departaments_id,
-                provinces_id:this.provinces_id,
-                districts_id:this.districts_id,
+                departaments_id: this.departaments_id,
+                provinces_id: this.provinces_id,
+                districts_id: this.districts_id,
             }
             try {
-                const result = await Services.addNewInfo('dashboard/estado-acta',obj);
+                const result = await Services.addNewInfo('dashboard/estado-acta', obj);
                 console.log(result)
                 const seriesData = result.result[0].map(item => ({
                     name: item.nombre,
@@ -590,12 +637,12 @@ export default {
         },
         async reporteDistribucionVotos() {
             let obj = {
-                departaments_id:this.departaments_id,
-                provinces_id:this.provinces_id,
-                districts_id:this.districts_id,
+                departaments_id: this.departaments_id,
+                provinces_id: this.provinces_id,
+                districts_id: this.districts_id,
             }
             try {
-                const result = await Services.addNewInfo('dashboard/distribucion-votos',obj);
+                const result = await Services.addNewInfo('dashboard/distribucion-votos', obj);
                 const seriesData = result.result[0].map(item => ({
                     name: item.nombre,
                     y: parseInt(item.total),
@@ -608,12 +655,23 @@ export default {
         },
         async reporteTotalVotos() {
             let obj = {
-                departaments_id:this.departaments_id,
-                provinces_id:this.provinces_id,
-                districts_id:this.districts_id,
+                departaments_id: this.departaments_id,
+                provinces_id: this.provinces_id,
+                districts_id: this.districts_id,
             }
             try {
-                const result = await Services.addNewInfo('dashboard/total-votos',obj);
+                const result = await Services.addNewInfo('dashboard/total-votos', obj);
+
+                console.log('TOTAL VOTOSSS', result);
+
+                this.getTotalSumaPanelHabiles();
+                this.getTotalSumaParticipacion();
+
+                const result2 = await Services.addNewInfo('dashboard/total-votos-panel', obj);
+                console.log('NUEVO', result2);
+
+
+
                 this.totalVotos = result.result[0];
             } catch (error) {
                 return error;
@@ -649,6 +707,8 @@ export default {
             this.reporteEstadoActas();
             this.reporteDistribucionVotos();
             this.reporteTotalVotos();
+            this.getTotalSumaPanelHabiles();
+
         },
 
         async getProvinces(departaments_id) {
@@ -666,13 +726,17 @@ export default {
             this.reporteEstadoActas();
             this.reporteDistribucionVotos();
             this.reporteTotalVotos();
+            this.getTotalSumaPanelHabiles();
         },
 
-        getDistrictItems(){
+        getDistrictItems() {
             this.reportePartidoPolTotal();
             this.reporteEstadoActas();
             this.reporteDistribucionVotos();
             this.reporteTotalVotos();
+            this.getTotalSumaPanelHabiles();
+            this.getTotalSumaParticipacion();
+
         },
         async getDistrict(province_id) {
             try {
@@ -743,6 +807,110 @@ export default {
             }
         },
 
+
+        async getTotalSumaPanelHabiles() {
+
+
+            let obj = {
+                departaments_id: this.departaments_id,
+                provinces_id: this.provinces_id,
+                districts_id: this.districts_id,
+            }
+            try {
+
+                const result = await Services.addNewInfo('dashboard/total-votos-panel', obj);
+                console.log('NUEVO2', result);
+
+                // this.totalElectoralHabiles = result.result[0].suma;
+
+            } catch (error) {
+                return error;
+            }
+        },
+
+        async getTotalSumaParticipacion() {
+
+
+            let obj = {
+                departaments_id: this.departaments_id,
+                provinces_id: this.provinces_id,
+                districts_id: this.districts_id,
+            }
+            try {
+
+                const result = await Services.addNewInfo('dashboard/total-votos-panel', obj);
+                console.log('NUEVO2', result);
+
+                this.totalParticipacionCiudadana = result.result[0].suma;
+                this.calculoPorcentajeParticipacion();
+                this.getTotalCantidadActas();
+
+            } catch (error) {
+                return error;
+            }
+        }
+        ,
+        calculoPorcentajeParticipacion() {
+
+            if (this.totalElectoralHabiles === 0) {
+                return 0; // Evitar división por cero
+            }
+            const porcentaje = (this.totalParticipacionCiudadana / this.totalElectoralHabiles) * 100;
+            this.porcentajeParticipacionCiudadana = porcentaje.toFixed(2); // Redondear a 2 decimales
+
+        },
+        async getTotalCantidadActas() {
+
+
+            let obj = {
+                departaments_id: this.departaments_id,
+                provinces_id: this.provinces_id,
+                districts_id: this.districts_id,
+            }
+            try {
+
+                const result = await Services.addNewInfo('dashboard/total-actas', obj);
+                const result_procesadas = await Services.addNewInfo('dashboard/total-actas-procesada', obj);
+
+
+                console.log('TOTAL ACTAS', result);
+                console.log('TOTAL ACTAS PROCESADAS', result_procesadas);
+
+                const total_actas = result.result[0].cantidad_actas;
+                const total_actas_procesadas = result_procesadas.result[0].cantidad_actas;
+
+
+                const porcentaje_actas = (total_actas_procesadas / total_actas) * 100;
+                this.porcentajeActasProcesada = porcentaje_actas.toFixed(2);
+
+
+            } catch (error) {
+                return error;
+            }
+        },
+        calcularTotalPorcentajeValidos() {
+            let totalPorcentajeValido = 0;
+            for (let item of this.totalVotos) {
+
+                if (item.id != 4 && item.id != 5) {
+                    totalPorcentajeValido += parseFloat(this.calcularValidos(item.suma, item.suma_excluyendo_4_5));
+                }
+            }
+            return totalPorcentajeValido.toFixed(2);
+        },
+        calcularTotalPorcentajeEmitido() {
+            let totalPorcentajeEmitido = 0;
+            for (let item of this.totalVotos) {
+
+                totalPorcentajeEmitido += parseFloat(this.calcularEmitido(item.suma, item.suma_total));
+            }
+            return totalPorcentajeEmitido.toFixed(2)
+
+
+            // return 0;
+        },
+
+
     }
 }
 </script>
@@ -752,7 +920,8 @@ export default {
     width: 100%;
     height: 500px;
 }
-.card-text{
+
+.card-text {
     position: absolute;
     background: rgba(17, 16, 16, 0.7);
     bottom: 5px;
