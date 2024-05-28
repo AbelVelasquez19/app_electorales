@@ -101,8 +101,7 @@ class DashboardController extends Controller
         return $agrupados->values();
     }
 
-    public function reporteDistribucionVotos(Request $request)
-    {
+    public function reporteDistribucionVotos(Request $request){
         $departamento_id = empty($request->departaments_id) ? null : $request->departaments_id;
         $provincia_id = empty($request->provinces_id) ? null : $request->provinces_id;
         $distrito_id = empty($request->districts_id) ? null : $request->districts_id;
@@ -214,5 +213,84 @@ class DashboardController extends Controller
         //[)G=T3,nm6M*
         $menusPrin = $this->getMenus();
         return view('page/dashboard.reporteVivo',compact('menusPrin'));
+    }
+
+    public function electoralesMesasEscrutadas(){
+        $mesasEscrutadas = Mesa::get();
+        $conteoEstados = $mesasEscrutadas->map(function ($item) {
+            $nombre = $item->estado == 0 ? 'TOTAL_VOTOS_ESCRUTADOS' : 'PROCESADAS';
+        });
+    }
+
+    public function votosEmitidosValidosBlancoNulo(){
+        try {
+            $total_votantes = Mesa::sum('total_votantes');
+            $votos_emitidos = Mesa::sum('cantidad_votantes');
+            $votos_valitos = Acta::join('partido_politico', 'acta.partida_politica_id', '=', 'partido_politico.id')
+                        ->whereNotIn('partido_politico.partido_politico', ['Voto en Blanco', 'Voto en Nulo'])
+                        ->sum('acta.total_acta');
+            $votos_blancos = Acta::join('partido_politico', 'acta.partida_politica_id', '=', 'partido_politico.id')
+                        ->whereIn('partido_politico.partido_politico', ['Voto en Blanco'])
+                        ->sum('acta.total_acta');
+            $votos_nulo = Acta::join('partido_politico', 'acta.partida_politica_id', '=', 'partido_politico.id')
+                        ->whereIn('partido_politico.partido_politico', ['Voto en Nulo'])
+                        ->sum('acta.total_acta');
+    
+            $votos_emitidos_procentaje = ($votos_emitidos / $total_votantes) * 100;
+            $votos_validos_procentaje = ($votos_valitos / $votos_emitidos) * 100;
+            $votos_blancos_procentaje = ($votos_blancos / $votos_emitidos) * 100;
+            $votos_nulos_procentaje = ($votos_nulo / $votos_emitidos) * 100;
+            $for_votos_emitidos_procentaje = number_format($votos_emitidos_procentaje, 2, '.', ',');
+            $for_votos_validos_procentaje = number_format($votos_validos_procentaje, 2, '.', ',');
+            $for_votos_blancos_procentaje = number_format($votos_blancos_procentaje, 2, '.', ',');
+            $for_votos_nulos_procentaje = number_format($votos_nulos_procentaje, 2, '.', ',');
+            return response()->json([
+                'status'=>true,
+                'total_votantes'=>$total_votantes,
+                'votos_emitidos'=>$votos_emitidos,
+                'for_votos_emitidos_procentaje'=>$for_votos_emitidos_procentaje,
+                'votos_valitos'=>$votos_valitos,
+                'for_votos_validos_procentaje'=>$for_votos_validos_procentaje,
+                'votos_blancos'=>$votos_blancos,
+                'for_votos_blancos_procentaje'=>$for_votos_blancos_procentaje,
+                'votos_nulo'=>$votos_nulo,
+                'for_votos_nulos_procentaje'=>$for_votos_nulos_procentaje,
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+
+    public function reportePartidoPolTotalVivo()
+    {
+        $query = PartidoPolitico::select(
+            'partido_politico.nombre',
+            'partido_politico.partido_politico',
+            'partido_politico.logo',
+            'partido_politico.orden',
+            'partido_politico.color',
+            DB::raw('SUM(acta.total_acta) as suma')
+        )
+        ->join('acta', 'partido_politico.id', '=', 'acta.partida_politica_id')
+        ->join('centro_votacion', 'acta.centro_votacion_id', '=', 'centro_votacion.id')
+        ->where('partido_politico.estado', 1)
+        ->whereNotIn('partido_politico.partido_politico', ['Voto en Blanco', 'Voto en Nulo']);
+        $result = $query->groupBy('partido_politico.nombre', 
+                                    'partido_politico.partido_politico',
+                                    'partido_politico.logo', 
+                                    'partido_politico.orden', 
+                                    'acta.partida_politica_id', 
+                                    'partido_politico.color')
+            ->orderBy('partido_politico.orden', 'ASC')
+            ->get();
+
+        $modifiedResults = $result->map(function ($item) {
+            if (isset($item->logo)) {
+                $item->logo = Storage::url($item->logo);
+            }
+            return $item;
+        });
+        return response()->json($modifiedResults);
     }
 }

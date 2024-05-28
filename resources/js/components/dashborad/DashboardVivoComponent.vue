@@ -45,7 +45,7 @@
                 <div class="col-md-4">
                     <div class="targeta">
                         <span>Padrón Electoral</span>
-                        <span>{{ formatNumber(electoralesHbailes) }}</span>
+                        <span>{{ formatNumber(total_votantes) }}</span>
                     </div>
                     <div class="targeta">
                         <span>Electorales en Mesas Escrutadas</span>
@@ -55,19 +55,19 @@
                 <div class="col-md-4">
                     <div class="targeta">
                         <span>Votos Emitidos</span>
-                        <span>3.004.08 &nbsp;&nbsp; 100.00%</span>
+                        <span>{{ votos_emitidos }} &nbsp;&nbsp; {{for_votos_emitidos_procentaje}}%</span>
                     </div>
                     <div class="targeta">
                         <span>Validos</span>
-                        <span>59,006 &nbsp;&nbsp; 96.59%</span>
+                        <span>{{ votos_valitos }} &nbsp;&nbsp; {{for_votos_validos_procentaje}}%</span>
                     </div>
                     <div class="targeta">
                         <span>Blancos</span>
-                        <span>894 &nbsp;&nbsp; 1.46%</span>
+                        <span>{{ votos_blancos }} &nbsp;&nbsp; {{for_votos_blancos_procentaje}}%</span>
                     </div>
                     <div class="targeta">
                         <span>Nulos</span>
-                        <span>1.187 &nbsp;&nbsp; 1.94%</span>
+                        <span>{{ votos_nulo }} &nbsp;&nbsp; {{for_votos_nulos_procentaje}}%</span>
                     </div>
                 </div>
             </div>
@@ -97,6 +97,14 @@ export default {
             default: '',
         },
         rutaReporte: {
+            type: String,
+            default: '',
+        },
+        reporteEnVivoTotales: {
+            type: String,
+            default: '',
+        },
+        reporteEnVivoTotalesVotos: {
             type: String,
             default: '',
         },
@@ -173,7 +181,15 @@ export default {
             },
             currentTime: new Date(),
             currentDate: new Date(),
-            electoralesHbailes: 25287954,
+            total_votantes:null,
+            votos_emitidos:null,
+            for_votos_emitidos_procentaje:null,
+            votos_valitos:null,
+            for_votos_validos_procentaje:null,
+            votos_blancos:null,
+            for_votos_blancos_procentaje:null,
+            votos_nulo:null,
+            for_votos_nulos_procentaje:null,
         }
     },
     computed: {
@@ -220,6 +236,7 @@ export default {
         this.updateTime();
         this.interval = setInterval(this.updateTime, 1000);
         this.currentDate = new Date();
+        this.votosEmitidosValidosBlancoNulo();
     },
     methods: {
         updateTime() {
@@ -232,9 +249,8 @@ export default {
                 districts_id: this.districts_id,
             }
             try {
-                const result = await Services.addNewInfo(this.rutaReporte, obj);
-                console.log(result.result[0])
-                const seriesData = result.result[0].map(item => ({
+                const result = await Services.getAll(this.reporteEnVivoTotalesVotos);
+                const seriesData = result.map(item => ({
                     name: item.nombre,
                     y: parseInt(item.suma),
                     color: item.color,
@@ -254,6 +270,24 @@ export default {
                 formattedNumber = number.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
             }
             return formattedNumber;
+        },
+        async votosEmitidosValidosBlancoNulo(){
+            try {
+                const result = await Services.getAll(this.reporteEnVivoTotales);
+                if(result.status){
+                    this.total_votantes=result.total_votantes;
+                    this.votos_emitidos=result.votos_emitidos;
+                    this.for_votos_emitidos_procentaje=result.for_votos_emitidos_procentaje;
+                    this.votos_valitos=result.votos_valitos;
+                    this.for_votos_validos_procentaje=result.for_votos_validos_procentaje;
+                    this.votos_blancos=result.votos_blancos;
+                    this.for_votos_blancos_procentaje=result.for_votos_blancos_procentaje;
+                    this.votos_nulo=result.votos_nulo;
+                    this.for_votos_nulos_procentaje=result.for_votos_nulos_procentaje;
+                }
+            } catch (error) {
+                return error;
+            }
         }
     },
     beforeDestroy() {

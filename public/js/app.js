@@ -6331,6 +6331,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     rutaReporte: {
       type: String,
       "default": ''
+    },
+    reporteEnVivoTotales: {
+      type: String,
+      "default": ''
+    },
+    reporteEnVivoTotalesVotos: {
+      type: String,
+      "default": ''
     }
   },
   data: function data() {
@@ -6400,7 +6408,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       currentTime: new Date(),
       currentDate: new Date(),
-      electoralesHbailes: 25287954
+      total_votantes: null,
+      votos_emitidos: null,
+      for_votos_emitidos_procentaje: null,
+      votos_valitos: null,
+      for_votos_validos_procentaje: null,
+      votos_blancos: null,
+      for_votos_blancos_procentaje: null,
+      votos_nulo: null,
+      for_votos_nulos_procentaje: null
     };
   },
   computed: {
@@ -6446,6 +6462,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.updateTime();
     this.interval = setInterval(this.updateTime, 1000);
     this.currentDate = new Date();
+    this.votosEmitidosValidosBlancoNulo();
   },
   methods: {
     updateTime: function updateTime() {
@@ -6465,11 +6482,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               };
               _context.prev = 1;
               _context.next = 4;
-              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].addNewInfo(_this2.rutaReporte, obj);
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll(_this2.reporteEnVivoTotalesVotos);
             case 4:
               result = _context.sent;
-              console.log(result.result[0]);
-              seriesData = result.result[0].map(function (item) {
+              seriesData = result.map(function (item) {
                 return {
                   name: item.nombre,
                   y: parseInt(item.suma),
@@ -6480,17 +6496,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               });
               _this2.chartOptions.series[0].data = seriesData;
               highcharts__WEBPACK_IMPORTED_MODULE_1___default().chart(_this2.$refs.chart, _this2.chartOptions);
-              _context.next = 14;
+              _context.next = 13;
               break;
-            case 11:
-              _context.prev = 11;
+            case 10:
+              _context.prev = 10;
               _context.t0 = _context["catch"](1);
               return _context.abrupt("return", _context.t0);
-            case 14:
+            case 13:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[1, 11]]);
+        }, _callee, null, [[1, 10]]);
       }))();
     },
     formatNumber: function formatNumber(value) {
@@ -6503,6 +6519,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         });
       }
       return formattedNumber;
+    },
+    votosEmitidosValidosBlancoNulo: function votosEmitidosValidosBlancoNulo() {
+      var _this3 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var result;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.prev = 0;
+              _context2.next = 3;
+              return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getAll(_this3.reporteEnVivoTotales);
+            case 3:
+              result = _context2.sent;
+              if (result.status) {
+                _this3.total_votantes = result.total_votantes;
+                _this3.votos_emitidos = result.votos_emitidos;
+                _this3.for_votos_emitidos_procentaje = result.for_votos_emitidos_procentaje;
+                _this3.votos_valitos = result.votos_valitos;
+                _this3.for_votos_validos_procentaje = result.for_votos_validos_procentaje;
+                _this3.votos_blancos = result.votos_blancos;
+                _this3.for_votos_blancos_procentaje = result.for_votos_blancos_procentaje;
+                _this3.votos_nulo = result.votos_nulo;
+                _this3.for_votos_nulos_procentaje = result.for_votos_nulos_procentaje;
+              }
+              _context2.next = 10;
+              break;
+            case 7:
+              _context2.prev = 7;
+              _context2.t0 = _context2["catch"](0);
+              return _context2.abrupt("return", _context2.t0);
+            case 10:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2, null, [[0, 7]]);
+      }))();
     }
   },
   beforeDestroy: function beforeDestroy() {
@@ -62032,15 +62084,65 @@ var render = function () {
           _c("div", { staticClass: "targeta" }, [
             _c("span", [_vm._v("Padrón Electoral")]),
             _vm._v(" "),
-            _c("span", [
-              _vm._v(_vm._s(_vm.formatNumber(_vm.electoralesHbailes))),
-            ]),
+            _c("span", [_vm._v(_vm._s(_vm.formatNumber(_vm.total_votantes)))]),
           ]),
           _vm._v(" "),
           _vm._m(0),
         ]),
         _vm._v(" "),
-        _vm._m(1),
+        _c("div", { staticClass: "col-md-4" }, [
+          _c("div", { staticClass: "targeta" }, [
+            _c("span", [_vm._v("Votos Emitidos")]),
+            _vm._v(" "),
+            _c("span", [
+              _vm._v(
+                _vm._s(_vm.votos_emitidos) +
+                  "    " +
+                  _vm._s(_vm.for_votos_emitidos_procentaje) +
+                  "%"
+              ),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "targeta" }, [
+            _c("span", [_vm._v("Validos")]),
+            _vm._v(" "),
+            _c("span", [
+              _vm._v(
+                _vm._s(_vm.votos_valitos) +
+                  "    " +
+                  _vm._s(_vm.for_votos_validos_procentaje) +
+                  "%"
+              ),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "targeta" }, [
+            _c("span", [_vm._v("Blancos")]),
+            _vm._v(" "),
+            _c("span", [
+              _vm._v(
+                _vm._s(_vm.votos_blancos) +
+                  "    " +
+                  _vm._s(_vm.for_votos_blancos_procentaje) +
+                  "%"
+              ),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "targeta" }, [
+            _c("span", [_vm._v("Nulos")]),
+            _vm._v(" "),
+            _c("span", [
+              _vm._v(
+                _vm._s(_vm.votos_nulo) +
+                  "    " +
+                  _vm._s(_vm.for_votos_nulos_procentaje) +
+                  "%"
+              ),
+            ]),
+          ]),
+        ]),
       ]),
     ]),
     _vm._v(" "),
@@ -62066,36 +62168,6 @@ var staticRenderFns = [
       _c("span", [_vm._v("Electorales en Mesas Escrutadas")]),
       _vm._v(" "),
       _c("span", [_vm._v("81,421")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c("div", { staticClass: "targeta" }, [
-        _c("span", [_vm._v("Votos Emitidos")]),
-        _vm._v(" "),
-        _c("span", [_vm._v("3.004.08    100.00%")]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "targeta" }, [
-        _c("span", [_vm._v("Validos")]),
-        _vm._v(" "),
-        _c("span", [_vm._v("59,006    96.59%")]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "targeta" }, [
-        _c("span", [_vm._v("Blancos")]),
-        _vm._v(" "),
-        _c("span", [_vm._v("894    1.46%")]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "targeta" }, [
-        _c("span", [_vm._v("Nulos")]),
-        _vm._v(" "),
-        _c("span", [_vm._v("1.187    1.94%")]),
-      ]),
     ])
   },
 ]

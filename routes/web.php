@@ -43,6 +43,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/distribucion-votos', 'reporteDistribucionVotos');
             Route::post('/total-votos', 'reporteTotalVotos');
             Route::get('/reporte-en-vivo', 'reporteVivo')->name('reporte_vivo');
+            Route::get('/reporte-en-vivo-totales', 'votosEmitidosValidosBlancoNulo')->name('reporte.en.vivo.totales');
+            Route::get('/reporte-en-vivo-totales-votos', 'reportePartidoPolTotalVivo')->name('reporte.en.vivo.totales-votos');
         });
     });
 
