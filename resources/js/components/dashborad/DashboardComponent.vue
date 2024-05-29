@@ -270,7 +270,7 @@ export default {
                 xAxis: {
                     type: 'category'
                 },
-                yAxis: {
+                yAxis: {    
 
                     title: {
                         text: 'Total porcentaje'

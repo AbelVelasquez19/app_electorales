@@ -41,7 +41,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/polito-voto-total', 'reportePartidoPolTotal')->name('polito.voto.total');
             Route::post('/estado-acta', 'reporteEstadoActa');
             Route::post('/distribucion-votos', 'reporteDistribucionVotos');
-            Route::post('/total-votos', 'reporteTotalVotos');
+            Route::get('/total-votos', 'reporteTotalVotos');
             Route::get('/reporte-en-vivo', 'reporteVivo')->name('reporte_vivo');
             Route::get('/reporte-en-vivo-totales', 'votosEmitidosValidosBlancoNulo')->name('reporte.en.vivo.totales');
             Route::get('/reporte-en-vivo-totales-votos', 'reportePartidoPolTotalVivo')->name('reporte.en.vivo.totales-votos');
