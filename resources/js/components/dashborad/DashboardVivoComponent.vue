@@ -198,12 +198,14 @@ export default {
     },
     mounted() {
         this.reportePartidoPolTotal();
-        window.Echo.channel('reporte-columna')
-            .listen('ReporteStatusChangedEvent', (e) => {
+        window.Echo.channel('acta-cierre')
+            .listen('.App\\Events\\CierraActaEvento', (e) => {
                 console.log("OMG realtieme");
                 console.log(e);
                 console.log('new-balance', e);
+                console.log('ABELIÑO YA SALIOOOOOOOOOOOOOOOO', e);
 
+                this.reportePartidoPolTotal();
                 const seriesData = e.data.map(item => ({
                     name: item.nombre,
                     y: parseInt(item.suma),

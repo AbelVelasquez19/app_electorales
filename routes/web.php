@@ -93,6 +93,8 @@ Route::middleware(['auth'])->group(function () {
         Route::controller(MapsController::class)->group(function () {
             Route::get('/', 'index')->name('maps');
             Route::get('/centro-votacion', 'getListCentroVotacion');
+            Route::get('/centro-votacion-panel', 'getListCentroVotacionPanel');
+
             Route::get('/nuevo-centro-votacion', 'getNewCentroVotacion');
             Route::post('/guardar', 'guardarCentroCosto')->name('guardarCentroCosto');
         });

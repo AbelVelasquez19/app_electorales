@@ -708,6 +708,7 @@ export default {
             this.reporteDistribucionVotos();
             this.reporteTotalVotos();
             this.getTotalSumaPanelHabiles();
+            this.getCentroVotacionPanel();
 
         },
 
@@ -727,6 +728,7 @@ export default {
             this.reporteDistribucionVotos();
             this.reporteTotalVotos();
             this.getTotalSumaPanelHabiles();
+            this.getCentroVotacionPanel();
         },
 
         getDistrictItems() {
@@ -736,6 +738,7 @@ export default {
             this.reporteTotalVotos();
             this.getTotalSumaPanelHabiles();
             this.getTotalSumaParticipacion();
+            this.getCentroVotacionPanel();
 
         },
         async getDistrict(province_id) {
@@ -788,6 +791,8 @@ export default {
             try {
                 const result = await Services.getAll('mapas/centro-votacion');
                 /* console.lo this.getCentroVotacion(result) */
+
+                console.log('DATA UBICACIONES', result)
                 if (result.status) {
                     // Si la solicitud fue exitosa
                     this.markers = result.data.map(item => ({
@@ -910,6 +915,33 @@ export default {
             // return 0;
         },
 
+        async getCentroVotacionPanel() {
+            try {
+
+                // let departaments_id = this.departaments_id ? null : ''
+
+                const result = await Services.getAll(`mapas/centro-votacion-panel?departaments_id=${this.departaments_id}&provinces_id=${this.provinces_id}&districts_id=${this.districts_id}`);
+                /* console.lo this.getCentroVotacion(result) */
+
+                console.log('DATA UBICACIONES PANEL', result)
+                if (result.status) {
+                    // Si la solicitud fue exitosa
+                    this.markers = result.data.map(item => ({
+                        id: item.id.toString(), // Convierte el ID a string si es necesario
+                        position: { lat: parseFloat(item.latitud), lng: parseFloat(item.longitud) },
+                        tooltip: `${item.nombre} ${item.porcentaje_mesa_cerrado}%`,
+                        draggable: false,
+                        visible: true,
+                        color: item.porcentaje_mesa_cerrado == 0 ? 'red' : (item.porcentaje_mesa_cerrado >= 100 ? 'yelaow' : 'blue'), // Define el color de acuerdo a tus requerimientos
+                        title: `${item.porcentaje_mesa_cerrado}%`
+                    }));
+                } else {
+                    console.error('Error obteniendo los datos de los centros de votación:', result);
+                }
+            } catch (error) {
+                return error;
+            }
+        },
 
     }
 }
