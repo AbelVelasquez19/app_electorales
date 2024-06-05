@@ -64,22 +64,22 @@
                                     </div>
                                     <div
                                         class="col-md-3 d-flex justify-content-center align-items-center flex-column page-link">
-                                        <strong>{{ formatNumber(electoralesHbailes) }}</strong> <br>
+                                        <strong>{{ formatNumber(total_votantes) }}</strong> <br>
                                         <span>Electorales Hábiles</span>
                                     </div>
                                     <div
                                         class="col-md-2 d-flex justify-content-center align-items-center flex-column page-link">
-                                        <strong>18,856,802</strong> <br>
+                                        <strong>{{ formatNumber(participacion_ciudadana) }}</strong> <br>
                                         <span>Participación Ciudadana</span>
                                     </div>
                                     <div
                                         class="col-md-2 d-flex justify-content-center align-items-center flex-column page-link">
-                                        <strong>74,568%</strong> <br>
+                                        <strong>{{porcentaje_participacion_ciudadana}}%</strong> <br>
                                         <span>(%) Participacion Ciudadana</span>
                                     </div>
                                     <div class="col-md-2 d-flex justify-content-center align-items-center flex-column page-link"
                                         style="background: rgb(13 100 175);">
-                                        <strong>100.0000%</strong> <br>
+                                        <strong>{{actas_procesadas}}%</strong> <br>
                                         <span>Actas Procesadas</span>
                                     </div>
                                 </div>
@@ -92,6 +92,13 @@
         <div class="col-xl-4 mb-4 col-lg-4 col-12">
             <div class="card h-100">
                 <div class="card-body">
+                    <strong>Centros de Votación</strong>
+                    <label for="">Leyenda</label>
+                    <div class="col-md-12 mb-1">
+                        <span class="badge bg-danger bg-glow">0% de votos</span>
+                        <span class="badge bg-warning bg-glow">50% de votos</span>
+                        <span class="badge bg-success bg-glow">100% de votos</span>
+                    </div>
                     <div class="row gy-3">
                         <l-map :zoom.sync="zoom" :options="mapOptions" :center="center" :bounds="bounds"
                             :min-zoom="minZoom" :max-zoom="maxZoom" style="width: 100%; height: 424px">
@@ -140,17 +147,17 @@
                                 </thead>
                                 <tbody class="table-border-bottom-0">
                                     <tr v-for="(item, index) in totalVotos" :key="index">
-                                        <td><img :src="item.logo" width="30px" height="30px"></td>
+                                        <td >
+                                            <span v-if="item.logo===''"></span>
+                                            <span v-else><img :src="item.logo" width="30px" height="30px"></span>
+                                        </td>
                                         <td>{{ item.nombre }}</td>
                                         <td>{{ item.suma }}</td>
-                                        <td>12%</td>
-                                        <td>122%</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">Total votos emitidos</td>
-                                        <td>{{ totalSuma }}</td>
-                                        <td>562</td>
-                                        <td>562</td>
+                                        <td>
+                                            <span v-if="item.porcentaje_validos==='0.000'"></span>
+                                            <span v-else>{{ item.porcentaje_validos }}%</span>
+                                        </td>
+                                        <td>{{ item.porcentaje_emitidos }}%</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -503,7 +510,6 @@ export default {
             districts: {},
             districts_id: null,
             totalVotos: {},
-            electoralesHbailes: 25287954,
             center: [9.367772770859636, -82.86987304687501],
             opacity: 0.6,
             token: 'your token if using mapbox',
@@ -527,7 +533,10 @@ export default {
                 { lat: 9.367772770859636, lng: -82.86987304687501 },
                 { lat: 8.026594842489562, lng: -78.0413818359375 }
             ),
-
+            total_votantes: null,
+            participacion_ciudadana: null,
+            porcentaje_participacion_ciudadana: null,
+            actas_procesadas: null,
         }
 
     },
@@ -541,6 +550,7 @@ export default {
         this.reporteEstadoActas();
         this.reporteDistribucionVotos();
         this.reporteTotalVotos();
+        this.getReporteGeneral();
     },
     computed: {
         totalSuma: function () {
@@ -562,7 +572,6 @@ export default {
             }
             try {
                 const result = await Services.addNewInfo('dashboard/polito-voto-total', obj);
-                console.log(result.result[0])
                 const seriesData = result.result[0].map(item => ({
                     name: item.nombre,
                     y: parseInt(item.suma),
@@ -584,7 +593,6 @@ export default {
             }
             try {
                 const result = await Services.addNewInfo('dashboard/estado-acta', obj);
-                console.log(result)
                 const seriesData = result.result[0].map(item => ({
                     name: item.nombre,
                     y: parseInt(item.total),
@@ -656,6 +664,7 @@ export default {
             this.reporteEstadoActas();
             this.reporteDistribucionVotos();
             this.reporteTotalVotos();
+            this.getCentroVotacion();
         },
 
         async getProvinces(departaments_id) {
@@ -673,6 +682,7 @@ export default {
             this.reporteEstadoActas();
             this.reporteDistribucionVotos();
             this.reporteTotalVotos();
+            this.getCentroVotacion();
         },
 
         getDistrictItems() {
@@ -680,6 +690,7 @@ export default {
             this.reporteEstadoActas();
             this.reporteDistribucionVotos();
             this.reporteTotalVotos();
+            this.getCentroVotacion();
         },
         async getDistrict(province_id) {
             try {
@@ -728,12 +739,15 @@ export default {
         },
 
         async getCentroVotacion() {
+            let obj = {
+                departaments_id: this.departaments_id,
+                provinces_id: this.provinces_id,
+                districts_id: this.districts_id,
+            }
             try {
-                const result = await Services.getAll('mapas/centro-votacion');
-                /* console.lo this.getCentroVotacion(result) */
-                if (result.status) {
-                    // Si la solicitud fue exitosa
-                    this.markers = result.data.map(item => ({
+                const result = await Services.addNewInfo('mapas/centro-votacion-filtro',obj);
+                if (result.result[0].status) {
+                    this.markers = result.result[0].data.map(item => ({
                         id: item.id.toString(), // Convierte el ID a string si es necesario
                         position: { lat: parseFloat(item.latitud), lng: parseFloat(item.longitud) },
                         tooltip: `${item.nombre} ${item.porcentaje_mesa_cerrado}%`,
@@ -757,6 +771,20 @@ export default {
                 formattedNumber = number.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
             }
             return formattedNumber;
+        },
+
+        async getReporteGeneral(){
+            try {
+                const result = await Services.getAll('dashboard/reporte-general');
+                if(result.status){
+                    this.total_votantes=result.total_votantes;
+                    this.participacion_ciudadana=result.participacion_ciudadana;
+                    this.porcentaje_participacion_ciudadana=result.porcentaje_participacion_ciudadana;
+                    this.actas_procesadas=result.actas_procesadas;
+                }
+            } catch (error) {
+                return error;
+            }
         }
 
     }

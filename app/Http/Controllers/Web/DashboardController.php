@@ -143,29 +143,6 @@ class DashboardController extends Controller
     }
 
     public function reporteTotalVotos(Request $request){
-       /*  $result = PartidoPolitico::select(
-            'partido_politico.nombre',
-            'partido_politico.partido_politico',
-            'partido_politico.logo',
-            'partido_politico.orden',
-            'partido_politico.color',
-            DB::raw('sum(acta.total_acta) as suma')
-        )
-        ->join('acta', 'partido_politico.id', '=', 'acta.partida_politica_id')
-        ->orderBy('partido_politico.orden', 'asc')
-        ->groupBy('partido_politico.nombre', 'partido_politico.partido_politico', 'partido_politico.logo', 'partido_politico.orden', 'acta.partida_politica_id', 'partido_politico.color')
-        ->where('partido_politico.estado', 1)
-        ->get();
-
-        $modifiedResults = $result->map(function ($item) {
-            if (isset($item->logo)) {
-                $item->logo = Storage::url($item->logo);
-            }
-            return $item;
-        });
-
-        return response()->json($modifiedResults); */
-
         $departamento_id = empty($request->departaments_id) ? null : $request->departaments_id;
         $provincia_id = empty($request->provinces_id) ? null : $request->provinces_id;
         $distrito_id = empty($request->districts_id) ? null : $request->districts_id;
@@ -205,10 +182,135 @@ class DashboardController extends Controller
             }
             return $item;
         });
-        
+
+        $filteredResults = $modifiedResults->filter(function ($item) {
+            return $item->nombre !== 'Voto en Nulo' && $item->nombre !== 'Voto en Blanco';
+        });
+
+        $filteredResultsBlnco = $modifiedResults->filter(function ($item) {
+            return $item->nombre === 'Voto en Blanco';
+        });
+
+        $filteredResultsNulos = $modifiedResults->filter(function ($item) {
+            return $item->nombre === 'Voto en Nulo';
+        });
+
+        $totalSum = $filteredResults->sum('suma');
+        $totalSumBlanco = $filteredResultsBlnco->sum('suma');
+        $totalSumNulo = $filteredResultsNulos->sum('suma');
+        $total_votos_emitidos = ($totalSum+$totalSumBlanco+$totalSumNulo);
+
+        $modifiedResults = $filteredResults->map(function ($item) use ($totalSum, $total_votos_emitidos) {
+            $item->porcentaje_validos = ($totalSum > 0) ? number_format(($item->suma / $totalSum) * 100,3) : 0;
+            $item->porcentaje_emitidos = ($total_votos_emitidos > 0) ? number_format(($item->suma / $total_votos_emitidos) * 100,3) : 0;
+            return $item;
+        });
+
+        // Calcular la suma de los porcentajes de votos válidos
+        $totalPorcentajeValidos = $filteredResults->sum('porcentaje_validos');
+        $totalPorcentajeEmitidos = ($total_votos_emitidos > 0) ? number_format(($totalSum / $total_votos_emitidos) * 100, 3) : 0;
+
+        // Agregar el item adicional
+        $totalVotosValidos = [
+            'nombre' => 'Total votos válidos',
+            'partido_politico' => 'Total votos válidos',
+            'logo' => '',
+            'orden' => 998,
+            'color' => '',
+            'suma' => $totalSum,
+            'porcentaje_validos' => number_format($totalPorcentajeValidos,3),
+            'porcentaje_emitidos' => number_format($totalPorcentajeEmitidos,3)
+        ];
+
+        $modifiedResults->push((object)$totalVotosValidos);
+
+         // Calcular la suma de los porcentajes de votos blanco
+         $totalPorcentajeblanco = ($total_votos_emitidos > 0) ? number_format(($totalSumBlanco / $total_votos_emitidos) * 100, 3) : 0;
+ 
+        $totalVotosBlanco = [
+            'nombre' => 'total votos blanco',
+            'partido_politico' => 'total votos blanco',
+            'logo' => '',
+            'orden' => 999,
+            'color' => '',
+            'suma' => $totalSumBlanco,
+            'porcentaje_validos' => number_format(0,3),
+            'porcentaje_emitidos' => number_format($totalPorcentajeblanco,3)
+        ];
+
+        $modifiedResults->push((object)$totalVotosBlanco);
+
+         // Calcular la suma de los porcentajes de votos nulo
+         $totalPorcentajeNulo = ($total_votos_emitidos > 0) ? number_format(($totalSumNulo / $total_votos_emitidos) * 100, 3) : 0;
+ 
+        $totalVotosNulo = [
+            'nombre' => 'total votos nulo',
+            'partido_politico' => 'total votos nulo',
+            'logo' => '',
+            'orden' => 1000,
+            'color' => '',
+            'suma' => $totalSumNulo,
+            'porcentaje_validos' => number_format(0,3),
+            'porcentaje_emitidos' => number_format($totalPorcentajeNulo,3)
+        ];
+
+        $modifiedResults->push((object)$totalVotosNulo);
+
+        $totalPorcentajeEmitidos = 0;
+        foreach ($modifiedResults as  $resultado) {
+            if($resultado->nombre!=='Total votos válidos'){
+                $totalPorcentajeEmitidos += $resultado->porcentaje_emitidos;
+            }
+        }
+
+        $totalVotosEmitidos = [
+            'nombre' => 'total votos emitidos',
+            'partido_politico' => 'total votos emitidos',
+            'logo' => '',
+            'orden' => 10001,
+            'color' => '',
+            'suma' => $total_votos_emitidos,
+            'porcentaje_validos' => number_format(0,3),
+            'porcentaje_emitidos' => number_format($totalPorcentajeEmitidos,3)
+        ];
+
+        $modifiedResults->push((object)$totalVotosEmitidos);
+
         return response()->json($modifiedResults);
     }
 
+    public function reporteGeneral(){
+        try {
+            $total_votantes = Mesa::sum('total_votantes');
+            $participacion_ciudadana = Mesa::sum('cantidad_votantes');
+            $porcentaje_participacion_ciudadana = number_format($participacion_ciudadana/$total_votantes*100,3);
+            $query = Mesa::select('id','estado')->get();
+            $res = $query->map(function($item){
+                return [
+                    'nombre' => $item->id,
+                    'estado' => $item->estado,
+                ];
+            });
+            $groupBy =  $res->groupBy('estado')->map(function($group){
+                return [
+                    'total'=>$group->count()
+                ];
+            });
+            $total =  (isset($groupBy[0]['total']) ? (int)$groupBy[0]['total'] : 0) + (isset($groupBy[1]['total']) ? (int)$groupBy[1]['total']: 0);
+            $actas_procesadas = number_format((isset($groupBy[0]['total']) ? $groupBy[0]['total']:0) /  $total * 100,3);
+            return response()->json([
+                'status'=>true,
+                'total_votantes'=>$total_votantes,
+                'participacion_ciudadana'=>$participacion_ciudadana,
+                'porcentaje_participacion_ciudadana'=>$porcentaje_participacion_ciudadana,
+                'actas_procesadas'=>$actas_procesadas,
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    //funciones para reporte 2
     public function reporteVivo(){
         //[)G=T3,nm6M*
         $menusPrin = $this->getMenus();
@@ -261,9 +363,7 @@ class DashboardController extends Controller
         }
     }
 
-
-    public function reportePartidoPolTotalVivo()
-    {
+    public function reportePartidoPolTotalVivo() {
         $query = PartidoPolitico::select(
             'partido_politico.nombre',
             'partido_politico.partido_politico',

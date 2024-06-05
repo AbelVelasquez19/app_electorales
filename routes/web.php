@@ -41,10 +41,11 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/polito-voto-total', 'reportePartidoPolTotal')->name('polito.voto.total');
             Route::post('/estado-acta', 'reporteEstadoActa');
             Route::post('/distribucion-votos', 'reporteDistribucionVotos');
-            Route::get('/total-votos', 'reporteTotalVotos');
+            Route::post('/total-votos', 'reporteTotalVotos');
             Route::get('/reporte-en-vivo', 'reporteVivo')->name('reporte_vivo');
             Route::get('/reporte-en-vivo-totales', 'votosEmitidosValidosBlancoNulo')->name('reporte.en.vivo.totales');
             Route::get('/reporte-en-vivo-totales-votos', 'reportePartidoPolTotalVivo')->name('reporte.en.vivo.totales-votos');
+            Route::get('/reporte-general', 'reporteGeneral')->name('reporte.general');
         });
     });
 
@@ -89,6 +90,7 @@ Route::middleware(['auth'])->group(function () {
         Route::controller(MapsController::class)->group(function () {
             Route::get('/', 'index')->name('maps');
             Route::get('/centro-votacion', 'getListCentroVotacion');
+            Route::post('/centro-votacion-filtro', 'getListCentroVotacionFiltro');
             Route::get('/nuevo-centro-votacion', 'getNewCentroVotacion');
             Route::post('/guardar', 'guardarCentroCosto')->name('guardarCentroCosto');
         });
