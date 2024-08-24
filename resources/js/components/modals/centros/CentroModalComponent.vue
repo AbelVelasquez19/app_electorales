@@ -5,8 +5,8 @@
             <div class="modal-content p-3">
                 <div class="modal-header">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <h5 class="modal-title" v-if="option">Agregar CENTRO DE VOTACIÓN</h5>
-                    <h5 class="modal-title" v-else>Actualizar CENTRO DE VOTACIÓN</h5>
+                    <h5 class="modal-title" v-if="option">Agregar Centro de votación</h5>
+                    <h5 class="modal-title" v-else>Actualizar Centro de votación</h5>
                 </div>
                 <div class="modal-body">
                     <fieldset>

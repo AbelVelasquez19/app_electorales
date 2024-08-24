@@ -218,7 +218,7 @@ export default {
             districts:{},
 
             //mapa
-            center: [0.39550467153201946, -71.10351562500001],
+            center: [9.367772770859636, -82.86987304687501],
             opacity: 0.6,
             token: 'your token if using mapbox',
             mapOptions: {
@@ -239,7 +239,7 @@ export default {
             markers: [
                 {
                     id: 'm1',
-                    position: { lat: -11.824341483849048, lng: -76.77246093750001 },
+                    position: { lat: 9.367772770859636, lng: -82.86987304687501 },
                     tooltip: 'Seleccionar cordinadas',
                     draggable: true,
                     visible: true,
@@ -247,8 +247,8 @@ export default {
                 },
             ],
             bounds: latLngBounds(
-                { lat: 0.39550467153201946, lng: -71.10351562500001 },
-                { lat: -16.04581345375217, lng: -64.90722656250001 }
+                { lat: 9.367772770859636, lng: -82.86987304687501 },
+                { lat: 8.026594842489562, lng: -78.0413818359375 }
             ),
         }
     },

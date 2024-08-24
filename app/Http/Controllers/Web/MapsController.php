@@ -22,9 +22,9 @@ class MapsController extends Controller
         $result->map(function ($centro) {
             $total_mesa_habilitado = DB::select("SELECT COUNT(id) AS total_mesa_habilitado FROM mesa WHERE centro_votacion_id = ? AND estado = 1", [$centro->id])[0]->total_mesa_habilitado;
             $total_mesa_cerrado = DB::select("SELECT COUNT(id) AS total_mesa_cerrado FROM mesa WHERE centro_votacion_id = ? AND estado = 0", [$centro->id])[0]->total_mesa_cerrado;
-        
+
             $total_mesa = $total_mesa_habilitado + $total_mesa_cerrado;
-        
+
             if ($total_mesa > 0) {
                 $centro->total_mesa_habilitado = $total_mesa_habilitado;
                 $centro->total_mesa_cerrado = $total_mesa_cerrado;
@@ -36,10 +36,48 @@ class MapsController extends Controller
                 $centro->porcentaje_mesa_habilitado = 0;
                 $centro->porcentaje_mesa_cerrado = 0;
             }
-        
+
             return $centro;
         });
         return response()->json(['status'=>true, 'data'=>$result]);
+    }
+
+    public function getListCentroVotacionFiltro(Request $request){
+        $departamento_id = empty($request->departaments_id) ? null : $request->departaments_id;
+        $provincia_id = empty($request->provinces_id) ? null : $request->provinces_id;
+        $distrito_id = empty($request->districts_id) ? null : $request->districts_id;
+
+        $result = CentroVotacion::where('estado',1);
+            if (!is_null($departamento_id)) {
+                $result->where('centro_votacion.departamento_id', $departamento_id);
+            }
+            if (!is_null($provincia_id)) {
+                $result->where('centro_votacion.provincia_id', $provincia_id);
+            }
+            if (!is_null($distrito_id)) {
+                    $result->where('centro_votacion.distrito', $distrito_id);
+            }
+        $resultAll = $result->get();
+        $resultAll->map(function ($centro) {
+            $total_mesa_habilitado = DB::select("SELECT COUNT(id) AS total_mesa_habilitado FROM mesa WHERE centro_votacion_id = ? AND estado = 1", [$centro->id])[0]->total_mesa_habilitado;
+            $total_mesa_cerrado = DB::select("SELECT COUNT(id) AS total_mesa_cerrado FROM mesa WHERE centro_votacion_id = ? AND estado = 0", [$centro->id])[0]->total_mesa_cerrado;
+
+            $total_mesa = $total_mesa_habilitado + $total_mesa_cerrado;
+
+            if ($total_mesa > 0) {
+                $centro->total_mesa_habilitado = $total_mesa_habilitado;
+                $centro->total_mesa_cerrado = $total_mesa_cerrado;
+                $centro->porcentaje_mesa_habilitado = round(($total_mesa_habilitado / $total_mesa) * 100);
+                $centro->porcentaje_mesa_cerrado = round(($total_mesa_cerrado / $total_mesa) * 100, 2);
+            } else {
+                $centro->total_mesa_habilitado = 0;
+                $centro->total_mesa_cerrado = 0;
+                $centro->porcentaje_mesa_habilitado = 0;
+                $centro->porcentaje_mesa_cerrado = 0;
+            }
+            return $centro;
+        });
+        return response()->json(['status'=>true, 'data'=>$resultAll]);
     }
 
     public function getNewCentroVotacion(){
