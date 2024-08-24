@@ -29,7 +29,7 @@ class MesaController extends Controller
             'mesa.nombre',
             'mesa.numero',
             'mesa.centro_votacion_id',
-            'mesa.cantidad_votantes',
+            'mesa.total_votantes',
             'mesa.estado',
             'centro_votacion.nombre as centro_votacion_nombre',
             'centro_votacion.direccion as centro_votacion_direccion'
@@ -53,7 +53,7 @@ class MesaController extends Controller
             'mesa.nombre',
             'mesa.numero',
             'mesa.centro_votacion_id',
-            'mesa.cantidad_votantes',
+            'mesa.total_votantes',
             'mesa.estado',
             'centro_votacion.nombre as centro_votacion_nombre',
             'centro_votacion.direccion as centro_votacion_direccion'
@@ -72,10 +72,10 @@ class MesaController extends Controller
             $centro_votacion_id_input = $request->input('centro_votacion_id');
             $cantidad_votantes_input = $request->input('cantidad_votantes');
             $mesa = new Mesa();
-            $mesa->nombre = $nombre_input;
+            $mesa->nombre = strtoupper($nombre_input);
             $mesa->numero = $numero_input;
             $mesa->centro_votacion_id = $centro_votacion_id_input;
-            $mesa->cantidad_votantes = $cantidad_votantes_input;
+            $mesa->total_votantes = $cantidad_votantes_input;
             if ($mesa->save()) {
                 $mesa_id = $mesa->id;
                 DB::commit();
@@ -104,10 +104,10 @@ class MesaController extends Controller
             $cantidad_votantes_input = $request->input('cantidad_votantes');
 
             $mesa = Mesa::where('id', '=', $request->id)->first();
-            $mesa->nombre = $nombre_input;
+            $mesa->nombre = strtoupper($nombre_input);
             $mesa->numero = $numero_input;
             $mesa->centro_votacion_id = $centro_votacion_id_input;
-            $mesa->cantidad_votantes = $cantidad_votantes_input;
+            $mesa->total_votantes = $cantidad_votantes_input;
             if ($mesa->save()) {
                 $mesa_id = $mesa->id;
                 DB::commit();

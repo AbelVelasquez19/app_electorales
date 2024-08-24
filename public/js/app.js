@@ -3425,9 +3425,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 
 
 
@@ -5492,6 +5489,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -6758,7 +6779,7 @@ var tileProviders = [{
   data: function data() {
     /* center: latLng(9.07284,  -79.44805), , -79.8463*/
     return {
-      center: [0.39550467153201946, -71.10351562500001],
+      center: [9.367772770859636, -82.86987304687501],
       opacity: 0.6,
       token: 'your token if using mapbox',
       mapOptions: {
@@ -6819,11 +6840,11 @@ var tileProviders = [{
          }, */
       ],
       bounds: (0,leaflet__WEBPACK_IMPORTED_MODULE_1__.latLngBounds)({
-        lat: 0.39550467153201946,
-        lng: -71.10351562500001
+        lat: 9.367772770859636,
+        lng: -82.86987304687501
       }, {
-        lat: -16.04581345375217,
-        lng: -64.90722656250001
+        lat: 8.026594842489562,
+        lng: -78.0413818359375
       })
     };
   },
@@ -7167,7 +7188,7 @@ var tileProviders = [{
       provinces: {},
       districts: {},
       //mapa
-      center: [0.39550467153201946, -71.10351562500001],
+      center: [9.367772770859636, -82.86987304687501],
       opacity: 0.6,
       token: 'your token if using mapbox',
       mapOptions: {
@@ -7188,8 +7209,8 @@ var tileProviders = [{
       markers: [{
         id: 'm1',
         position: {
-          lat: -11.824341483849048,
-          lng: -76.77246093750001
+          lat: 9.367772770859636,
+          lng: -82.86987304687501
         },
         tooltip: 'Seleccionar cordinadas',
         draggable: true,
@@ -7197,11 +7218,11 @@ var tileProviders = [{
         color: 'red'
       }],
       bounds: (0,leaflet__WEBPACK_IMPORTED_MODULE_1__.latLngBounds)({
-        lat: 0.39550467153201946,
-        lng: -71.10351562500001
+        lat: 9.367772770859636,
+        lng: -82.86987304687501
       }, {
-        lat: -16.04581345375217,
-        lng: -64.90722656250001
+        lat: 8.026594842489562,
+        lng: -78.0413818359375
       })
     };
   },
@@ -9437,7 +9458,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 nombre: result.nombre,
                 numero: result.numero,
                 centro_votacion_id: result.centro_votacion_id,
-                cantidad_votantes: result.cantidad_votantes
+                cantidad_votantes: result.total_votantes
               };
               _context.next = 15;
               break;
@@ -9489,7 +9510,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2, null, [[0, 7]]);
       }))();
     },
-    addNewUser: function addNewUser() {
+    addNewMesa: function addNewMesa() {
       var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var result;
@@ -9734,95 +9755,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -9886,11 +9818,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mounted: function mounted() {
     this.debouncedSearch = (0,lodash__WEBPACK_IMPORTED_MODULE_1__.debounce)(this.fetchUserList, 500);
     this.fetchUserList();
-
-    // $('#personero_id').select2();
-    // $('#personero_id').on('select2:select', () => {
-    //         this.mesa.personero_id = $('#personero_id').val();
-    //     });
   },
   methods: {
     openMesaPersoneroModal: function openMesaPersoneroModal(id) {
@@ -9900,47 +9827,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              console.log(id);
               $("#mesaPersoneroModal").modal("show");
               _this.getProvinces();
               _this.getListCodigoPais();
               _this.getTipoDocumentos();
               _this.getPersoneros(id);
               if (!(id != 0)) {
-                _context.next = 22;
+                _context.next = 20;
                 break;
               }
               _this.option = false;
-              _context.prev = 8;
-              _context.next = 11;
+              _context.prev = 7;
+              _context.next = 10;
               return _services_services__WEBPACK_IMPORTED_MODULE_0__["default"].getShowInfo('mesa/show', id);
-            case 11:
+            case 10:
               result = _context.sent;
-              console.log(result);
               _this.mesa = {
                 id: result.mesa_id,
                 nombre: result.nombre,
                 numero: result.numero,
                 centro_votacion_id: result.centro_votacion_id,
-                cantidad_votantes: result.cantidad_votantes
+                cantidad_votantes: result.total_votantes
               };
               _this.fetchUserList();
-              _context.next = 20;
+              _context.next = 18;
               break;
-            case 17:
-              _context.prev = 17;
-              _context.t0 = _context["catch"](8);
+            case 15:
+              _context.prev = 15;
+              _context.t0 = _context["catch"](7);
               return _context.abrupt("return", _context.t0);
-            case 20:
-              _context.next = 23;
+            case 18:
+              _context.next = 21;
               break;
-            case 22:
+            case 20:
               _this.option = true;
-            case 23:
+            case 21:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[8, 17]]);
+        }, _callee, null, [[7, 15]]);
       }))();
     },
     closepersonaModal: function closepersonaModal() {
@@ -10152,10 +10077,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               result = _context9.sent;
               if (result.status) {
                 if (result.result[0].status) {
-                  // this.clearInput();
-                  // $("#mesaPersoneroModal").modal("hide");
                   _this9.$toast.success(result.result[0].message);
-                  // this.$emit('data-add');
                   _this9.getPersoneros();
                   _this9.fetchUserList();
                 } else {
@@ -58177,7 +58099,7 @@ var render = function () {
                         _c(
                           "td",
                           { staticClass: "text-center font-monospace" },
-                          [_vm._v(_vm._s(item.cantidad_votantes))]
+                          [_vm._v(_vm._s(item.total_votantes))]
                         ),
                         _vm._v(" "),
                         _c(
@@ -61426,258 +61348,293 @@ var render = function () {
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col-md-8" }, [
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-12 mb-3" }, [
-          _c("div", { staticClass: "card h-100" }, [
-            _c("div", { staticClass: "card-body" }, [
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("label", [_vm._v("Pais")]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.pais_id,
-                          expression: "pais_id",
-                        },
-                      ],
-                      staticClass: "form-select",
-                      attrs: { disabled: "" },
-                      on: {
-                        change: [
-                          function ($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function (o) {
-                                return o.selected
-                              })
-                              .map(function (o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.pais_id = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          },
-                          _vm.getPaisItem,
-                        ],
-                      },
-                    },
-                    [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("--seleccionar--"),
+        _c(
+          "div",
+          {
+            staticClass: "col-md-12 mb-3",
+            staticStyle: { background: "rgb(13, 100, 175)" },
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "card h-100",
+                staticStyle: { background: "rgb(13, 100, 175)" },
+              },
+              [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-3" }, [
+                      _c("label", { staticClass: "text-white" }, [
+                        _vm._v("Pais"),
                       ]),
                       _vm._v(" "),
-                      _vm._l(_vm.pais, function (item) {
-                        return _c(
-                          "option",
-                          { key: item.id, domProps: { value: item.id } },
-                          [
-                            _vm._v(
-                              _vm._s(item.nombre) +
-                                "\n                                    "
-                            ),
-                          ]
-                        )
-                      }),
-                    ],
-                    2
-                  ),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("label", [_vm._v("Provincia")]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.departaments_id,
-                          expression: "departaments_id",
-                        },
-                      ],
-                      staticClass: "form-select",
-                      on: {
-                        change: [
-                          function ($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function (o) {
-                                return o.selected
-                              })
-                              .map(function (o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.departaments_id = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          },
-                          _vm.getDepartamentItem,
-                        ],
-                      },
-                    },
-                    [
                       _c(
-                        "option",
+                        "select",
                         {
-                          attrs: { value: "null", disabled: "", selected: "" },
-                        },
-                        [_vm._v("--seleccionar--")]
-                      ),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "0" } }, [_vm._v("Todo")]),
-                      _vm._v(" "),
-                      _vm._l(_vm.departaments, function (item) {
-                        return _c(
-                          "option",
-                          { key: item.id, domProps: { value: item.id } },
-                          [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(item.nombre)
-                            ),
-                          ]
-                        )
-                      }),
-                    ],
-                    2
-                  ),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("label", [_vm._v("Distrito")]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.provinces_id,
-                          expression: "provinces_id",
-                        },
-                      ],
-                      staticClass: "form-select",
-                      on: {
-                        change: [
-                          function ($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function (o) {
-                                return o.selected
-                              })
-                              .map(function (o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.provinces_id = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.pais_id,
+                              expression: "pais_id",
+                            },
+                          ],
+                          staticClass: "form-select",
+                          attrs: { disabled: "" },
+                          on: {
+                            change: [
+                              function ($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function (o) {
+                                    return o.selected
+                                  })
+                                  .map(function (o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.pais_id = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              },
+                              _vm.getPaisItem,
+                            ],
                           },
-                          _vm.getProvincesItem,
+                        },
+                        [
+                          _c("option", { attrs: { value: "" } }, [
+                            _vm._v("--seleccionar--"),
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.pais, function (item) {
+                            return _c(
+                              "option",
+                              { key: item.id, domProps: { value: item.id } },
+                              [
+                                _vm._v(
+                                  _vm._s(item.nombre) +
+                                    "\n                                    "
+                                ),
+                              ]
+                            )
+                          }),
                         ],
-                      },
-                    },
-                    [
-                      _c(
-                        "option",
-                        {
-                          attrs: { value: "null", disabled: "", selected: "" },
-                        },
-                        [_vm._v("--seleccionar--")]
+                        2
                       ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-3" }, [
+                      _c("label", { staticClass: "text-white" }, [
+                        _vm._v("Provincia"),
+                      ]),
                       _vm._v(" "),
-                      _c("option", { attrs: { value: "0" } }, [_vm._v("Todo")]),
-                      _vm._v(" "),
-                      _vm._l(_vm.provinces, function (item) {
-                        return _c(
-                          "option",
-                          { key: item.id, domProps: { value: item.id } },
-                          [
-                            _vm._v(
-                              _vm._s(item.nombre) +
-                                "\n                                    "
-                            ),
-                          ]
-                        )
-                      }),
-                    ],
-                    2
-                  ),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-3" }, [
-                  _c("label", [_vm._v("Corregimiento")]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
+                      _c(
+                        "select",
                         {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.districts_id,
-                          expression: "districts_id",
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.departaments_id,
+                              expression: "departaments_id",
+                            },
+                          ],
+                          staticClass: "form-select",
+                          on: {
+                            change: [
+                              function ($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function (o) {
+                                    return o.selected
+                                  })
+                                  .map(function (o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.departaments_id = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              },
+                              _vm.getDepartamentItem,
+                            ],
+                          },
                         },
-                      ],
-                      staticClass: "form-select",
-                      on: {
-                        change: [
-                          function ($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function (o) {
-                                return o.selected
-                              })
-                              .map(function (o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.districts_id = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          },
-                          function ($event) {
-                            return _vm.getDistrictItems()
-                          },
+                        [
+                          _c(
+                            "option",
+                            {
+                              attrs: {
+                                value: "null",
+                                disabled: "",
+                                selected: "",
+                              },
+                            },
+                            [_vm._v("--seleccionar--")]
+                          ),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "0" } }, [
+                            _vm._v("Todos"),
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.departaments, function (item) {
+                            return _c(
+                              "option",
+                              { key: item.id, domProps: { value: item.id } },
+                              [
+                                _vm._v(
+                                  "\n                                        " +
+                                    _vm._s(item.nombre)
+                                ),
+                              ]
+                            )
+                          }),
                         ],
-                      },
-                    },
-                    [
-                      _c(
-                        "option",
-                        {
-                          attrs: { value: "null", disabled: "", selected: "" },
-                        },
-                        [_vm._v("--seleccionar--")]
+                        2
                       ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-3" }, [
+                      _c("label", { staticClass: "text-white" }, [
+                        _vm._v("Distrito"),
+                      ]),
                       _vm._v(" "),
-                      _c("option", { attrs: { value: "0" } }, [_vm._v("Todo")]),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.provinces_id,
+                              expression: "provinces_id",
+                            },
+                          ],
+                          staticClass: "form-select",
+                          on: {
+                            change: [
+                              function ($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function (o) {
+                                    return o.selected
+                                  })
+                                  .map(function (o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.provinces_id = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              },
+                              _vm.getProvincesItem,
+                            ],
+                          },
+                        },
+                        [
+                          _c(
+                            "option",
+                            {
+                              attrs: {
+                                value: "null",
+                                disabled: "",
+                                selected: "",
+                              },
+                            },
+                            [_vm._v("--seleccionar--")]
+                          ),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "0" } }, [
+                            _vm._v("Todos"),
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.provinces, function (item) {
+                            return _c(
+                              "option",
+                              { key: item.id, domProps: { value: item.id } },
+                              [
+                                _vm._v(
+                                  _vm._s(item.nombre) +
+                                    "\n                                    "
+                                ),
+                              ]
+                            )
+                          }),
+                        ],
+                        2
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-3" }, [
+                      _c("label", { staticClass: "text-white" }, [
+                        _vm._v("Corregimiento"),
+                      ]),
                       _vm._v(" "),
-                      _vm._l(_vm.districts, function (item) {
-                        return _c(
-                          "option",
-                          { key: item.id, domProps: { value: item.id } },
-                          [
-                            _vm._v(
-                              _vm._s(item.nombre) +
-                                "\n                                    "
-                            ),
-                          ]
-                        )
-                      }),
-                    ],
-                    2
-                  ),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.districts_id,
+                              expression: "districts_id",
+                            },
+                          ],
+                          staticClass: "form-select",
+                          on: {
+                            change: [
+                              function ($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function (o) {
+                                    return o.selected
+                                  })
+                                  .map(function (o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.districts_id = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              },
+                              function ($event) {
+                                return _vm.getDistrictItems()
+                              },
+                            ],
+                          },
+                        },
+                        [
+                          _c(
+                            "option",
+                            {
+                              attrs: {
+                                value: "null",
+                                disabled: "",
+                                selected: "",
+                              },
+                            },
+                            [_vm._v("--seleccionar--")]
+                          ),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "0" } }, [
+                            _vm._v("Todos"),
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.districts, function (item) {
+                            return _c(
+                              "option",
+                              { key: item.id, domProps: { value: item.id } },
+                              [_vm._v(_vm._s(item.nombre))]
+                            )
+                          }),
+                        ],
+                        2
+                      ),
+                    ]),
+                  ]),
                 ]),
-              ]),
-            ]),
-          ]),
-        ]),
+              ]
+            ),
+          ]
+        ),
         _vm._v(" "),
         _c("div", { staticClass: "col-xl-12 mb-4 col-lg-12 col-12" }, [
           _c("div", { staticClass: "card h-100" }, [
@@ -61777,6 +61734,35 @@ var render = function () {
             ]),
           ]),
         ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-xl-12 mb-4 col-lg-12 col-12" }, [
+          _c(
+            "div",
+            {
+              staticClass: "d-flex justify-content-center align-items-center",
+              staticStyle: { background: "rgb(13, 100, 175)" },
+            },
+            [
+              _vm._m(1),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "box", staticStyle: { color: "#fff" } },
+                [
+                  _c("span", [
+                    _vm._v(
+                      "ACTAS PROCESADAS: " + _vm._s(_vm.actas_procesadas) + "%"
+                    ),
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", [_vm._v("ACTAS CONTABILIZADAS: 100.000 %")]),
+                  _c("br"),
+                ]
+              ),
+            ]
+          ),
+        ]),
       ]),
     ]),
     _vm._v(" "),
@@ -61787,7 +61773,7 @@ var render = function () {
           _vm._v(" "),
           _c("label", { attrs: { for: "" } }, [_vm._v("Leyenda")]),
           _vm._v(" "),
-          _vm._m(1),
+          _vm._m(2),
           _vm._v(" "),
           _c(
             "div",
@@ -61796,7 +61782,7 @@ var render = function () {
               _c(
                 "l-map",
                 {
-                  staticStyle: { width: "100%", height: "424px" },
+                  staticStyle: { width: "100%", height: "510px" },
                   attrs: {
                     zoom: _vm.zoom,
                     options: _vm.mapOptions,
@@ -61906,7 +61892,7 @@ var render = function () {
               _c("h5", [_vm._v("Total de Votos")]),
               _vm._v(" "),
               _c("table", { staticClass: "table-bordered table" }, [
-                _vm._m(2),
+                _vm._m(3),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -61977,6 +61963,49 @@ var render = function () {
           ]),
         ]),
       ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row mt-3" }, [
+        _c("div", { staticClass: "col-xl-12 mb-4 col-lg-12 col-12" }, [
+          _c(
+            "div",
+            {
+              staticClass: "d-flex justify-content-center align-items-center",
+              staticStyle: { background: "rgb(13, 100, 175)" },
+            },
+            [
+              _vm._m(4),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "box", staticStyle: { color: "#fff" } },
+                [
+                  _c("span", [
+                    _vm._v(
+                      "Ciudadanos que votaron (CV):  " +
+                        _vm._s(_vm.formatNumber(_vm.participacion_ciudadana))
+                    ),
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", [
+                    _vm._v(
+                      "Electores hábiles (EH): " +
+                        _vm._s(_vm.formatNumber(_vm.total_votantes))
+                    ),
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", [
+                    _vm._v(
+                      "Estos datos corresponden a las actas contabilizadas"
+                    ),
+                  ]),
+                ]
+              ),
+            ]
+          ),
+        ]),
+      ]),
     ]),
   ])
 }
@@ -61998,6 +62027,20 @@ var staticRenderFns = [
         _c("span", [_vm._v("Fórmula Presidencial")]),
       ]
     )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box m-2" }, [
+      _c("img", {
+        staticStyle: { width: "100px", height: "100px" },
+        attrs: {
+          src: "https://resultadoshistorico.onpe.gob.pe/EI2022/assets/imagenes/anfora.svg",
+          alt: "",
+        },
+      }),
+    ])
   },
   function () {
     var _vm = this
@@ -62033,6 +62076,20 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("%Emitidos")]),
       ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box m-2" }, [
+      _c("img", {
+        staticStyle: { width: "100px", height: "100px" },
+        attrs: {
+          src: "https://resultadoshistorico.onpe.gob.pe/EI2022/assets/imagenes/info.svg",
+          alt: "",
+        },
+      }),
     ])
   },
 ]
@@ -64954,7 +65011,7 @@ var render = function () {
                       on: {
                         click: function ($event) {
                           $event.preventDefault()
-                          return _vm.addNewUser()
+                          return _vm.addNewMesa()
                         },
                       },
                     },
@@ -65132,7 +65189,7 @@ var render = function () {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                                " +
+                                    " " +
                                       _vm._s(personero.persona_nombre) +
                                       " " +
                                       _vm._s(personero.apellido_paterno) +
@@ -65167,11 +65224,7 @@ var render = function () {
                               },
                             },
                           },
-                          [
-                            _vm._v(
-                              "\n                                            Agregar Personero\n                                        "
-                            ),
-                          ]
+                          [_vm._v(" Agregar Personero ")]
                         ),
                       ]),
                     ]),
@@ -65204,7 +65257,7 @@ var render = function () {
                                 [
                                   _c("label", [
                                     _vm._v(
-                                      "\n                                                    Show\n                                                    "
+                                      "\n                                                Show\n                                                "
                                     ),
                                     _c(
                                       "select",
@@ -65278,7 +65331,7 @@ var render = function () {
                                       ]
                                     ),
                                     _vm._v(
-                                      "\n                                                    entries\n                                                "
+                                      "\n                                                entries\n                                            "
                                     ),
                                   ]),
                                 ]
@@ -65372,9 +65425,9 @@ var render = function () {
                                           { staticClass: "text-center" },
                                           [
                                             _vm._v(
-                                              "\n                                                            " +
+                                              "\n                                                        " +
                                                 _vm._s(index + 1) +
-                                                "\n                                                        "
+                                                "\n                                                    "
                                             ),
                                           ]
                                         ),
@@ -65721,7 +65774,7 @@ var render = function () {
                     },
                   },
                 },
-                [_vm._v(" Cerrar\n                    ")]
+                [_vm._v(" Cerrar ")]
               ),
             ]),
           ]),
@@ -65745,7 +65798,7 @@ var staticRenderFns = [
           },
           [
             _vm._v(
-              "Items\n                                                        "
+              "Items\n                                                    "
             ),
           ]
         ),
@@ -65756,11 +65809,7 @@ var staticRenderFns = [
             staticClass: "text-center font-monospace",
             staticStyle: { width: "8%" },
           },
-          [
-            _vm._v(
-              "\n                                                            NOMBRES y APELLIDOS"
-            ),
-          ]
+          [_vm._v(" NOMBRES y APELLIDOS")]
         ),
         _vm._v(" "),
         _c(
@@ -65769,11 +65818,7 @@ var staticRenderFns = [
             staticClass: "text-center font-monospace",
             staticStyle: { width: "10%" },
           },
-          [
-            _vm._v(
-              "\n                                                            Estado"
-            ),
-          ]
+          [_vm._v(" ESTADO")]
         ),
         _vm._v(" "),
         _c(
@@ -65782,11 +65827,7 @@ var staticRenderFns = [
             staticClass: "text-center font-monospace",
             staticStyle: { width: "6%" },
           },
-          [
-            _vm._v(
-              "\n                                                            Opciones"
-            ),
-          ]
+          [_vm._v("OPCIONES")]
         ),
       ]),
     ])

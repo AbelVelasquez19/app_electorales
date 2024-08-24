@@ -11,13 +11,9 @@
                 <div class="modal-body">
                     <fieldset>
                         <legend>Ingresar informacion del MESA - PERSONERO | {{ centro.nombre }}</legend>
-
-
-
                         <div class="row mb-1">
                             <div class="col-md-4">
                                 <div class="row">
-
                                     <div class="col-md-12">
                                         <label>PERSONEROS: </label>
                                         <select id="personero_id"
@@ -25,37 +21,18 @@
                                             v-model="mesa.personero_id"
                                             :class="errors != null && errors.personero_id ? 'is-invalid' : ''">
                                             <option value="" selected disabled>--seleccionar--</option>
-                                            <option v-for="personero in personerosList" :key="personero.id"
-                                                :value="personero.id">
-                                                {{
-                        personero.persona_nombre }} {{
-                        personero.apellido_paterno }} {{
-                        personero.apellido_materno }} </option>
+                                            <option v-for="personero in personerosList" :key="personero.id" :value="personero.id"> {{ personero.persona_nombre }} {{ personero.apellido_paterno }} {{ personero.apellido_materno }} </option>
                                         </select>
-                                        <!-- <v-select :options="personerosList" v-model="mesa.personero_id" label="persona_nombre" index="id">
-¿                                        </v-select> -->
-                                        <!-- <v-select :options="personerosList" v-model="mesa.personero_id"
-                                            label="persona_nombre" item-value="id" >
-                                        </v-select> -->
-                                        <span v-if="errors != null && errors.personero_id" class="text-danger">{{
-                        errors.personero_id[0] }}</span>
+                                        <span v-if="errors != null && errors.personero_id" class="text-danger">{{ errors.personero_id[0] }}</span>
                                     </div>
-
                                     <div class="col-md-12 mt-3">
-                                        <button type="button" class="btn btn-primary" @click.prevent="addNewUser()">
-                                            Agregar Personero
-                                        </button>
+                                        <button type="button" class="btn btn-primary" @click.prevent="addNewUser()"> Agregar Personero </button>
                                     </div>
                                 </div>
                             </div>
 
-
-
                             <div class="col-md-8">
                                 <label>LISTA DE PERSONEROS EN MESA: </label>
-
-
-
                                 <div class="card mb-1 p-3">
                                     <div class="d-flex justify-content-between align-items-center row mt-75">
                                         <div
@@ -99,14 +76,9 @@
                                                     <tr>
                                                         <th class="text-center font-monospace" style="width: 5%;">Items
                                                         </th>
-                                                        <th class="text-center font-monospace" style="width: 8%;">
-                                                            NOMBRES y APELLIDOS</th>
-
-
-                                                        <th class="text-center font-monospace" style="width: 10%;">
-                                                            Estado</th>
-                                                        <th class="text-center font-monospace" style="width: 6%;">
-                                                            Opciones</th>
+                                                        <th class="text-center font-monospace" style="width: 8%;"> NOMBRES y APELLIDOS</th>
+                                                        <th class="text-center font-monospace" style="width: 10%;"> ESTADO</th>
+                                                        <th class="text-center font-monospace" style="width: 6%;">OPCIONES</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-border-bottom-0">
@@ -114,37 +86,15 @@
                                                         <td class="text-center">
                                                             {{ index + 1 }}
                                                         </td>
-                                                        <td class="text-center font-monospace">{{ item.nombre }} {{
-                        item.apellido_paterno }} {{ item.apellido_materno }} </td>
-
-
+                                                        <td class="text-center font-monospace">{{ item.nombre }} {{ item.apellido_paterno }} {{ item.apellido_materno }} </td>
                                                         <td class="text-center font-monospace">
-                                                            <span v-if="item.estado == 1"
-                                                                class="badge bg-label-success me-1">Activo</span>
-                                                            <span v-else
-                                                                class="badge bg-label-danger me-1">Inactivo</span>
+                                                            <span v-if="item.estado == 1" class="badge bg-label-success me-1">Activo</span>
+                                                            <span v-else class="badge bg-label-danger me-1">Inactivo</span>
                                                         </td>
                                                         <td class="text-center">
-                                                            <!-- <button class="btn btn-primary btn-sm"
-                                                                @click.prevent="openModalEdit(item.id)"><i
-                                                                    class="fa-solid fa-pen-to-square"></i></button> -->
-
-
-
-
-                                                            <button v-if="item.estado == 1"
-                                                                class="btn btn-danger btn-sm"
-                                                                @click.prevent="deleteItem(item.id)"><i
-                                                                    class="fa-solid fa-trash-can"></i></button>
-                                                            <button v-if="item.estado != 1"
-                                                                class="btn btn-success btn-sm"
-                                                                @click.prevent="activeItem(item.id)"><i
-                                                                    class="fa-solid fa-circle-check"></i></button>
-
-
-
+                                                            <button v-if="item.estado == 1" class="btn btn-danger btn-sm" @click.prevent="deleteItem(item.id)"><i class="fa-solid fa-trash-can"></i></button>
+                                                            <button v-if="item.estado != 1" class="btn btn-success btn-sm" @click.prevent="activeItem(item.id)"><i class="fa-solid fa-circle-check"></i></button>
                                                         </td>
-
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -152,70 +102,31 @@
                                         <div class="col-md-12 mt-1 d-flex justify-content-end align-items-center ">
                                             <nav aria-label="Page navigation example" v-if="personeros.last_page > 1">
                                                 <ul class="pagination justify-content-center align-items-center">
-                                                    <li class="page-item"
-                                                        :class="{ 'disabled': personeros.current_page === 1 }">
-                                                        <a class="page-link" @click.prevent="fetchUserList(1)"><i
-                                                                class="fa fa-fast-backward font-medium-3"
-                                                                aria-hidden="true"></i></a>
+                                                    <li class="page-item" :class="{ 'disabled': personeros.current_page === 1 }">
+                                                        <a class="page-link" @click.prevent="fetchUserList(1)"><i class="fa fa-fast-backward font-medium-3" aria-hidden="true"></i></a>
                                                     </li>
-                                                    <li class="page-item "
-                                                        :class="{ 'disabled': personeros.current_page === 1 }">
-                                                        <a class="page-link"
-                                                            @click.prevent="fetchUserList(personeros.current_page - 1)"><i
-                                                                class="fa-solid fa-backward-step"></i></a>
+                                                    <li class="page-item " :class="{ 'disabled': personeros.current_page === 1 }">
+                                                        <a class="page-link" @click.prevent="fetchUserList(personeros.current_page - 1)"><i class="fa-solid fa-backward-step"></i></a>
                                                     </li>
-                                                    <li class="page-item" v-for="pageNumber in displayedPages"
-                                                        :key="pageNumber"
-                                                        :class="{ 'active': personeros.current_page === pageNumber }">
-                                                        <a class="page-link" @click.prevent="fetchUserList(pageNumber)"
-                                                            href="#">{{
-                        pageNumber
-                    }}</a>
+                                                    <li class="page-item" v-for="pageNumber in displayedPages" :key="pageNumber" :class="{ 'active': personeros.current_page === pageNumber }">
+                                                        <a class="page-link" @click.prevent="fetchUserList(pageNumber)" href="#">{{ pageNumber }}</a>
                                                     </li>
-                                                    <li class="page-item"
-                                                        :class="{ 'disabled': personeros.current_page === personeros.last_page }">
-                                                        <a class="page-link" href="#"
-                                                            @click.prevent="fetchUserList(personeros.current_page + 1)"><i
-                                                                class="fa fa-step-forward font-medium-3"
-                                                                aria-hidden="true"></i></a>
+                                                    <li class="page-item" :class="{ 'disabled': personeros.current_page === personeros.last_page }">
+                                                        <a class="page-link" href="#" @click.prevent="fetchUserList(personeros.current_page + 1)"><i class="fa fa-step-forward font-medium-3" aria-hidden="true"></i></a>
                                                     </li>
-                                                    <li class="page-item"
-                                                        :class="{ 'disabled': personeros.current_page === personeros.last_page }">
-                                                        <a class="page-link" href="#"
-                                                            @click.prevent="fetchUserList(personeros.last_page)"><i
-                                                                class="fa fa-fast-forward font-medium-3"
-                                                                aria-hidden="true"></i></a>
+                                                    <li class="page-item" :class="{ 'disabled': personeros.current_page === personeros.last_page }"> <a class="page-link" href="#" @click.prevent="fetchUserList(personeros.last_page)"><i class="fa fa-fast-forward font-medium-3" aria-hidden="true"></i></a>
                                                     </li>
                                                 </ul>
                                             </nav>
                                         </div>
                                     </div>
                                 </div>
-
-
-
-
-
-
                             </div>
-
-
-
-
-
-
-
                         </div>
-
                     </fieldset>
                 </div>
                 <div class="modal-footer">
-                    <!-- <button type="button" class="btn btn-primary" @click.prevent="addNewUser()"> Agregar Supervisor
-                    </button> -->
-                    <!-- <button type="button" class="btn btn-primary" @click.prevent="updateUser()" v-else> Guardar
-                    </button> -->
-                    <button type="button" class="btn btn-secondary" @click.prevent="closepersonaModal()"> Cerrar
-                    </button>
+                    <button type="button" class="btn btn-secondary" @click.prevent="closepersonaModal()"> Cerrar </button>
                 </div>
             </div>
         </div>
@@ -260,8 +171,6 @@ export default {
                 centro_votacion_id: '',
                 cantidad_votantes: '',
             },
-
-
             errors: null,
             loading: false,
             option: true,
@@ -280,47 +189,31 @@ export default {
             error: null,
             displayedPages: [],
             personerosList: []
-
         }
     },
     mounted() {
         this.debouncedSearch = debounce(this.fetchUserList, 500);
         this.fetchUserList();
-
-        // $('#personero_id').select2();
-        // $('#personero_id').on('select2:select', () => {
-        //         this.mesa.personero_id = $('#personero_id').val();
-        //     });
     },
     methods: {
         async openMesaPersoneroModal(id) {
-            console.log(id)
             $("#mesaPersoneroModal").modal("show");
             this.getProvinces();
             this.getListCodigoPais();
             this.getTipoDocumentos();
             this.getPersoneros(id);
-
-
             if (id != 0) {
                 this.option = false
                 try {
                     const result = await Services.getShowInfo('mesa/show', id);
-                    console.log(result)
-
                     this.mesa = {
                         id: result.mesa_id,
                         nombre: result.nombre,
                         numero: result.numero,
                         centro_votacion_id: result.centro_votacion_id,
-                        cantidad_votantes: result.cantidad_votantes,
+                        cantidad_votantes: result.total_votantes,
                     }
-
-
-
-
                     this.fetchUserList();
-
                 } catch (error) {
                     return error;
                 }
@@ -405,10 +298,7 @@ export default {
                 const result = await Services.addNewInfo('mesa/add-personero', this.mesa);
                 if (result.status) {
                     if (result.result[0].status) {
-                        // this.clearInput();
-                        // $("#mesaPersoneroModal").modal("hide");
                         this.$toast.success(result.result[0].message);
-                        // this.$emit('data-add');
                         this.getPersoneros();
                         this.fetchUserList();
                     } else {
@@ -441,11 +331,10 @@ export default {
                 return error;
             }
         },
-        clearInput() {
 
+        clearInput() {
             this.centro.supervisor_id = '';
         },
-
 
         async fetchUserList(page = 1) {
             try {
@@ -456,38 +345,27 @@ export default {
                 console.log(error)
             }
         },
+
         updateDisplayedPages() {
             const totalDisplayedPages = 6;
             const halfDisplayedPages = Math.floor(totalDisplayedPages / 2);
-
             let startPage = Math.max(1, this.personeros.current_page - halfDisplayedPages);
             let endPage = Math.min(this.personeros.last_page, startPage + totalDisplayedPages - 1);
-
             if (endPage - startPage + 1 < totalDisplayedPages) {
                 startPage = Math.max(1, endPage - totalDisplayedPages + 1);
             }
-
             this.displayedPages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
         },
+
         changePageSize() {
             this.fetchUserList(1);
         },
+
         updateTable() {
             this.fetchUserList();
         },
 
         async deleteItem(id) {
-            // this.$swal({
-            //     title: "¿Estás seguro?",
-            //     text: "Esta acción no se puede revertir. ¿Quieres continuar?",
-            //     icon: "warning",
-            //     showCancelButton: true,
-            //     confirmButtonColor: "#3085d6",
-            //     cancelButtonColor: "#d33",
-            //     confirmButtonText: "Sí, eliminar",
-            //     cancelButtonText: 'Cancelar',
-            // }).then(async (result) => {
-            //     if (result.isConfirmed) {
             try {
                 const result = await Services.addNewInfo('mesa/delete-personero', { id: id });
                 if (result.status) {
@@ -505,9 +383,8 @@ export default {
             } catch (error) {
                 return error;
             }
-            // }
-            // });
         },
+
         async activeItem(id) {
             try {
                 const result = await Services.addNewInfo('mesa/active-personero', { id: id });
@@ -522,8 +399,8 @@ export default {
                 return error;
             }
         }
+    
     },
 }
 </script>
-
 <style src="vue-select/dist/vue-select.css"></style>

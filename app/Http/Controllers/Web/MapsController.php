@@ -22,9 +22,9 @@ class MapsController extends Controller
         $result->map(function ($centro) {
             $total_mesa_habilitado = DB::select("SELECT COUNT(id) AS total_mesa_habilitado FROM mesa WHERE centro_votacion_id = ? AND estado = 1", [$centro->id])[0]->total_mesa_habilitado;
             $total_mesa_cerrado = DB::select("SELECT COUNT(id) AS total_mesa_cerrado FROM mesa WHERE centro_votacion_id = ? AND estado = 0", [$centro->id])[0]->total_mesa_cerrado;
-        
+
             $total_mesa = $total_mesa_habilitado + $total_mesa_cerrado;
-        
+
             if ($total_mesa > 0) {
                 $centro->total_mesa_habilitado = $total_mesa_habilitado;
                 $centro->total_mesa_cerrado = $total_mesa_cerrado;
@@ -36,7 +36,7 @@ class MapsController extends Controller
                 $centro->porcentaje_mesa_habilitado = 0;
                 $centro->porcentaje_mesa_cerrado = 0;
             }
-        
+
             return $centro;
         });
         return response()->json(['status'=>true, 'data'=>$result]);
@@ -61,9 +61,9 @@ class MapsController extends Controller
         $resultAll->map(function ($centro) {
             $total_mesa_habilitado = DB::select("SELECT COUNT(id) AS total_mesa_habilitado FROM mesa WHERE centro_votacion_id = ? AND estado = 1", [$centro->id])[0]->total_mesa_habilitado;
             $total_mesa_cerrado = DB::select("SELECT COUNT(id) AS total_mesa_cerrado FROM mesa WHERE centro_votacion_id = ? AND estado = 0", [$centro->id])[0]->total_mesa_cerrado;
-        
+
             $total_mesa = $total_mesa_habilitado + $total_mesa_cerrado;
-        
+
             if ($total_mesa > 0) {
                 $centro->total_mesa_habilitado = $total_mesa_habilitado;
                 $centro->total_mesa_cerrado = $total_mesa_cerrado;
@@ -75,7 +75,6 @@ class MapsController extends Controller
                 $centro->porcentaje_mesa_habilitado = 0;
                 $centro->porcentaje_mesa_cerrado = 0;
             }
-        
             return $centro;
         });
         return response()->json(['status'=>true, 'data'=>$resultAll]);

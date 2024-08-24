@@ -14,7 +14,7 @@ class LoginController extends Controller
         return view('login.index');
     }
     public function verifyCode(LoginRequest $request){
-        $code = rand(100000, 999999);
+        $code = '123456';//rand(100000, 999999);
         $sid = getenv("TWILIO_SID");
         $token = getenv("TWILIO_TOKEN");
         $senderNumber = getenv("TWILIO_PHONE");

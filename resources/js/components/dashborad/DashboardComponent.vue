@@ -2,12 +2,12 @@
     <div class="row">
         <div class="col-md-8">
             <div class="row">
-                <div class="col-md-12 mb-3">
-                    <div class="card h-100">
+                <div class="col-md-12 mb-3" style="background: rgb(13, 100, 175);">
+                    <div class="card h-100" style="background: rgb(13, 100, 175);">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label>Pais</label>
+                                    <label class="text-white">Pais</label>
                                     <select class="form-select" v-model="pais_id" @change="getPaisItem" disabled>
                                         <option value="">--seleccionar--</option>
                                         <option v-for="item in pais" :key="item.id" :value="item.id">{{ item.nombre }}
@@ -16,20 +16,20 @@
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label>Provincia</label>
+                                    <label class="text-white">Provincia</label>
                                     <select class="form-select" v-model="departaments_id" @change="getDepartamentItem">
                                         <option value="null" disabled selected>--seleccionar--</option>
-                                        <option value="0">Todo</option>
+                                        <option value="0">Todos</option>
                                         <option v-for="item in departaments" :key="item.id" :value="item.id">
                                             {{ item.nombre }}</option>
                                     </select>
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label>Distrito</label>
+                                    <label class="text-white">Distrito</label>
                                     <select class="form-select" v-model="provinces_id" @change="getProvincesItem">
                                         <option value="null" disabled selected>--seleccionar--</option>
-                                        <option value="0">Todo</option>
+                                        <option value="0">Todos</option>
                                         <option v-for="item in provinces" :key="item.id" :value="item.id">{{ item.nombre
                                             }}
                                         </option>
@@ -37,13 +37,11 @@
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label>Corregimiento</label>
+                                    <label class="text-white">Corregimiento</label>
                                     <select class="form-select" v-model="districts_id" @change="getDistrictItems()">
                                         <option value="null" disabled selected>--seleccionar--</option>
-                                        <option value="0">Todo</option>
-                                        <option v-for="item in districts" :key="item.id" :value="item.id">{{ item.nombre
-                                            }}
-                                        </option>
+                                        <option value="0">Todos</option>
+                                        <option v-for="item in districts" :key="item.id" :value="item.id">{{ item.nombre}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -87,6 +85,18 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-xl-12 mb-4 col-lg-12 col-12">
+                    <div style="background: rgb(13, 100, 175);" class="d-flex justify-content-center align-items-center">
+                        <div class="box m-2">
+                            <img src="https://resultadoshistorico.onpe.gob.pe/EI2022/assets/imagenes/anfora.svg" alt="" style="width: 100px; height: 100px;">
+                        </div>
+                        <div class="box" style="color:#fff">
+                            <span>ACTAS PROCESADAS: {{actas_procesadas}}%</span><br>
+                            <span>ACTAS CONTABILIZADAS: 100.000 %</span><br><!-- 
+                            <span>ACTUALIZADO EL 01/06/2022 A LAS 21:15 h</span><br> -->
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-xl-4 mb-4 col-lg-4 col-12">
@@ -101,7 +111,7 @@
                     </div>
                     <div class="row gy-3">
                         <l-map :zoom.sync="zoom" :options="mapOptions" :center="center" :bounds="bounds"
-                            :min-zoom="minZoom" :max-zoom="maxZoom" style="width: 100%; height: 424px">
+                            :min-zoom="minZoom" :max-zoom="maxZoom" style="width: 100%; height: 510px">
                             <l-control-layers :position="layersPosition" :collapsed="false" :sort-layers="true" />
                             <l-tile-layer v-for="tileProvider in tileProviders" :key="tileProvider.name"
                                 :name="tileProvider.name" :visible="tileProvider.visible" :url="tileProvider.url"
@@ -179,6 +189,20 @@
                                     <div ref="chartDistribucionVotos" style="height: 250px;"></div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-xl-12 mb-4 col-lg-12 col-12">
+                    <div style="background: rgb(13, 100, 175);" class="d-flex justify-content-center align-items-center">
+                        <div class="box m-2">
+                            <img src="https://resultadoshistorico.onpe.gob.pe/EI2022/assets/imagenes/info.svg" alt="" style="width: 100px; height: 100px;">
+                        </div>
+                        <div class="box" style="color:#fff">
+                            <span>Ciudadanos que votaron (CV):  {{ formatNumber(participacion_ciudadana) }}</span><br>
+                            <span>Electores hábiles (EH): {{ formatNumber(total_votantes) }}</span><br>
+                            <span>Estos datos corresponden a las actas contabilizadas</span>
                         </div>
                     </div>
                 </div>

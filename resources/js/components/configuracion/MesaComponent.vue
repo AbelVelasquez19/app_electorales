@@ -34,12 +34,9 @@
                             class="dt-action-buttons d-flex align-items-center justify-content-center justify-content-lg-end flex-lg-nowrap flex-wrap">
                             <div class="me-1">
                                 <div class="dataTables_filter">
-                                    <label>Buscar:<input type="search" @input="debouncedSearch"
-                                            class="form-control form-control-sm" placeholder="Buscar..."
-                                            v-model="searchQuery">
+                                    <label>Buscar:<input type="search" @input="debouncedSearch" class="form-control form-control-sm" placeholder="Buscar..." v-model="searchQuery">
                                     </label>
-                                    <button class="dt-button add-new btn btn-primary" type="button"
-                                        @click.prevent="openModal()"><span>NUEVA MESA</span></button>
+                                    <button class="dt-button add-new btn btn-primary" type="button" @click.prevent="openModal()"><span>NUEVA MESA</span></button>
                                 </div>
                             </div>
                         </div>
@@ -65,7 +62,7 @@
                                     <td class="font-monospace">{{ item.nombre }}</td>
                                     <td class="font-monospace"> {{ item.numero }}</td>
                                     <td class="text-center font-monospace">{{ item.centro_votacion_nombre }}</td>
-                                    <td class="text-center font-monospace">{{ item.cantidad_votantes }}</td>
+                                    <td class="text-center font-monospace">{{ item.total_votantes }}</td>
                                     <td class="text-center font-monospace">
                                         <span v-if="item.estado == 1" class="badge bg-label-success me-1">Activo</span>
                                         <span v-else class="badge bg-label-danger me-1">Inactivo</span>

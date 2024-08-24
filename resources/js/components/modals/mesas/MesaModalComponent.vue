@@ -51,7 +51,7 @@
                     </fieldset>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" @click.prevent="addNewUser()" v-if="option"> Guardar </button>
+                    <button type="button" class="btn btn-primary" @click.prevent="addNewMesa()" v-if="option"> Guardar </button>
                     <button type="button" class="btn btn-primary" @click.prevent="updateUser()" v-else> Actualizar </button>
                     <button type="button" class="btn btn-secondary" @click.prevent="closepersonaModal()"> Cerrar</button>
                 </div>
@@ -104,7 +104,7 @@ export default {
                         nombre: result.nombre,
                         numero: result.numero,
                         centro_votacion_id: result.centro_votacion_id,
-                        cantidad_votantes: result.cantidad_votantes,
+                        cantidad_votantes: result.total_votantes,
                     }
                 } catch (error) {
                     return error;
@@ -128,7 +128,7 @@ export default {
                 return error;
             }
         },
-        async addNewUser() {
+        async addNewMesa() {
             this.errors = null;
             try {
                 const result = await Services.addNewInfo('mesa/add', this.mesa);
