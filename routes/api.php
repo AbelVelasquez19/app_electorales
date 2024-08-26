@@ -51,3 +51,6 @@ Route::post('registrar-personero', [MesaSupervisorPersoneroController::class, 'g
 Route::post('guardar-mesa-acta', [MesaSupervisorPersoneroController::class, 'guardarMesaActa']);
 
 Route::post('guardar-documento-acta', [MesaSupervisorPersoneroController::class, 'guardarFormatoActa']);
+
+
+Route::get('reporte-supervisor',[GeneralController::class,'obtenerAvanceDeMesasPorSupervisor']);

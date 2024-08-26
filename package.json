@@ -24,7 +24,6 @@
         "@amcharts/amcharts5": "^5.9.5",
         "@amcharts/amcharts5-geodata": "^5.1.2",
         "apexcharts": "^3.48.0",
-        "highcharts": "^11.4.1",
         "highcharts-vue": "^2.0.1",
         "jquery": "^3.7.1",
         "leaflet": "^1.9.4",
